@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="com.databricks:spark-xml_2.12:0.10.0" type="repository">
+    <properties maven-id="com.databricks:spark-xml_2.12:0.10.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/databricks/spark-xml_2.12/0.10.0/spark-xml_2.12-0.10.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/commons-io/commons-io/2.6/commons-io-2.6.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/glassfish/jaxb/txw2/2.3.2/txw2-2.3.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/ws/xmlschema/xmlschema-core/2.2.5/xmlschema-core-2.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 100g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-01-20T17:49:59+0200",
+   "dateUpdated": "2021-01-20T23:07:40+0200",
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -28,17 +28,17 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611157799252_2006372936",
-   "id": "paragraph_1611157799252_2006372936",
-   "dateCreated": "2021-01-20T17:49:59+0200",
-   "dateStarted": "2021-01-20T17:49:59+0200",
-   "dateFinished": "2021-01-20T17:49:59+0200",
+   "jobName": "paragraph_1611176860050_1101647111",
+   "id": "paragraph_1611176860050_1101647111",
+   "dateCreated": "2021-01-20T23:07:40+0200",
+   "dateStarted": "2021-01-20T23:07:40+0200",
+   "dateFinished": "2021-01-20T23:07:40+0200",
    "status": "FINISHED"
   },
   {
-   "text": "%spark\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\n//org.apache.commons.lang3.StringUtils.stripAccents(input.toLowerCase(Locale.ENGLISH));\n\n\n\n//Get MAG AUthor - Pub pairs\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20201109/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20201109/advanced\"\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\nval authorsAffTsvFilename = \"Authors.txt\"\nval papersTsvFilename = \"Papers.txt\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n\n\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", LongType, true).\n    add(\"familyRank\", IntegerType, true).\n    add(\"createdDate\", DateType, true)\n    \n//199944782 IEEE Transactions on Pattern Analysis and Machine Intelligence ~7K \n//199944782 Nature ~200K\n//3880285  Science ~200K\n// 202381698 PLOS ONE ~ 262K\n//2597175965 arXiv: Computer Vision and Pattern Recognition ~39K\n// 2597365278 arXiv: Machine Learning ~ 11K\n// 118988714 JMLR 3.7K\n// 1158167855 CVPR: Computer Vision and Pattern Recognition 11K\n// 103482838 Communications of The ACM 13K \n// 1127325140 NeurIPS: Neural Information Processing Systems 12.5K \n// 1180662882 ICML 9K\n// 1130985203 KDD 6.5K\n// 1203999783 IJCAI: International Joint Conference on Artificial Intelligence 11K\n\n\n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\"))\n         .schema(paperSchema)\n         .csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .filter(($\"conferenceSeriesId\" isin (1127325140, 1180662882, 1203999783, 1130985203)) ||  \n                ($\"journalId\" isin (\"199944782\",\"137773608\", \"3880285\", \"202381698\", \"2597175965\", \"2597365278\", \"118988714\", \"1158167855\")) \n                 && $\"pubYear\">2000)\n        .cache()\n\n\n//papersdf.printSchema\n//papersdf.show(5)\nprintln(\"papersdf: \"+papersdf.count())\n\npapersdf.coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$papersTsvFilename\")\n\nval paperIdsdf = papersdf.select($\"paperId\")\n",
+   "text": "%spark\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\n//org.apache.commons.lang3.StringUtils.stripAccents(input.toLowerCase(Locale.ENGLISH));\n\n\n\n//Get MAG AUthor - Pub pairs\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20201109/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20201109/advanced\"\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\nval authorsAffTsvFilename = \"Authors.txt\"\nval papersTsvFilename = \"Papers.txt\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n\n\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", LongType, true).\n    add(\"familyRank\", IntegerType, true).\n    add(\"createdDate\", DateType, true)\n    \n//199944782 IEEE Transactions on Pattern Analysis and Machine Intelligence ~7K \n//199944782 Nature ~200K\n//3880285  Science ~200K\n// 202381698 PLOS ONE ~ 262K\n//2597175965 arXiv: Computer Vision and Pattern Recognition ~39K\n// 2597365278 arXiv: Machine Learning ~ 11K\n// 118988714 JMLR 3.7K\n// 1158167855 CVPR: Computer Vision and Pattern Recognition 11K\n// 103482838 Communications of The ACM 13K \n// 1127325140 NeurIPS: Neural Information Processing Systems 12.5K \n// 1180662882 ICML 9K\n// 1130985203 KDD 6.5K\n// 1203999783 IJCAI: International Joint Conference on Artificial Intelligence 11K\n\n/*\nSample dataset counts: \n\nAuthors: 1,357,143\nPaper_Author_Affiliations: 2,787,121\nPaper_FoS: 4,243,126\nPaper_references: 14,030,446\nPaper_Abstracts1: 198,285\nPaper_Abstracts2: 206,690\nPapers: 488,212\n\n */\n\n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\"))\n         .schema(paperSchema)\n         .csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .filter(($\"conferenceSeriesId\" isin (1127325140, 1180662882, 1203999783, 1130985203)) ||  \n                ($\"journalId\" isin (\"199944782\",\"137773608\", \"3880285\", \"202381698\", \"2597175965\", \"2597365278\", \"118988714\", \"1158167855\")) \n                 && $\"pubYear\">2000)\n        .cache()\n\n\n//papersdf.printSchema\n//papersdf.show(5)\nprintln(\"papersdf: \"+papersdf.count())\n\npapersdf.coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$papersTsvFilename\")\n\nval paperIdsdf = papersdf.select($\"paperId\")\n",
    "user": "anonymous",
-   "dateUpdated": "2021-01-20T17:50:03+0200",
+   "dateUpdated": "2021-01-20T23:07:40+0200",
    "config": {},
    "settings": {
     "params": {},
@@ -62,73 +62,192 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=0"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=1"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611157803568_1736341149",
-   "id": "paragraph_1611157803568_1736341149",
-   "dateCreated": "2021-01-20T17:50:03+0200",
-   "dateStarted": "2021-01-20T17:50:03+0200",
-   "dateFinished": "2021-01-20T17:51:31+0200",
+   "jobName": "paragraph_1611176860089_690260183",
+   "id": "paragraph_1611176860089_690260183",
+   "dateCreated": "2021-01-20T23:07:40+0200",
+   "dateStarted": "2021-01-20T23:07:40+0200",
+   "dateFinished": "2021-01-20T23:26:36+0200",
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20201109/nlp\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval abstr1df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n\nval abstr1_sampledf = abstr1df.join(broadcast(paperIdsdf),abstr1df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename1\")\n                \n\nval abstr2df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n\nval abstr2_sampledf = abstr2df.join(broadcast(paperIdsdf),abstr2df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename2\")\n\n//df3.printSchema\n//df3.show(5)\n\n\n",
+   "text": "%spark\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20201109/nlp\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval abstr1df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n\nval abstr1_sampledf = abstr1df.join(broadcast(paperIdsdf),abstr1df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename1\")\n                \n\nval abstr2df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n\nval abstr2_sampledf = abstr2df.join(broadcast(paperIdsdf),abstr2df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename2\")\n\n//df3.printSchema\n//df3.show(5)\n\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-01-20T18:05:04+0200",
+   "dateUpdated": "2021-01-20T23:26:36+0200",
    "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[1m\u001b[34mMAG_NLP\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20201109/nlp\n\u001b[1m\u001b[34mabstractTsvFilename1\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = PaperAbstractsInvertedIndex.txt.1\n\u001b[1m\u001b[34mabstractTsvFilename2\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = PaperAbstractsInvertedIndex.txt.2\n\u001b[1m\u001b[34mschema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m = StructType(StructField(paperId,StringType,false), StructField(abstractText,StringType,false))\n\u001b[1m\u001b[34mabstr1df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: string, abstractText: string]\n\u001b[1m\u001b[34mabstr1_sampledf\u001b[0m: \u001b[1m\u001b[32mUnit\u001b[0m = ()\n\u001b[1m\u001b[34mabstr2df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: string, abstractText: string]\n\u001b[1m\u001b[34mabstr2_sampledf\u001b[0m: \u001b[1m\u001b[32mUnit\u001b[0m = ()\n"
+     }
+    ]
+   },
    "apps": [],
-   "runtimeInfos": {},
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=3"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=5"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611158704982_750049061",
-   "id": "paragraph_1611158704982_750049061",
-   "dateCreated": "2021-01-20T18:05:04+0200",
-   "dateStarted": "2021-01-20T18:05:04+0200",
-   "status": "RUNNING"
+   "jobName": "paragraph_1611177996882_2024358012",
+   "id": "paragraph_1611177996882_2024358012",
+   "dateCreated": "2021-01-20T23:26:36+0200",
+   "dateStarted": "2021-01-20T23:26:36+0200",
+   "dateFinished": "2021-01-21T00:04:16+0200",
+   "status": "FINISHED"
   },
   {
+   "text": "%spark\n\nval paperReferencesTsvFilename = \"PaperReferences.txt\"\nval paperReferencesSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"paperReferenceId\", LongType, true)                \n\nval paperReferencesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperReferencesSchema).\n                csv(s\"file://$MAG_HOME/$paperReferencesTsvFilename\")\n\nval paperReferences_sampledf = paperReferencesdf.join(broadcast(paperIdsdf),paperReferencesdf(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$paperReferencesTsvFilename\")\n\n\n\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-01-21T00:04:16+0200",
+   "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[1m\u001b[34mpaperReferencesTsvFilename\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = PaperReferences.txt\n\u001b[1m\u001b[34mpaperReferencesSchema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m = StructType(StructField(paperId,LongType,false), StructField(paperReferenceId,LongType,true))\n\u001b[1m\u001b[34mpaperReferencesdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: bigint, paperReferenceId: bigint]\n\u001b[1m\u001b[34mpaperReferences_sampledf\u001b[0m: \u001b[1m\u001b[32mUnit\u001b[0m = ()\n"
+     }
+    ]
+   },
    "apps": [],
-   "status": "READY",
-   "text": "%spark\n\nval paperReferencesTsvFilename = \"PaperReferences.txt\"\nval paperReferencesSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"paperReferenceId\", LongType, true)                \n\nval paperReferencesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperReferencesSchema).\n                csv(s\"file://$MAG_HOME/$paperReferencesTsvFilename\")\n\nval paperReferences_sampledf = paperReferencesdf.join(broadcast(paperIdsdf),paperReferencesdf(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$paperReferencesTsvFilename\")\n\n\n\n\n\n",
-   "id": "",
-   "config": {}
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1611180256521_1977389046",
+   "id": "paragraph_1611180256521_1977389046",
+   "dateCreated": "2021-01-21T00:04:16+0200",
+   "dateStarted": "2021-01-21T00:04:16+0200",
+   "dateFinished": "2021-01-21T00:29:49+0200",
+   "status": "FINISHED"
   },
   {
+   "text": "%spark\nval paperFieldsOfStudyTsvFilename = \"PaperFieldsOfStudy.txt\"\n\nval paperFieldsOfStudyschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"score\", DoubleType, true)\n                \nval paperFieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperFieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$paperFieldsOfStudyTsvFilename\")\n\nval paperFieldsOfStudy_sampledf = paperFieldsOfStudydf.join(broadcast(paperIdsdf),paperFieldsOfStudydf(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$paperFieldsOfStudyTsvFilename\")\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-01-21T00:29:49+0200",
+   "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[1m\u001b[34mpaperFieldsOfStudyTsvFilename\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = PaperFieldsOfStudy.txt\n\u001b[1m\u001b[34mpaperFieldsOfStudyschema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m = StructType(StructField(paperId,LongType,false), StructField(fieldsOfStudyId,LongType,false), StructField(score,DoubleType,true))\n\u001b[1m\u001b[34mpaperFieldsOfStudydf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: bigint, fieldsOfStudyId: bigint ... 1 more field]\n\u001b[1m\u001b[34mpaperFieldsOfStudy_sampledf\u001b[0m: \u001b[1m\u001b[32mUnit\u001b[0m = ()\n"
+     }
+    ]
+   },
    "apps": [],
-   "status": "READY",
-   "text": "%spark\nval paperFieldsOfStudyTsvFilename = \"PaperFieldsOfStudy.txt\"\n\nval paperFieldsOfStudyschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"score\", DoubleType, true)\n                \nval paperFieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperFieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$paperFieldsOfStudyTsvFilename\")\n\nval paperFieldsOfStudy_sampledf = paperFieldsOfStudydf.join(broadcast(paperIdsdf),paperFieldsOfStudydf(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$paperFieldsOfStudyTsvFilename\")\n",
-   "id": "",
-   "config": {}
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=9"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1611181789526_398854583",
+   "id": "paragraph_1611181789526_398854583",
+   "dateCreated": "2021-01-21T00:29:49+0200",
+   "dateStarted": "2021-01-21T00:29:49+0200",
+   "dateFinished": "2021-01-21T00:55:00+0200",
+   "status": "FINISHED"
   },
   {
+   "text": "%spark\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\n\nval paperAuthorAffSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"authorId\", LongType, false).                \n                add(\"affiliationId\", LongType, true).\n                add(\"authorSequenceNumber\",IntegerType, true).\n                add(\"originalAuthor\", StringType, true).\n                add(\"originalAffiliation\", StringType, true)\n\n                \nval paperAuthorAffdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperAuthorAffSchema).\n                csv(s\"file://$MAG_HOME/$paperAuthorsAffTsvFilename\")\n\nval paperAuthorAff_sampledf = paperAuthorAffdf.join(broadcast(paperIdsdf),paperAuthorAffdf(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n        .cache()\n\npaperAuthorAff_sampledf.coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$paperAuthorsAffTsvFilename\")\n\nval sampleAuthorIdsdf = paperAuthorAff_sampledf.select($\"authorId\").dropDuplicates()\n\nval authorsTsvFilename = \"Authors.txt\" \n                              \nval authorSchema = new StructType().\n                add(\"authorId\", LongType, false).\n                add(\"rank\", LongType, true).                \n                add(\"normalizedName\", StringType, true).\n                add(\"displayName\",StringType, true).\n                add(\"lastKnownAffiliationId\", LongType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n\n                \nval authordf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(authorSchema).\n                csv(s\"file://$MAG_HOME/$authorsTsvFilename\")\n\nval authordf_sampledf = authordf.join(broadcast(sampleAuthorIdsdf),authordf(\"authorId\") === sampleAuthorIdsdf(\"authorId\")).drop(sampleAuthorIdsdf(\"authorId\"))        \n                .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$authorsTsvFilename\")",
+   "user": "anonymous",
+   "dateUpdated": "2021-01-21T00:55:00+0200",
+   "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[1m\u001b[34mpaperAuthorsAffTsvFilename\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = PaperAuthorAffiliations.txt\n\u001b[1m\u001b[34mpaperAuthorAffSchema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m = StructType(StructField(paperId,LongType,false), StructField(authorId,LongType,false), StructField(affiliationId,LongType,true), StructField(authorSequenceNumber,IntegerType,true), StructField(originalAuthor,StringType,true), StructField(originalAffiliation,StringType,true))\n\u001b[1m\u001b[34mpaperAuthorAffdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: bigint, authorId: bigint ... 4 more fields]\n\u001b[1m\u001b[34mpaperAuthorAff_sampledf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paperId: bigint, authorId: bigint ... 4 more fields]\n\u001b[1m\u001b[34msampleAuthorIdsdf\u001b[0m: \u001b[1m\u001b[32morg.apach...\n"
+     }
+    ]
+   },
    "apps": [],
-   "status": "READY",
-   "text": "%spark\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\n\nval paperAuthorAffSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"authorId\", LongType, false).                \n                add(\"affiliationId\", LongType, true).\n                add(\"authorSequenceNumber\",IntegerType, true).\n                add(\"originalAuthor\", StringType, true).\n                add(\"originalAffiliation\", StringType, true)\n\n                \nval paperAuthorAffdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperAuthorAffSchema).\n                csv(s\"file://$MAG_HOME/$paperAuthorsAffTsvFilename\")\n\nval paperAuthorAff_sampledf = paperAuthorAffdf.join(broadcast(paperIdsdf),paperAuthorAffdf(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n        .cache()\n\npaperAuthorAff_sampledf.coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$paperAuthorsAffTsvFilename\")\n\nval sampleAuthorIdsdf = paperAuthorAff_sampledf.select(\"authorId\")\n\nval authorsTsvFilename = \"Authors.txt\" \n                              \nval authorSchema = new StructType().\n                add(\"authorId\", LongType, false).\n                add(\"rank\", LongType, true).                \n                add(\"normalizedName\", StringType, true).\n                add(\"displayName\",StringType, true).\n                add(\"lastKnownAffiliationId\", LongType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n\n                \nval authordf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(authorSchema).\n                csv(s\"file://$MAG_HOME/$authorsTsvFilename\")\n\nval authordf_sampledf = authordf.join(broadcast(sampleAuthorIdsdf),paperAuthorAffdf(\"authorId\") === sampleAuthorIdsdf(\"authorId\")).drop(sampleAuthorIdsdf(\"authorId\"))        \n                .coalesce(1).write.option(\"header\", \"false\").mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$authorsTsvFilename\")",
-   "id": "",
-   "config": {}
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=11"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=13"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1611183300705_1132049756",
+   "id": "paragraph_1611183300705_1132049756",
+   "dateCreated": "2021-01-21T00:55:00+0200",
+   "dateStarted": "2021-01-21T00:55:00+0200",
+   "dateFinished": "2021-01-21T01:21:02+0200",
+   "status": "FINISHED"
   }
  ],
  "name": "Zeppelin Notebook",
