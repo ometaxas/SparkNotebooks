@@ -80,7 +80,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20201109/nlp\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval abstr1df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n\nval abstr1_sampledf = abstr1df.join(broadcast(paperIdsdf),abstr1df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename1\")\n                \n\nval abstr2df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n\nval abstr2_sampledf = abstr2df.join(broadcast(paperIdsdf),abstr2df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename2\")\n\n//df3.printSchema\n//df3.show(5)\n\n\n",
+   "text": "%spark\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20201109/nlp\"\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20201109/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20201109/advanced\"\n\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval abstr1df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n\nval abstr1_sampledf = abstr1df.join(broadcast(paperIdsdf),abstr1df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename1\")\n                \n\nval abstr2df = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n\nval abstr2_sampledf = abstr2df.join(broadcast(paperIdsdf),abstr2df(\"paperId\") === paperIdsdf(\"paperId\")).drop(paperIdsdf(\"paperId\"))\n                    .coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$abstractTsvFilename2\")\n\n//df3.printSchema\n//df3.show(5)\n\n\n",
    "user": "anonymous",
    "dateUpdated": "2021-01-20T23:26:36+0200",
    "config": {},
@@ -262,13 +262,11 @@
     "params": {
      "bdtMeta": {
       "inlay": {
+       "size": {
+        "height": 274.0
+       },
        "state": {
         "currentPage": "Table",
-        "table": {
-         "columnWidths": {
-          "abstract": 380.0
-         }
-        },
         "chart": {
          "series": [
           {
