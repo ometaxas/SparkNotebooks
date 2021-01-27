@@ -163,19 +163,51 @@
     },
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[33mwarning: \u001b[0mthere was one feature warning; for details, enable `:setting -feature' or `:replay -feature'\n+---------------+\n|fieldsOfStudyId|\n+---------------+\n|     2779614053|\n|     2778111679|\n|     2780762811|\n|       21021354|\n|     2779613291|\n+---------------+\nonly showing top 5 rows\n\n+---------+\n|  paperId|\n+---------+\n|223564317|\n|180846668|\n| 55329057|\n|162352970|\n|162356519|\n+---------+\nonly showing top 5 rows\n\n398626\n\u001b[1m\u001b[34mtopFoS\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [fieldsOfStudyId: bigint]\n\u001b[1m\u001b[34mtopPaperidsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paperId: bigint]\n"
+     }
+    ]
+   },
    "apps": [],
-   "runtimeInfos": {},
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=5"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=8"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=9"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
    "progressUpdateIntervalMs": 500.0,
    "jobName": "paragraph_1611768737539_891266080",
    "id": "paragraph_1611768737539_891266080",
    "dateCreated": "2021-01-27T19:32:17+0200",
    "dateStarted": "2021-01-27T19:32:17+0200",
-   "status": "RUNNING"
+   "dateFinished": "2021-01-27T19:35:02+0200",
+   "status": "FINISHED"
   },
   {
    "text": "%spark\nval toppaper_fos = paperFieldsOfStudydf.join(broadcast(topPaperidsdf), topPaperidsdf(\"paperId\")===paperFieldsOfStudydf(\"paperId\"), \"inner\")    \n                    .drop(topPaperidsdf(\"paperId\"))        \n                    .join(broadcast(fieldsOfStudydf), paperFieldsOfStudydf(\"fieldsOfStudyId\")=== fieldsOfStudydf(\"fieldsOfStudyId\"), \"inner\")\n                    .withColumn(\"FoS\", struct(fieldsOfStudydf(\"fieldsOfStudyId\"), fieldsOfStudydf(\"normalizedName\"), fieldsOfStudydf(\"level\"), fieldsOfStudydf(\"paperCount\")))                    \n                   // .persist(StorageLevel.DISK_ONLY)\n\n//toppaper_fos.show()\n\nval toppaper_fosgrp = toppaper_fos.groupBy(\"paperId\").agg(collect_list(\"FoS\").alias(\"FoSs\"))\n//.persist(StorageLevel.DISK_ONLY)\n\n//toppaper_fosgrp.show()\ntoppaper_fosgrp.write.parquet(s\"$outPath/toppaper_fosgrp.parquet\")",
    "user": "anonymous",
-   "dateUpdated": "2021-01-27T10:27:40+0200",
+   "dateUpdated": "2021-01-27T20:06:38+0200",
    "config": {
     "results": [
      {}
@@ -211,6 +243,15 @@
     },
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[1m\u001b[34mtoppaper_fos\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [fieldsOfStudyId: bigint, score: double ... 6 more fields]\n\u001b[1m\u001b[34mtoppaper_fosgrp\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: bigint, FoSs: array<struct<fieldsOfStudyId:bigint,normalizedName:string,level:int,paperCount:bigint>>]\n"
+     }
+    ]
+   },
    "apps": [],
    "runtimeInfos": {
     "jobUrl": {
@@ -220,27 +261,35 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=8"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=12"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611736060364_1678323789",
-   "id": "paragraph_1611736060364_1678323789",
-   "dateCreated": "2021-01-27T10:27:40+0200",
-   "dateStarted": "2021-01-27T10:27:40+0200",
-   "dateFinished": "2021-01-27T10:43:11+0200",
+   "jobName": "paragraph_1611770798272_710855049",
+   "id": "paragraph_1611770798272_710855049",
+   "dateCreated": "2021-01-27T20:06:38+0200",
+   "dateStarted": "2021-01-27T20:06:38+0200",
+   "dateFinished": "2021-01-27T20:09:32+0200",
    "status": "FINISHED"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark\n",
+   "id": "",
+   "config": {}
   },
   {
    "text": "%spark\nval topauthors = paperAuthorAffdf.join(broadcast(topPaperidsdf), topPaperidsdf(\"paperId\")===paperAuthorAffdf(\"paperId\"), \"inner\")    \n                    .drop(topPaperidsdf(\"paperId\"))        \n                    .join(authordf, paperAuthorAffdf(\"authorId\")===authordf(\"authorId\"), \"inner\")\n                    .withColumn(\"author\", struct(authordf(\"authorId\"), authordf(\"displayName\"), authordf(\"paperCount\")))                    \n                   // .persist(StorageLevel.DISK_ONLY)\n\n//topauthors.show()\n\nval topauthorsgrp = topauthors.groupBy(\"paperId\").agg(collect_list(\"author\").alias(\"authors\"))\n//.persist(StorageLevel.DISK_ONLY)\n\n//topauthorsgrp.show(5)\ntopauthorsgrp.write.parquet(s\"$outPath/topauthorsgrp.parquet\")\n",
    "user": "anonymous",
-   "dateUpdated": "2021-01-27T10:27:58+0200",
+   "dateUpdated": "2021-01-27T20:06:42+0200",
    "config": {
     "results": [
      {}
@@ -279,6 +328,15 @@
     },
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "\u001b[1m\u001b[34mtopauthors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: bigint, authorId: bigint ... 4 more fields]\n\u001b[1m\u001b[34mtopauthorsgrp\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paperId: bigint, authors: array<struct<authorId:bigint,displayName:string,paperCount:bigint>>]\n"
+     }
+    ]
+   },
    "apps": [],
    "runtimeInfos": {
     "jobUrl": {
@@ -288,27 +346,24 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=10"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=11"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=14"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611736078479_2085979193",
-   "id": "paragraph_1611736078479_2085979193",
-   "dateCreated": "2021-01-27T10:27:58+0200",
-   "dateStarted": "2021-01-27T10:27:58+0200",
-   "dateFinished": "2021-01-27T11:07:40+0200",
+   "jobName": "paragraph_1611770802812_1916288571",
+   "id": "paragraph_1611770802812_1916288571",
+   "dateCreated": "2021-01-27T20:06:42+0200",
+   "dateStarted": "2021-01-27T20:06:42+0200",
+   "dateFinished": "2021-01-27T20:31:35+0200",
    "status": "FINISHED"
   },
   {
    "text": "%spark\nval toppaperdf = papersdf.join(broadcast(topPaperidsdf), topPaperidsdf(\"paperId\")===papersdf(\"paperId\"), \"inner\")\n                  .drop(topPaperidsdf(\"paperId\"))\n                 // .persist(StorageLevel.DISK_ONLY)\n\n//toppaperdf.show(5)\ntoppaperdf.write.parquet(s\"$outPath/toppaperdf.parquet\")\n\n\nval toppaper_journalsdf = toppaperdf\n               .join(journaldf, journaldf(\"journalId\")=== toppaperdf(\"journalId\"), \"outer\")\n              .join(confSeriesdf, confSeriesdf(\"conferenceSeriesId\")=== toppaperdf(\"conferenceSeriesId\"), \"outer\")\n                .drop(journaldf(\"journalId\"))\n                .drop(confSeriesdf(\"conferenceSeriesId\"))\n                //.persist(StorageLevel.DISK_ONLY)\n\ntoppaper_journalsdf.write.parquet(s\"$outPath/toppaper_journalsdf.parquet\")\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-01-27T10:50:32+0200",
+   "dateUpdated": "2021-01-27T20:41:16+0200",
    "config": {
     "results": [
      {}
@@ -347,115 +402,47 @@
     "forms": {}
    },
    "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=13"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=14"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
+   "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611737432550_1556224931",
-   "id": "paragraph_1611737432550_1556224931",
-   "dateCreated": "2021-01-27T10:50:32+0200",
-   "dateStarted": "2021-01-27T10:50:32+0200",
-   "dateFinished": "2021-01-27T11:31:06+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1611772876096_1290067306",
+   "id": "paragraph_1611772876096_1290067306",
+   "dateCreated": "2021-01-27T20:41:16+0200",
+   "dateStarted": "2021-01-27T20:41:16+0200",
+   "status": "RUNNING"
   },
   {
    "text": "%spark\nval toppaper_abstractsdf1 = paperabstractsdf1\n        .join(broadcast(topPaperidsdf), paperabstractsdf1(\"paperId\")===topPaperidsdf(\"paperId\"), \"inner\").drop(topPaperidsdf(\"paperId\"))\n        \nval toppaper_abstractsdf2 = paperabstractsdf2\n        .join(broadcast(topPaperidsdf), paperabstractsdf2(\"paperId\")===topPaperidsdf(\"paperId\"), \"inner\").drop(topPaperidsdf(\"paperId\"))\n         \nval toppaper_abstractsdf = toppaper_abstractsdf1.union(toppaper_abstractsdf2).dropDuplicates()\n        //.persist(StorageLevel.DISK_ONLY)\n//toppaper_abstractsdf.show(5)\ntoppaper_abstractsdf.write.parquet(s\"$outPath/toppaper_abstractsdf.parquet\")",
    "user": "anonymous",
-   "dateUpdated": "2021-01-27T11:29:47+0200",
+   "dateUpdated": "2021-01-27T20:41:27+0200",
    "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
    "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=16"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=17"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
+   "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611739787188_727422063",
-   "id": "paragraph_1611739787188_727422063",
-   "dateCreated": "2021-01-27T11:29:47+0200",
-   "dateStarted": "2021-01-27T11:29:47+0200",
-   "dateFinished": "2021-01-27T12:45:07+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1611772887129_1473427034",
+   "id": "paragraph_1611772887129_1473427034",
+   "dateCreated": "2021-01-27T20:41:27+0200",
+   "status": "PENDING"
   },
   {
    "text": "%spark\n\n//val outPath = \"$MAG_HOME\";\n//val outPath = \"/media/ometaxas/nvme/datasets\";\n\nval toppaper_abstractsdf = spark.read.parquet(s\"$outPath/toppaper_abstractsdf.parquet\")\n//val toppaperdf= spark.read.parquet(s\"$MAG_HOME/scitrus/toppaperdf.parquet\").dropDuplicates()\nval topauthorsgrp= spark.read.parquet(s\"$outPath/topauthorsgrp.parquet\")\nval toppaper_fosgrp= spark.read.parquet(s\"$outPath/toppaper_fosgrp.parquet\")\nval toppaper_journalsdf = spark.read.parquet(s\"$outPath/toppaper_journalsdf.parquet\")\n\n\nval paper_author = toppaper_journalsdf\n              .join(topauthorsgrp, topauthorsgrp(\"paperId\")===toppaper_journalsdf(\"paperId\"), \"inner\")\n        .drop(topauthorsgrp(\"paperId\"))\n        .persist(StorageLevel.DISK_ONLY)\n        \npaper_author.write.parquet(s\"$outPath/paper_author.parquet\")\n\nval paper_author_fos = paper_author.join(toppaper_fosgrp, toppaper_fosgrp(\"paperId\")=== paper_author(\"paperId\"), \"inner\")\n.drop(toppaper_fosgrp(\"paperId\"))\n        .persist(StorageLevel.DISK_ONLY)\n        \npaper_author_fos.write.parquet(s\"$outPath/paper_author_fos.parquet\")\n    \nval paper_author_fos_abstractsdf = paper_author_fos              \n              .join(toppaper_abstractsdf, toppaper_abstractsdf(\"paperId\")===toppaper_journalsdf(\"paperId\"), \"inner\")            \n                   .drop(toppaper_abstractsdf(\"paperId\"))\n.write.parquet(s\"$outPath/paper_author_fos_abstractsdf.parquet\")\n  //          .persist(StorageLevel.DISK_ONLY)\n\n//paper_author_fos_abstractsdf2.printSchema()    \n//paper_author_fos_abstractsdf2.show(5)\n//println(paper_author_fos_abstractsdf2.count())\n///media/ometaxas/nvme/datasets\n//paper_author_fos_abstractsdf2.coalesce(1).write.json(s\"$MAG_HOME/scitrus/authorPapers.json\")",
    "user": "anonymous",
-   "dateUpdated": "2021-01-27T18:25:56+0200",
+   "dateUpdated": "2021-01-27T20:41:44+0200",
    "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
    "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=25"
-      },
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=26"
-      },
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=27"
-      },
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=28"
-      },
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=29"
-      },
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=30"
-      },
-      {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=31"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
+   "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611764756128_1102237926",
-   "id": "paragraph_1611764756128_1102237926",
-   "dateCreated": "2021-01-27T18:25:56+0200",
-   "dateStarted": "2021-01-27T18:25:56+0200",
-   "dateFinished": "2021-01-27T18:29:37+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1611772904307_794577835",
+   "id": "paragraph_1611772904307_794577835",
+   "dateCreated": "2021-01-27T20:41:44+0200",
+   "status": "PENDING"
   },
   {
    "text": "%spark\nval paper_author_fos_abstractsdf = spark.read.parquet(s\"$outPath/scitrus/paper_author_fos_abstractsdf.parquet\")\n\nprintln(paper_author_fos_abstractsdf.count())\npaper_author_fos_abstractsdf.coalesce(1).write.json(s\"$outPath/scitrus/authorPapers.json\")",
