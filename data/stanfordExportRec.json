@@ -1,0 +1,5075 @@
+{
+  "id": "Q41506",
+  "typ": "item",
+  "labels": {
+    "hy": "\"Ստենֆորդի համալսարան\"",
+    "ku": "\"Zanîngeha Stanford\"",
+    "bs": "\"Univerzitet Stanford\"",
+    "ba": "\"Станфорд  университеты\"",
+    "lb": "\"Stanford University\"",
+    "hr": "\"Sveučilište Stanford\"",
+    "ta": "\"இசுட்டான்போர்டு பல்கலைக்கழகம்\"",
+    "ka": "\"სტენფორდის უნივერსიტეტი\"",
+    "ar": "\"جامعة ستانفورد\"",
+    "yue": "\"史丹福大學\"",
+    "fr": "\"université Stanford\"",
+    "is": "\"Stanford-háskóli\"",
+    "ug": "\"ستانفورد ئۇنىۋېرستېتى\"",
+    "lv": "\"Stenforda Universitāte\"",
+    "eu": "\"Stanford Unibertsitatea\"",
+    "am": "\"ስታንፎርድ ዩኒቨርስቲ\"",
+    "bn": "\"স্ট্যানফোর্ড বিশ্ববিদ্যালয়\"",
+    "uz": "\"Stanford universiteti\"",
+    "csb": "\"Ùniwersytet Stanforda\"",
+    "mzn": "\"استانفورد دانشگاه\"",
+    "uk": "\"Стенфордський університет\"",
+    "hyw": "\"Սթենֆորտի Համալսարան\"",
+    "ky": "\"Стэнфорд Университети\"",
+    "zh-hk": "\"史丹福大學\"",
+    "pa": "\"ਸਟੈਨਫੋਰਡ ਯੂਨੀਵਰਸਿਟੀ\"",
+    "ga": "\"Ollscoil Stanford\"",
+    "tt": "\"Стәнфорд үнивирситите\"",
+    "war": "\"Unibersidad Stanford\"",
+    "pt": "\"Universidade Stanford\"",
+    "cs": "\"Stanfordova univerzita\"",
+    "gl": "\"Universidade Stanford\"",
+    "nds": "\"Stanford University\"",
+    "sr": "\"Универзитет Станфорд\"",
+    "el": "\"Πανεπιστήμιο Στάνφορντ\"",
+    "it": "\"Università di Stanford\"",
+    "sc": "\"Universidade de Stanford\"",
+    "ca": "\"Universitat de Stanford\"",
+    "vi": "\"Đại học Stanford\"",
+    "la": "\"Universitas Stanfordiensis\"",
+    "tg": "\"Донишгоҳи Стэнфорд\"",
+    "tl": "\"Stanford University\"",
+    "nl": "\"Stanford-universiteit\"",
+    "bg": "\"Станфордски университет\"",
+    "ckb": "\"زانکۆی ستەنفۆرد\"",
+    "ko": "\"스탠퍼드 대학교\"",
+    "sr-ec": "\"Универзитет Станфорд\"",
+    "or": "\"ଷ୍ଟାନଫୋର୍ଡ଼ ବିଶ୍ୱବିଦ୍ୟାଳୟ\"",
+    "eo": "\"Universitato Stanford\"",
+    "mk": "\"Стенфордски универзитет\"",
+    "et": "\"Stanfordi ülikool\"",
+    "de": "\"Stanford University\"",
+    "en-gb": "\"Stanford University\"",
+    "cy": "\"Prifysgol Stanford\"",
+    "nb": "\"Stanford University\"",
+    "sr-el": "\"Univerzitet Stanford\"",
+    "pap": "\"Universidat Stanford\"",
+    "azb": "\"استنفورد بیلیم‌یوردو\"",
+    "diq": "\"Universıteyê Standfordi\"",
+    "be-tarask": "\"Стэнфардзкі ўнівэрсытэт\"",
+    "ur": "\"جامعہ سٹنفورڈ\"",
+    "nan": "\"Stanford Tāi-ha̍k\"",
+    "jv": "\"Universitas Stanford\"",
+    "ru": "\"Стэнфордский университет\"",
+    "ml": "\"സ്റ്റാൻഫോർഡ് സർവ്വകലാശാല\"",
+    "th": "\"มหาวิทยาลัยสแตนฟอร์ด\"",
+    "id": "\"Universitas Stanford\"",
+    "zh-hant": "\"史丹佛大學\"",
+    "pnb": "\"سٹینفورڈ یونیورسٹی\"",
+    "sq": "\"Universiteti Stanford\"",
+    "arz": "\"جامعة ستانفورد\"",
+    "sv": "\"Stanforduniversitetet\"",
+    "tr": "\"Stanford Üniversitesi\"",
+    "da": "\"Stanford University\"",
+    "my": "\"စတန်းဖို့ဒ် တက္ကသိုလ်\"",
+    "zh-tw": "\"史丹佛大學\"",
+    "en": "\"Stanford University\"",
+    "gu": "\"સ્ટેનફોર્ડ યુનિવર્સિટી\"",
+    "he": "\"אוניברסיטת סטנפורד\"",
+    "sah": "\"Стэнфорд университета\"",
+    "kn": "\"ಸ್ಟ್ಯಾನ್‌ಫೋರ್ಡ್ ವಿಶ್ವವಿದ್ಯಾನಿಲಯ\"",
+    "gd": "\"Oilthigh Stanford\"",
+    "sk": "\"Leland Stanford Junior University\"",
+    "az": "\"Stenford Universiteti\"",
+    "es": "\"Universidad Stanford\"",
+    "hi": "\"स्टैनफोर्ड विश्वविद्यालय\"",
+    "te": "\"స్టాన్ఫోర్డ్ విశ్వవిద్యాలయం\"",
+    "zh-hans": "\"斯坦福大学\"",
+    "mr": "\"स्टॅनफर्ड विद्यापीठ\"",
+    "sco": "\"Stanford Varsity\"",
+    "nn": "\"Stanford University\"",
+    "sw": "\"Chuo Kikuu cha Stanford\"",
+    "be": "\"Стэнфардскі ўніверсітэт\"",
+    "qu": "\"Stanford Yachay Suntur\"",
+    "pt-br": "\"Universidade Stanford\"",
+    "ja": "\"スタンフォード大学\"",
+    "en-ca": "\"Stanford University\"",
+    "ast": "\"Universidá Stanford\"",
+    "zh-cn": "\"斯坦福大学\"",
+    "fi": "\"Stanfordin yliopisto\"",
+    "ro": "\"Universitatea Stanford\"",
+    "ne": "\"स्टेनफोर्ड विश्वविद्यालय\"",
+    "lt": "\"Stanfordo universitetas\"",
+    "wuu": "\"斯坦福大学\"",
+    "kk": "\"Стэнфорд Университеті\"",
+    "sl": "\"Univerza Stanford\"",
+    "hak": "\"Sṳ̂-thán-fuk Thai-ho̍k\"",
+    "fa": "\"دانشگاه استنفورد\"",
+    "zh": "\"史丹佛大學\"",
+    "ms": "\"Universiti Stanford\"",
+    "hu": "\"Stanford Egyetem\"",
+    "pl": "\"Stanford University\"",
+    "sh": "\"Stanford\""
+  },
+  "descriptions": {
+    "lb": "\"privat Universitéit a Kalifornien\"",
+    "ar": "\"جامعة خاصة في كاليفورنيا\"",
+    "fr": "\"université américaine à Stanford, en Californie\"",
+    "it": "\"università privata statunitense\"",
+    "ca": "\"universitat privada\"",
+    "vi": "\"Viện Đại học tư thục tại bang California\"",
+    "nl": "\"universiteit in de Verenigde Staten\"",
+    "bg": "\"частен изследователски университет в Калифорния, САЩ\"",
+    "ko": "\"미국의 사립 대학\"",
+    "or": "\"କାଲିଫର୍ଣ୍ଣିଆ, ଆମେରିକାରେ ଅବସ୍ଥିତ ବିଶ୍ୱବିଦ୍ୟାଳୟ\"",
+    "et": "\"Ülikool Ameerika Ühendriikides\"",
+    "de": "\"private Universität in Kalifornien\"",
+    "ru": "\"частный университет в штате Калифорния (США)\"",
+    "zh-hant": "\"美國加州著名的私校\"",
+    "sv": "\"universitet\"",
+    "da": "\"universitet i Californien\"",
+    "zh-tw": "\"位於美國加利福尼亞州斯坦福的私立研究型大學\"",
+    "en": "\"private research university located in Stanford, California, United States\"",
+    "he": "\"אוניברסיטה במדינת קליפורניה, ארה\\\"ב\"",
+    "sk": "\"univerzita v Kalifornii v Spojených štátoch\"",
+    "es": "\"Universidad Privada Estadounidense\"",
+    "zh-hans": "\"位于美国加利福尼亚州斯坦福市的私立研究型大学\"",
+    "ja": "\"アメリカ合衆国カリフォルニア州スタンフォードに本部を置く私立大学\"",
+    "fi": "\"yliopisto Kaliforniassa, Yhdysvalloissa\"",
+    "fa": "\"دانشگاه تحقیقاتی خصوصی در ایالت کالیفرنیا، آمریکا\"",
+    "zh": "\"位於美國加州史丹佛的私立大學，於1891年創校\"",
+    "pl": "\"prywatny uniwersytet zlokalizowany w Kalifornii\""
+  },
+  "aliases": {
+    "ku": [
+      "\"Zankoya Stanford\""
+    ],
+    "ta": [
+      "\"இசுடான்ஃபர்ட் பல்கலைக்கழகம்\"",
+      "\"ஸ்டான்போர்டு பல்கலைக்கழகம்\"",
+      "\"ஸ்டான்ஃபர்ட் பல்கலைக்கழகம்\"",
+      "\"ஸ்டான்போர்ட் பல்கலைக்கழகம்\""
+    ],
+    "ar": [
+      "\"جامعه ستانفورد\""
+    ],
+    "fr": [
+      "\"Universite Stanford\"",
+      "\"University of Stanford\"",
+      "\"Stanford University\"",
+      "\"Université de Stanford\""
+    ],
+    "is": [
+      "\"Stanford háskóli\"",
+      "\"Stanford University\"",
+      "\"Leland Stanford Junior University\"",
+      "\"Stanford\""
+    ],
+    "lv": [
+      "\"Stanford University\"",
+      "\"Leland Stanford Junior University\"",
+      "\"Stanfordas universitāte\"",
+      "\"Stenfordas universitāte\""
+    ],
+    "eu": [
+      "\"Stanford Unibertsitate\"",
+      "\"Leland Stanford Junior University\"",
+      "\"Stanford University\"",
+      "\"Stanfordeko Unibertsitatea\""
+    ],
+    "am": [
+      "\"ስታንፎርድ ዩኒቨርሲቴ\"",
+      "\"ስታንፎርድ ዩኒቨርሲቲ\""
+    ],
+    "bn": [
+      "\"স্ট্যানফোর্ড ইউনিভারসিটি\"",
+      "\"স্ট্যানফোর্ড ইউনিভার্সিটি\""
+    ],
+    "uk": [
+      "\"Станфорд\"",
+      "\"Станфордський університет\""
+    ],
+    "tt": [
+      "\"Стэнфорд\"",
+      "\"Stanford\""
+    ],
+    "war": [
+      "\"Stanford University\""
+    ],
+    "pt": [
+      "\"Stanford Artificial Intelligence Laboratory\"",
+      "\"Stanford\"",
+      "\"Stanford University\"",
+      "\"Universidade de stanford\""
+    ],
+    "cs": [
+      "\"Stanfordská univerzita\"",
+      "\"Leland Stanford Junior University\"",
+      "\"Stanford\"",
+      "\"Stanford University\""
+    ],
+    "sr": [
+      "\"Univerzitet Stanford\"",
+      "\"Stenford\"",
+      "\"Stenfordski univerzitet\"",
+      "\"Univerzitet Stenford\"",
+      "\"Stanford University\""
+    ],
+    "el": [
+      "\"Πανεπιστήμιο του Στάνφορντ\""
+    ],
+    "it": [
+      "\"Leland Stanford Junior University\"",
+      "\"Stanford University\""
+    ],
+    "ca": [
+      "\"Universitat d'Stanford\"",
+      "\"Stanford University\""
+    ],
+    "vi": [
+      "\"Xtan-phò\"",
+      "\"Xtan-phợt\"",
+      "\"Stanford\"",
+      "\"Đại học Tổng hợp Stanford\"",
+      "\"Xtanfơt\"",
+      "\"Xtanfot\""
+    ],
+    "nl": [
+      "\"Stanford Universiteit\"",
+      "\"Universiteit van Stanford\"",
+      "\"Standford University Medical Center\"",
+      "\"Stanford University\""
+    ],
+    "bg": [
+      "\"Станфордско училище по бизнес\"",
+      "\"Stanford University\"",
+      "\"Станфордския Университет\"",
+      "\"Станфордското бизнес училище\""
+    ],
+    "ckb": [
+      "\"زانکۆی ستانفۆرد\""
+    ],
+    "ko": [
+      "\"스탠포드대\"",
+      "\"스탠퍼드 대학\"",
+      "\"스탠퍼드대학교\"",
+      "\"스탠포드대학교\"",
+      "\"스탠포드 대학\"",
+      "\"스탠퍼드대학\"",
+      "\"스탠포드대학\"",
+      "\"스탠포드 대학교\"",
+      "\"스탠퍼드대\""
+    ],
+    "or": [
+      "\"ସ୍ଟାନଫୋର୍ଡ଼ ବିଶ୍ୱବିଦ୍ୟାଳୟ\""
+    ],
+    "eo": [
+      "\"Stanford Universitato\"",
+      "\"Stanforda Universitato\"",
+      "\"Stanford\"",
+      "\"Stanford University\""
+    ],
+    "et": [
+      "\"Stanford'i Ülikool\"",
+      "\"Leland Stanford Junior University\"",
+      "\"Stanford University\""
+    ],
+    "de": [
+      "\"Stanford School of Medicine\"",
+      "\"Stanford Universität\"",
+      "\"Universität Stanford\"",
+      "\"Stanford-University\"",
+      "\"Stanford University Medical School\"",
+      "\"Stanford-Universität\""
+    ],
+    "nb": [
+      "\"Stanford\"",
+      "\"Stanford-universitetet\"",
+      "\"Stanford universitet\"",
+      "\"Stanford-universitet\"",
+      "\"Universitetet i Stanford\"",
+      "\"Standford universitet\""
+    ],
+    "diq": [
+      "\"Universitey Standfordi\"",
+      "\"Universıtey Standfordi\""
+    ],
+    "ru": [
+      "\"Станфордский университет\""
+    ],
+    "th": [
+      "\"สแตนฟอร์ด\"",
+      "\"Stanford University\"",
+      "\"Stanford\"",
+      "\"มหาวิทยาลัยแสตนฟอร์ด\"",
+      "\"แสตนฟอร์ด\"",
+      "\"มหาวิทยาลัยสแตนเฟิร์ด\""
+    ],
+    "id": [
+      "\"Leland Stanford Junior University\"",
+      "\"Stanford University\""
+    ],
+    "sq": [
+      "\"Stanford University\""
+    ],
+    "sv": [
+      "\"Stanforduniversitetet\"",
+      "\"Stanford, Stanford University\""
+    ],
+    "tr": [
+      "\"Standford Üniversitesi\"",
+      "\"Stanford Universitesi\"",
+      "\"Stanford\"",
+      "\"Stanford University\""
+    ],
+    "da": [
+      "\"Stanford-universitetet\"",
+      "\"Stanford\""
+    ],
+    "my": [
+      "\"စတင်းဖို့ဒ် တက္ကသိုလ်\"",
+      "\"Stanford University\""
+    ],
+    "en": [
+      "\"Leland Stanford Junior University\"",
+      "\"University of Stanford\"",
+      "\"Stanford\"",
+      "\"The Farm\""
+    ],
+    "he": [
+      "\"אוניברסיטת סטאנפורד\""
+    ],
+    "sk": [
+      "\"Stanfordova univerzita\"",
+      "\"Stanfordská univerzita\"",
+      "\"Stanford University\""
+    ],
+    "es": [
+      "\"Universidad de Stanford\""
+    ],
+    "mr": [
+      "\"लेलँड स्टॅनफर्ड जुनियर विद्यापीठ\"",
+      "\"स्टॅनफोर्ड युनिव्हर्सिटी\"",
+      "\"स्टॅनफोर्ड विद्यापीठ\"",
+      "\"स्टॅनफर्ड युनिव्हर्सिटी\""
+    ],
+    "sw": [
+      "\"Stanford\"",
+      "\"Stanford University\""
+    ],
+    "be": [
+      "\"Стэнфард\""
+    ],
+    "qu": [
+      "\"Stanford University\""
+    ],
+    "ja": [
+      "\"LSJU\"",
+      "\"Stanford University\""
+    ],
+    "fi": [
+      "\"Stanford University\""
+    ],
+    "ro": [
+      "\"Leland stanford junior university\"",
+      "\"Stanford University\"",
+      "\"Stanford\""
+    ],
+    "sl": [
+      "\"Stanfordska univerza\"",
+      "\"Stanford\"",
+      "\"Stanford University\""
+    ],
+    "fa": [
+      "\"دانشگاه استنفورد امریکا\"",
+      "\"دانشگاه استانفورد\"",
+      "\"استانفورد\"",
+      "\"دانشگاه استنفورد ایالات متحده\"",
+      "\"دانشگاه استنفورد آمریکا\"",
+      "\"استنفورد\""
+    ],
+    "zh": [
+      "\"斯坦福大學\"",
+      "\"史丹福大學\"",
+      "\"史丹福大学\"",
+      "\"斯坦福大学\"",
+      "\"小利兰·斯坦福大学\"",
+      "\"小利蘭·史丹福大學\""
+    ],
+    "ms": [
+      "\"Stanford University\""
+    ],
+    "hu": [
+      "\"Stanfordi Egyetem\"",
+      "\"Stanford University\""
+    ],
+    "pl": [
+      "\"Uniwersytet Stanford\"",
+      "\"Uniwersytet Stanfordzki\"",
+      "\"Uniwersytet Stanforda\""
+    ],
+    "sh": [
+      "\"Stanford University\""
+    ]
+  },
+  "claims": [
+    {
+      "id": "Q41506$74e55777-47df-fd52-f61f-c539b3b7134a",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P4195",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":8810271,\"id\":\"Q8810271\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$C562CA00-522A-4FFD-ACC0-0C897810D7C0",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P269",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"026637251\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":54919,\"id\":\"Q54919\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P214",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"158761280\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2018-10-07T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P214",
+            "P813"
+          ],
+          "hash": "b87c2a47efb9999f11824ab1ac954b5a88bde797"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$fdd780c6-47e7-560e-dc5e-4b886103bdb6",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1451",
+        "dataType": "monolingualtext",
+        "dataValue": {
+          "typ": "monolingualtext",
+          "value": "{\"text\":\"The wind of freedom blows\",\"language\":\"en\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$09adba17-41fb-23f1-aa05-f3ac60c6353f",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1451",
+        "dataType": "monolingualtext",
+        "dataValue": {
+          "typ": "monolingualtext",
+          "value": "{\"text\":\"Die Luft der Freiheit weht\",\"language\":\"de\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0754e5ac-4565-aaac-c4b8-0268fcb5a158",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1451",
+        "dataType": "monolingualtext",
+        "dataValue": {
+          "typ": "monolingualtext",
+          "value": "{\"text\":\"Vítr svobody věje\",\"language\":\"cs\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$43994739-7195-4F46-89EC-918093A5F06F",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3749",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"3012327721397938303\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$D3509798-E707-48A0-8A4D-3C2D115FA907",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1004",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"fbca5bc1-946f-4af2-a402-94efab2afb04\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":14005,\"id\":\"Q14005\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2018-12-27T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P813"
+          ],
+          "hash": "5910b488f96064ef7da253c52cc03fab3f1e0eec"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$4662FB41-CAD1-48A8-BC0A-7B9D283CDAE8",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P244",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"n79054636\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":48183,\"id\":\"Q48183\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "9a24f7c0208b05d6be97077d855671d1dfdbc0dd"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$d572e109-4b81-6e90-7cc2-2d5c5b08f1c0",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2163",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"532770\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0cdd57fc-43e1-9b5a-e468-8eb85b675ad2",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P571",
+        "dataType": "time",
+        "dataValue": {
+          "typ": "time",
+          "value": "{\"time\":\"+1891-01-01T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$90E53B8C-CB80-4EFB-B3B9-DE9683024C69",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P4342",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford_University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P4390",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":39893449,\"id\":\"Q39893449\"}"
+          },
+          "hash": "1a4df62914ea9afca349bd5fb5d8efd5832d83fa"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$b09559d6-4ecb-5805-05a9-71e218d7aa18",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1667",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"7014536\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$7b0bfdc6-4885-6350-d7de-c71a6147ec50",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1368",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"000100320\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$b655fe6d-4aa4-9fea-1738-4b142e19e262",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2196",
+        "dataType": "quantity",
+        "dataValue": {
+          "typ": "quantity",
+          "value": "{\"amount\":\"+16336\",\"unit\":\"1\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P585",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2016-10-23T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "fc095ef0f3ea64969a212357a7d3f270bd2d06e2"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://registrar.stanford.edu/everyone/enrollment-statistics/enrollment-statistics-2016-17\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2018-04-29T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "2e0ebc6db55f23e97a823b66556d55208cbaea5f"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$8358ABE8-D1E3-47F5-8AD2-E106CDB73B2B",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2196",
+        "dataType": "quantity",
+        "dataValue": {
+          "typ": "quantity",
+          "value": "{\"amount\":\"+16424\",\"unit\":\"1\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "preferred",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P585",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2018-01-01T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "60634bc4e9846fc33bc656ddcba7ec09b07bc1b4"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.stanford.edu/about/\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "196a8a54064ec3fedc1e83bca64c3a2fd0f94471"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$5d61de2f-4850-eddb-4034-d792644bcd80",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1015",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"90242371\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$24865676-4956-e645-9510-cca7bcb527c3",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P4389",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"cp113273\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$840E98DB-3036-4123-B9A4-25C9594A3814",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5600",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford-university\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$906c0278-41cd-cb49-535d-204695afdc0e",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1375",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"000132691\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$19fb79cb-45ce-df49-c9b5-8fffa46a75f0",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P793",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":541394,\"id\":\"Q541394\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+1891-00-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "cfb066f3b97e6d5f969ae59796fcc45d3d249e57"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$e33935dc-4fff-40ab-58ca-347930eb9de2",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1695",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"A26789838\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$78eca300-4127-3b5a-441b-2e17bed3d199",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P18",
+        "dataType": "commonsMedia",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford Oval May 2011 panorama.jpg\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$60ECF829-4C9B-4517-BDD9-B6C14B8F6570",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3153",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"100005492\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.168010.e\""
+              }
+            }
+          ],
+          "order": [
+            "P2427"
+          ],
+          "hash": "d0ad6bb62088d407979cee4b79c2315cdc167f61"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$D717E32E-25C4-4E41-A98A-286D3AE8332C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2581",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"00073943n\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4837690,\"id\":\"Q4837690\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "248ac337a217a5f5eed7139a82a4e60931611af0"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$0E5EED5B-E0B7-4620-A711-A62DB9E5E796",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5604",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"3076\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.archinform.net/service/wd_aistich.php\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":265049,\"id\":\"Q265049\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2018-08-11T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P248",
+            "P813"
+          ],
+          "hash": "271fb78e862be7be64f2157d410dfcba77a61068"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$A7A33908-9AD6-4377-8DD5-4C8A126739D4",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P214",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"129582224\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":48183,\"id\":\"Q48183\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "9a24f7c0208b05d6be97077d855671d1dfdbc0dd"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$D8961EDA-1AB6-4AA7-84BF-420E1E90E1C7",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2002",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P3744",
+          "dataType": "quantity",
+          "dataValue": {
+            "typ": "quantity",
+            "value": "{\"amount\":\"+727610\",\"unit\":\"1\"}"
+          },
+          "hash": "0c9c0b9b8ec358dc90f57c872bf41e1d776b0ac3"
+        },
+        {
+          "typ": "value",
+          "property": "P6552",
+          "dataType": "external-id",
+          "dataValue": {
+            "typ": "string",
+            "value": "\"18036441\""
+          },
+          "hash": "16e60b3cbee1224e5854739d920e3e93bff5b183"
+        },
+        {
+          "typ": "value",
+          "property": "P585",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2020-02-29T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "e3dd0640d106956ae28b554d1fa70104c58e5ed7"
+        },
+        {
+          "typ": "value",
+          "property": "P1552",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":28378282,\"id\":\"Q28378282\"}"
+          },
+          "hash": "62f0039d240f7eeba6c6908a0d8807a6188324a1"
+        },
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2008-12-11T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "61dde3fb2485261ab219c2770a42840029d1ada0"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.stanford.edu/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-05-21T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "cf8dc6927e3d90497e7bc0eedcdac2fe86691e03"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$CB8C15F8-6C3F-4B8D-8870-0E8087B12C9D",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2013",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.stanford.edu/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-05-22T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "4233d3b211cca7dcc1df7594d68c9f91fcda07c7"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$4C635EBD-994F-43D1-8191-D6C7D0DC44EA",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2936",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":1860,\"id\":\"Q1860\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":58255,\"id\":\"Q58255\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "2e7fa0083ba1c302cdcf3fa65c613f90daeb4c37"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$e7cc41eb-4a7c-4bbd-55b0-9e59b833bdca",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1670",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"0002L9750\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "q41506$25B61C23-C711-4504-A7CC-5F809582F636",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P17",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":30,\"id\":\"Q30\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":1227538,\"id\":\"Q1227538\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "cfd697a99ce1b4308e5c6bc8c44ce885d5ecf865"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$1a6d3476-4840-72fc-e3ce-2240df030811",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2740",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford_University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$99cb4e5a-40a0-fdc8-f5f8-c3e061b7d752",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1705",
+        "dataType": "monolingualtext",
+        "dataValue": {
+          "typ": "monolingualtext",
+          "value": "{\"text\":\"Stanford University\",\"language\":\"en\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":206855,\"id\":\"Q206855\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P4656",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://ru.wikipedia.org/?oldid=95566495\""
+              }
+            }
+          ],
+          "order": [
+            "P143",
+            "P4656"
+          ],
+          "hash": "4e437bffdb21ef0258c3bcbac3567e770d8c0682"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$70C56CBC-6200-4188-ABA6-610B0FED2F46",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":45134992,\"id\":\"Q45134992\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.168010.e\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2017-12-14T00:00:00Z\",\"timezone\":0,\"before\":1,\"after\":1,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P2427",
+            "P813"
+          ],
+          "hash": "96e23273025bb331b273a96aaf792675f557b6dc"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$30A10A93-71A6-46FE-825D-1BDE7BD717D1",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":45132255,\"id\":\"Q45132255\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.168010.e\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2017-12-14T00:00:00Z\",\"timezone\":0,\"before\":1,\"after\":1,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P2427",
+            "P813"
+          ],
+          "hash": "96e23273025bb331b273a96aaf792675f557b6dc"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$1429086D-48B2-4B2B-878C-B7535ACD9CA1",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":45134128,\"id\":\"Q45134128\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.168010.e\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2017-12-14T00:00:00Z\",\"timezone\":0,\"before\":1,\"after\":1,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P2427",
+            "P813"
+          ],
+          "hash": "96e23273025bb331b273a96aaf792675f557b6dc"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$C886D502-C02B-40C3-8502-CF5F428733B9",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":4976176,\"id\":\"Q4976176\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.468372.c\""
+              }
+            }
+          ],
+          "order": [
+            "P2427"
+          ],
+          "hash": "ce831d7703f793f658fd6cf51c5dee5cbcf689f4"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$AF5F4B00-2E6A-4610-949D-6F6DB7A6A5C9",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":4115969,\"id\":\"Q4115969\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.471392.a\""
+              }
+            }
+          ],
+          "order": [
+            "P2427"
+          ],
+          "hash": "5c625e8ccc2e739e51d09b69e3fef82346780f65"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$EC6433BC-9056-49A4-AAE2-31AB9DB41536",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":33122131,\"id\":\"Q33122131\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.484444.c\""
+              }
+            }
+          ],
+          "order": [
+            "P2427"
+          ],
+          "hash": "66b2fb79a8a3d9301500a65b55ff7a65806baf61"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$e01138ff-454d-27a4-76e1-fa955096f46c",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":43080767,\"id\":\"Q43080767\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"http://med.stanford.edu/cancer.html\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-13T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "fefbbd801ffc79c52eba0ff81d5b059f141d19c0"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$b3a12c4a-4303-63ef-ed68-92245c017a70",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":66425224,\"id\":\"Q66425224\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"http://web.stanford.edu/group/frydman/web/index.html\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-13T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "9a8218facd3b263a0bf4674143aa51369051197b"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$d9ce5141-4679-a0d8-2fa9-e56787d0f594",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":66688990,\"id\":\"Q66688990\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://litlab.stanford.edu/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-22T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "405510315897b292a4e47f636e5f6bc18db3f9f6"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$578f1ae8-4cc6-a204-42a8-3bc011d91744",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":7598814,\"id\":\"Q7598814\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://humsci.stanford.edu/about\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-10-17T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "d300291b35ead8a857ca58b863492851db408cf6"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$d6a4eb28-4562-5531-eb6b-5cb7b7dd1d48",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":7598806,\"id\":\"Q7598806\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://library.stanford.edu/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2020-04-24T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "11d0013048464d73890b0dfb47e3704678e5c94b"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$a8761db6-4ea6-f02a-f3e7-7c84ca1272b2",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P355",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":5836034,\"id\":\"Q5836034\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$BAD19B47-C0C8-4B39-B0B4-AFFAC47C5C68",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1278",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"JIUV0DC2REIJXQ26CR37\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "q41506$A28C9429-ABFF-48FE-8C3E-8D06572038F8",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":902104,\"id\":\"Q902104\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$B074BA7F-8513-425E-91BC-6782EDF250E6",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":15936437,\"id\":\"Q15936437\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$8C040827-E189-4162-BAFB-8F0C5FF59ABF",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23002054,\"id\":\"Q23002054\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":6042926,\"id\":\"Q6042926\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "3a898e189b5a0c811a5d4ee8eeab4639efe4b6e1"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$D22903AB-EF0C-4EE9-8585-DF9671F11922",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":45400320,\"id\":\"Q45400320\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":1227538,\"id\":\"Q1227538\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "cfd697a99ce1b4308e5c6bc8c44ce885d5ecf865"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$2BCBB6CC-2A99-4591-8381-3D953982EE2C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P935",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":191168,\"id\":\"Q191168\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "3bf39867b037e8e494a8389ae8a03bad6825a7fc"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$BB275088-DC25-4CB3-B57A-A08914C28851",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1566",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"5398590\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":830106,\"id\":\"Q830106\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "88694a0f4d1486770c269f7db16a1982f74da69d"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$4B000C4B-72F1-4E87-9D02-C47729C831EF",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P910",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":8810213,\"id\":\"Q8810213\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$69ADFF8F-ACBB-49BF-BA2B-53DD18233AE1",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3417",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford-University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":51711,\"id\":\"Q51711\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "3b0a5bb3c1f955edce73740124f7d935698092ad"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$E65DB561-0363-40D7-B0F3-763474753BC7",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P822",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":7598803,\"id\":\"Q7598803\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":328,\"id\":\"Q328\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "fa278ebfc458360e5aed63d5058cca83c46134f1"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$169738CB-DE11-4AF3-8C5F-A3657338080C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":692470,\"id\":\"Q692470\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$EA84584C-9CC4-40E7-8EA8-9511A01218CA",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":2938060,\"id\":\"Q2938060\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$6A1186BF-A931-4B4B-BBE2-D4B2B28F7389",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":3968168,\"id\":\"Q3968168\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$E92B6F9F-7249-450B-B871-7AD784284D56",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":5502714,\"id\":\"Q5502714\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$646C11C4-5786-4135-B278-96DD32318198",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6342659,\"id\":\"Q6342659\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0BC23D3D-A1FB-4CB3-8288-FD793414A967",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6420148,\"id\":\"Q6420148\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$4B12CE54-D5B9-48DE-91D0-7317272A25C9",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6754048,\"id\":\"Q6754048\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$E3B68676-76C7-469C-88FC-9BD25829FC85",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":7598744,\"id\":\"Q7598744\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$FCDFA3E8-B0EC-4E28-BF6D-A8A4213049A6",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1830",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":7688646,\"id\":\"Q7688646\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$5329820d-464a-4f9d-23a4-fdbd00666b8e",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P949",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"000126083\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$3C02FDAF-4CE8-4DEA-9C0A-AD74DA7BDBAA",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2427",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"grid.168010.e\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":53869345,\"id\":\"Q53869345\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "40fdc7f3ce7f6771a8f285a1267bfc3f3de154d9"
+        },
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":53705036,\"id\":\"Q53705036\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "a1914c8952a5bc482eafeb26be4fda504fe701f9"
+        }
+      ]
+    },
+    {
+      "id": "q41506$F368F352-99C1-407B-BE51-94CC7A4F2CE5",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P373",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0E18719A-8A04-470F-9ECF-00A131D257F5",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2003",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.stanford.edu/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-05-22T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "4233d3b211cca7dcc1df7594d68c9f91fcda07c7"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$5007610C-BFBA-48E3-B6A3-92BD1B5134CE",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5822",
+        "dataType": "quantity",
+        "dataValue": {
+          "typ": "quantity",
+          "value": "{\"amount\":\"+0.05\",\"unit\":\"1\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P4656",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.wikidata.org/w/index.php?title=Wikidata:Property_proposal/Admission_rate&oldid=744929706\""
+              }
+            }
+          ],
+          "order": [
+            "P4656"
+          ],
+          "hash": "815cfbfd01e26a62c3c25567811a5c24241c0620"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$CBA4419E-3A8A-4976-B369-9DF4047FE2BA",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P7886",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"C46875\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$E14CA992-5C34-4E67-892D-9DC0CC370CBC",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P856",
+        "dataType": "url",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"https://www.stanford.edu/\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P407",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":1860,\"id\":\"Q1860\"}"
+          },
+          "hash": "daf1c4fcb58181b02dff9cc89deb084004ddae4b"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":328,\"id\":\"Q328\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "fa278ebfc458360e5aed63d5058cca83c46134f1"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$F782477A-373F-4861-8FA6-DFC075EE3A93",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2769",
+        "dataType": "quantity",
+        "dataValue": {
+          "typ": "quantity",
+          "value": "{\"amount\":\"+54746302\",\"unit\":\"http://www.wikidata.org/entity/Q4917\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P585",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2018-01-01T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "60634bc4e9846fc33bc656ddcba7ec09b07bc1b4"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://bondholder-information.stanford.edu/pdf/SU_AnnualFinancialReport_2018.pdf\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "25b9d1bbf39e626667b4172c3df06f02f893cc73"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$B0932EB5-5388-4512-9320-3D95A764A076",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P7859",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"lccn-n79054636\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P214",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"129582224\""
+              }
+            }
+          ],
+          "order": [
+            "P214"
+          ],
+          "hash": "81e827fbfbf67248682eca87a4efc6df8e9c9a9f"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$61484a51-4b41-891a-50e3-394e9250a781",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P4052",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$D646866B-87A2-453D-B89C-52EFF39B892E",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3347",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"4297085592\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$72446770-0914-4B7B-96B3-EA14163684F1",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5584",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford-university\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0E325B74-3ECB-449E-8244-C203A826C15D",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P646",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"/m/06pwq\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":15241312,\"id\":\"Q15241312\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P577",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2013-10-28T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P577"
+          ],
+          "hash": "2b00cb481cddcac7623114367489b5c194901c4a"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$638224F8-C852-4924-8CB0-9C9A876AB738",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P7502",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford_University-99DDW\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "q41506$d31c0e74-43e0-daee-1e90-acd91e53b211",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P138",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6520800,\"id\":\"Q6520800\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$eb2b2151-4245-6cda-2376-c142b1aaf00c",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5242",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford-University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$4A6D15C9-B155-4839-8B9E-4EFF92F001EF",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P268",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"11884671g\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":54919,\"id\":\"Q54919\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P214",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"158761280\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2018-10-07T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P214",
+            "P813"
+          ],
+          "hash": "b87c2a47efb9999f11824ab1ac954b5a88bde797"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$6b6f2505-4523-c63f-b4ab-ad8ac13bc915",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2924",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"4163020\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$e6a68ddf-4b38-8694-c147-0300e59160d3",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P488",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6755913,\"id\":\"Q6755913\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$4738E67C-44FA-45DB-AEA9-EB0C0F9E8F54",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3393",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"14938\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$a4f2051b-4f93-aaa0-7d94-fc2b0fa50487",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P527",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":1147088,\"id\":\"Q1147088\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0B7C33A7-C32B-46A9-8086-AD804A502A4C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P527",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":5898813,\"id\":\"Q5898813\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$6d4e9c53-4651-8455-b7dc-dc2e97ee6d35",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P409",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"35519832\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$AC8D5BCC-D250-4F44-86F8-8CC7BF9A9712",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2643",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23334765,\"id\":\"Q23334765\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4223026,\"id\":\"Q4223026\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "0c1a8ae6ad3b8fb4f373c533150355a20f759090"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$974F7CB0-2391-412A-913F-C8C8D216B6F2",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2643",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23623491,\"id\":\"Q23623491\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4223026,\"id\":\"Q4223026\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "0c1a8ae6ad3b8fb4f373c533150355a20f759090"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$72E6243D-FAF8-4F2C-96E9-CB5733099935",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2643",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23662486,\"id\":\"Q23662486\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4223026,\"id\":\"Q4223026\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "0c1a8ae6ad3b8fb4f373c533150355a20f759090"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$98DE5D37-ED11-4F78-8884-F805D13A009D",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2643",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23622831,\"id\":\"Q23622831\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4223026,\"id\":\"Q4223026\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "0c1a8ae6ad3b8fb4f373c533150355a20f759090"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$CB7BC142-3C05-4CC1-ABD5-4012FF04EF8F",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2643",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23662760,\"id\":\"Q23662760\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4223026,\"id\":\"Q4223026\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "0c1a8ae6ad3b8fb4f373c533150355a20f759090"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$2BBABA9E-B742-43AF-BF63-8C3E7F1EFD9C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2643",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23662432,\"id\":\"Q23662432\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":4223026,\"id\":\"Q4223026\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "0c1a8ae6ad3b8fb4f373c533150355a20f759090"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$62901A4B-0685-499C-A868-BBD5648CD1D8",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5063",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"i59478\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$5D0FC48D-4917-4EC3-97BC-DC6DA9C9A20C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P6366",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"97018004\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":60683589,\"id\":\"Q60683589\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.168010.e\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-01-19T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P2427",
+            "P813"
+          ],
+          "hash": "8aa3b2facb7585be17270a267fabf0a331b7754e"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$c1e47a2f-4fc0-d5e5-e4df-8e58ea330bc0",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1320",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"us_ca/C1264149\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$a414c7ea-4bc0-8f25-8ba0-5b399a99170f",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P6653",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"4704\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$F01927EA-6E41-45B2-A8C2-633D48B4226E",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P6782",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"00f54p054\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$96072839-4c87-c0cb-87ea-e2eccd458beb",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P590",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"235365\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$5d3db0de-4ad5-d307-698d-a4c919ea9aaa",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1207",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"n01011772\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "q41506$59E832C1-2EC9-4397-9EF5-090053BBC92E",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P625",
+        "dataType": "globe-coordinate",
+        "dataValue": {
+          "typ": "globecoordinate",
+          "value": "{\"latitude\":37.4282293,\"longitude\":-122.1688576,\"altitude\":null,\"precision\":1.0E-7,\"globe\":\"http://www.wikidata.org/entity/Q2\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P590",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"235365\""
+              }
+            }
+          ],
+          "order": [
+            "P590"
+          ],
+          "hash": "d323eb3d428422370c3c84388309f71dbd0ea292"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$6E57FF65-EF40-4A3C-B3D1-9F3ADEE0C18F",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P112",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":382109,\"id\":\"Q382109\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$346B6850-7B18-4A41-88E4-CF9F265A7E82",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P112",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":2891993,\"id\":\"Q2891993\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$915EED20-D5ED-4BF8-85A6-7282F863B70C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3221",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"organization/stanford-university\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$DDB2E4F9-4095-4634-974C-4D84A35F063E",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P6363",
+        "dataType": "url",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"http://data.thenextweb.com/tnw/entity/stanford_university\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://thenextweb.com/vocabulary/stanford-university/\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "c9d26a0ccba5c129a613ea025f2748614ca8fccb"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$24BC1819-9671-454D-BB28-AB15A790D78B",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P5586",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford-university\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$0c613bd0-48e1-1f35-995d-d5eb9f82ba02",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1005",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"445665\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$3e435b3d-4c4b-d0ae-c522-bb3d31d2284e",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2828",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6231954,\"id\":\"Q6231954\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P39",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":2114175,\"id\":\"Q2114175\"}"
+          },
+          "hash": "6e58d19b6df008970b29638dd30925222c291169"
+        },
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2000-00-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "dbfdfcd2e0d1c901a7c647aec6fcb680f8ffa81b"
+        },
+        {
+          "typ": "value",
+          "property": "P582",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2017-00-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "35c0020265dd882b92ff53afc3f29993e62a042f"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://provost.stanford.edu/past-provosts/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2020-01-09T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "62a635a2d82d09ab05250006be4648598228c20a"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$f00bf4a1-4648-96dd-74aa-1aed48e7ce38",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2828",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":1763248,\"id\":\"Q1763248\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P39",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":2114175,\"id\":\"Q2114175\"}"
+          },
+          "hash": "6e58d19b6df008970b29638dd30925222c291169"
+        },
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2017-00-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "154b581c43d72b52e77b5c1e92455e4eafe99a97"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://provost.stanford.edu/past-provosts/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2020-01-09T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "62a635a2d82d09ab05250006be4648598228c20a"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$165cad8e-4073-9527-957c-240d928c0a0a",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2828",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":6755913,\"id\":\"Q6755913\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P39",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":1255921,\"id\":\"Q1255921\"}"
+          },
+          "hash": "5115a71f3b77c78590403e699037f0a5a20fc01b"
+        },
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2016-00-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "ed438b46be5611a815cca53283ad10d96ab202b5"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://president.stanford.edu/history/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2020-01-09T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "2aa01360a24f32a5ad728b25574ba5b810723803"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$3a9d6801-4081-e143-6c14-b4b39a9c9c66",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P245",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"500312883\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$8bbe1ee6-4b39-a9c0-ceea-24ad6f2b16fb",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P950",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"XX138211\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$98080418-4350-7f0c-be1b-e11694734984",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1448",
+        "dataType": "monolingualtext",
+        "dataValue": {
+          "typ": "monolingualtext",
+          "value": "{\"text\":\"Stanford University\",\"language\":\"en\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":206855,\"id\":\"Q206855\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "288ab581e7d2d02995a26dfa8b091d96e78457fc"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$9825732A-B14F-4F25-9450-0DE52CD500A0",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1417",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"topic/Stanford-University\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$5EC9F311-EDD2-4180-ABB8-D2F6C6512015",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P227",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"2885-X\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P143",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":48183,\"id\":\"Q48183\"}"
+              }
+            }
+          ],
+          "order": [
+            "P143"
+          ],
+          "hash": "9a24f7c0208b05d6be97077d855671d1dfdbc0dd"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$8469046D-5D40-4B8B-B931-74C83E1B9871",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P213",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"0000 0004 1936 8956\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":19938912,\"id\":\"Q19938912\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2015-07-13T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P813"
+          ],
+          "hash": "e159b8548fdca420eb9aef93f7251d2eebfb0abe"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$668144A6-4178-4819-9FDD-7160592CB4EE",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P4081",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"11628\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P1810",
+          "dataType": "string",
+          "dataValue": {
+            "typ": "string",
+            "value": "\"Stanford University\""
+          },
+          "hash": "e4db6c0d566acb728fa952d5a8911071b6b60c90"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$41f2c580-4bcf-1496-a0ce-342d37d852e5",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P154",
+        "dataType": "commonsMedia",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Stanford wordmark (2012).svg\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2012-11-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":10,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "0df907842af1d82a7de88c045d672ebd0ea23ff6"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$7F038D5F-0E72-439A-BCC9-075350BCFD4B",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3222",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"stanford-university\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$99E21505-C10F-4E2B-A466-DA9461963E8F",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2468",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"1bq\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$37E5684F-DCDA-4DA9-BAB9-D7AE3B434853",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2124",
+        "dataType": "quantity",
+        "dataValue": {
+          "typ": "quantity",
+          "value": "{\"amount\":\"+2219\",\"unit\":\"1\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P585",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2018-01-01T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "60634bc4e9846fc33bc656ddcba7ec09b07bc1b4"
+        },
+        {
+          "typ": "value",
+          "property": "P518",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":61746469,\"id\":\"Q61746469\"}"
+          },
+          "hash": "bb1978e7cd9e2cb9ac03fd582b203c6d231bb65f"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.stanford.edu/about/\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "196a8a54064ec3fedc1e83bca64c3a2fd0f94471"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$20778e8b-4c07-9080-9875-cfc7772f4656",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1281",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"2498941\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$B78D32DB-9A73-4F1C-862C-5F74D819AB70",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1771",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"243744\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$90AA99DE-A029-48E8-BCAF-CF4EA085396A",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P281",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"94305\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":6042926,\"id\":\"Q6042926\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "3a898e189b5a0c811a5d4ee8eeab4639efe4b6e1"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$263C3379-DD64-4A35-92B0-FC91747FAC08",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3500",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"6429\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P356",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"10.5281/ZENODO.758080\""
+              }
+            }
+          ],
+          "order": [
+            "P356"
+          ],
+          "hash": "45e8fa2e37c421b7e5970029041dbdeac9824284"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$4066B617-289C-47D6-BCA2-929EF598E4D8",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3762",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"32778\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$be3cba51-45d0-4f08-b1f2-3d2856363b7b",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3553",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"19554375\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.zhihu.com/question/315746465/answer/622723745\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-04-30T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "a3757203d011f40c6ca953ba3bac5457cbe5fe13"
+        },
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.zhihu.com/question/322584779/answer/670110180\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-05-05T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "99bffa63dea31fbfde9f09bf0a4e09fc0fa771d5"
+        },
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.zhihu.com/search?q=650%20%E4%B8%87%E4%B8%8A%E6%96%AF%E5%9D%A6%E7%A6%8F&utm_content=search_hot&utm_medium=organic&utm_source=zhihu&type=content#捐_650_万上斯坦福&650_万上斯坦福\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-05-05T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "a16d07bcb30466eb7709da8e6decf651711bbb7c"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$A3CB7C1E-E1F2-407A-9BC3-47FFAFB0F1C7",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":19861084,\"id\":\"Q19861084\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://orcid.org/members/001G000001JhSbDIAV-stanford-university\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "e67ae10debf6b9bbf0e0c6c733e10f8d9c8a33a4"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$BC514248-8C21-4EFC-AF3E-977508ED45EC",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":5275906,\"id\":\"Q5275906\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.clir.org/about/current-sponsors-and-funders\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "33df96fbb2b98b19adbe1148e8b50ad1def34dd7"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$CA523743-E297-4498-9CCC-413658BD7975",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":35677307,\"id\":\"Q35677307\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"http://iiif.io/community/consortium/#the-iiif-consortium\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "fb64ce7d3f8945088c82640a779075fc9c95f843"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$3919E410-CD3B-4EC8-B977-65659D7B683B",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":5059850,\"id\":\"Q5059850\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"http://www.crl.edu/membership/members\""
+              }
+            }
+          ],
+          "order": [
+            "P854"
+          ],
+          "hash": "ac2b485d60ed9d4bf14e016e095b30aaedd5618a"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$5d5f1489-4cf9-5838-6c5c-947fd65ea84f",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":128471,\"id\":\"Q128471\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+1918-00-00T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":9,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "10a2dfc96e157e37793f5012a6e0f534220ac075"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$13ab1e97-4253-9386-67eb-1fb1c3860671",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":37033,\"id\":\"Q37033\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.w3.org/Consortium/Member/List\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-05-23T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "814498269cf5e4483d8cfb7ba674e37836fcfe1d"
+        },
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.w3.org/Consortium/Member/List\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-06-11T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "2355ecfcfcf0bd9ed578c1c38a70bcf7f38c464b"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$A31FCC9B-090A-439E-AFAC-96FAABB65AC0",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P463",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":5137944,\"id\":\"Q5137944\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://web.archive.org/web/20200122180935/https://www.cni.org/about-cni/membership/members\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2020-01-22T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "d6d20f501cfc9ae68a4aee614559638464bce937"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$8A791DE0-E96D-4957-833D-664E2030C4E9",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P159",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":173813,\"id\":\"Q173813\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P281",
+          "dataType": "string",
+          "dataValue": {
+            "typ": "string",
+            "value": "\"94305\""
+          },
+          "hash": "f6d9b5642e9bfec506afdd2256da5c1f47b82a0f"
+        },
+        {
+          "typ": "value",
+          "property": "P17",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":30,\"id\":\"Q30\"}"
+          },
+          "hash": "be4c6eafa2984964f04be85667263f5642ba1a72"
+        },
+        {
+          "typ": "value",
+          "property": "P6375",
+          "dataType": "monolingualtext",
+          "dataValue": {
+            "typ": "monolingualtext",
+            "value": "{\"text\":\"450 Serra Mall\",\"language\":\"en\"}"
+          },
+          "hash": "2b514b305eb529066185e8dba65d86a5c4ab0804"
+        },
+        {
+          "typ": "value",
+          "property": "P582",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2019-10-07T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "84830946b6c975805c2c17c9027e5a1357620dec"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://news.stanford.edu/2019/09/18/naming-jane-stanford-way-moves-ahead/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-11-20T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "ddf073bec8e9769b8150967aba3dae594bf40eae"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$b9c5ed46-401d-8ca3-c8c3-b6ddb43888dd",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P159",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":173813,\"id\":\"Q173813\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "preferred",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P281",
+          "dataType": "string",
+          "dataValue": {
+            "typ": "string",
+            "value": "\"94305\""
+          },
+          "hash": "f6d9b5642e9bfec506afdd2256da5c1f47b82a0f"
+        },
+        {
+          "typ": "value",
+          "property": "P17",
+          "dataType": "wikibase-item",
+          "dataValue": {
+            "typ": "wikibase-entityid",
+            "value": "{\"entity-type\":\"item\",\"numeric-id\":30,\"id\":\"Q30\"}"
+          },
+          "hash": "be4c6eafa2984964f04be85667263f5642ba1a72"
+        },
+        {
+          "typ": "value",
+          "property": "P6375",
+          "dataType": "monolingualtext",
+          "dataValue": {
+            "typ": "monolingualtext",
+            "value": "{\"text\":\"450 Jane Stanford Way\",\"language\":\"en\"}"
+          },
+          "hash": "7692336b95e0fe46ec4afb00cc65afb85c9d1c4a"
+        },
+        {
+          "typ": "value",
+          "property": "P580",
+          "dataType": "time",
+          "dataValue": {
+            "typ": "time",
+            "value": "{\"time\":\"+2019-10-07T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+          },
+          "hash": "ce224f8bb52f6fc7aa02173683603095f44a6fb4"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://news.stanford.edu/2019/09/18/naming-jane-stanford-way-moves-ahead/\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-11-20T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P854",
+            "P813"
+          ],
+          "hash": "ddf073bec8e9769b8150967aba3dae594bf40eae"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$cf736a15-48ae-ef69-73fd-7a9b836dac90",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P691",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"ko2003174378\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$14D70960-5BCF-4DEC-BE16-9FCB73BC0159",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3544",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"18301\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$ADA49A32-3A74-4134-83E0-1399A2824A5A",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P3876",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":7006242,\"id\":\"Q7006242\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    }
+  ],
+  "siteLinks": [
+    {
+      "site": "sqwiki",
+      "title": "Universiteti Stanford",
+      "badges": []
+    },
+    {
+      "site": "zh_yuewiki",
+      "title": "史丹福大學",
+      "badges": []
+    },
+    {
+      "site": "elwiki",
+      "title": "Πανεπιστήμιο Στάνφορντ",
+      "badges": []
+    },
+    {
+      "site": "etwiki",
+      "title": "Stanfordi ülikool",
+      "badges": []
+    },
+    {
+      "site": "idwiki",
+      "title": "Universitas Stanford",
+      "badges": []
+    },
+    {
+      "site": "cywiki",
+      "title": "Prifysgol Stanford",
+      "badges": []
+    },
+    {
+      "site": "trwiki",
+      "title": "Stanford Üniversitesi",
+      "badges": []
+    },
+    {
+      "site": "euwiki",
+      "title": "Stanford Unibertsitatea",
+      "badges": []
+    },
+    {
+      "site": "eowiki",
+      "title": "Universitato Stanford",
+      "badges": []
+    },
+    {
+      "site": "itwiki",
+      "title": "Università di Stanford",
+      "badges": []
+    },
+    {
+      "site": "frwiki",
+      "title": "Université Stanford",
+      "badges": []
+    },
+    {
+      "site": "knwiki",
+      "title": "ಸ್ಟ್ಯಾನ್‌ಫೋರ್ಡ್ ವಿಶ್ವವಿದ್ಯಾನಿಲಯ",
+      "badges": []
+    },
+    {
+      "site": "bnwiki",
+      "title": "স্ট্যানফোর্ড বিশ্ববিদ্যালয়",
+      "badges": []
+    },
+    {
+      "site": "hiwiki",
+      "title": "स्टैनफोर्ड विश्वविद्यालय",
+      "badges": []
+    },
+    {
+      "site": "srwiki",
+      "title": "Univerzitet Stanford",
+      "badges": []
+    },
+    {
+      "site": "amwiki",
+      "title": "ስታንፎርድ ዩኒቨርስቲ",
+      "badges": []
+    },
+    {
+      "site": "csbwiki",
+      "title": "Ùniwersytet Stanforda",
+      "badges": []
+    },
+    {
+      "site": "azbwiki",
+      "title": "استنفورد بیلیم‌یوردو",
+      "badges": []
+    },
+    {
+      "site": "cawiki",
+      "title": "Universitat de Stanford",
+      "badges": []
+    },
+    {
+      "site": "hewiki",
+      "title": "אוניברסיטת סטנפורד",
+      "badges": []
+    },
+    {
+      "site": "papwiki",
+      "title": "Universidat Stanford",
+      "badges": []
+    },
+    {
+      "site": "bswiki",
+      "title": "Univerzitet Stanford",
+      "badges": []
+    },
+    {
+      "site": "ukwiki",
+      "title": "Стенфордський університет",
+      "badges": []
+    },
+    {
+      "site": "dewiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "ugwiki",
+      "title": "ستانفورد ئۇنىۋېرستېتى",
+      "badges": []
+    },
+    {
+      "site": "ckbwiki",
+      "title": "زانکۆی ستانفۆرد",
+      "badges": []
+    },
+    {
+      "site": "kowiki",
+      "title": "스탠퍼드 대학교",
+      "badges": []
+    },
+    {
+      "site": "guwiki",
+      "title": "સ્ટેનફોર્ડ યુનિવર્સિટી",
+      "badges": []
+    },
+    {
+      "site": "hywiki",
+      "title": "Սթենֆորդի համալսարան",
+      "badges": []
+    },
+    {
+      "site": "hrwiki",
+      "title": "Sveučilište Stanford",
+      "badges": []
+    },
+    {
+      "site": "be_x_oldwiki",
+      "title": "Стэнфардзкі ўнівэрсытэт",
+      "badges": []
+    },
+    {
+      "site": "enwiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "wuuwiki",
+      "title": "斯坦福大学",
+      "badges": []
+    },
+    {
+      "site": "bewiki",
+      "title": "Стэнфардскі ўніверсітэт",
+      "badges": []
+    },
+    {
+      "site": "hakwiki",
+      "title": "Stanford Thai-ho̍k",
+      "badges": []
+    },
+    {
+      "site": "diqwiki",
+      "title": "Universıtey Standfordi",
+      "badges": []
+    },
+    {
+      "site": "ttwiki",
+      "title": "Stenford universitetı",
+      "badges": []
+    },
+    {
+      "site": "mznwiki",
+      "title": "استانفورد دانشگاه",
+      "badges": []
+    },
+    {
+      "site": "iswiki",
+      "title": "Stanford-háskóli",
+      "badges": []
+    },
+    {
+      "site": "fawiki",
+      "title": "دانشگاه استنفورد",
+      "badges": []
+    },
+    {
+      "site": "kawiki",
+      "title": "სტენფორდის უნივერსიტეტი",
+      "badges": []
+    },
+    {
+      "site": "mlwiki",
+      "title": "സ്റ്റാൻഫോർഡ് സർവ്വകലാശാല",
+      "badges": []
+    },
+    {
+      "site": "huwiki",
+      "title": "Stanford Egyetem",
+      "badges": []
+    },
+    {
+      "site": "swwiki",
+      "title": "Chuo Kikuu cha Stanford",
+      "badges": []
+    },
+    {
+      "site": "kywiki",
+      "title": "Стэнфорд университети",
+      "badges": []
+    },
+    {
+      "site": "astwiki",
+      "title": "Universidá Stanford",
+      "badges": []
+    },
+    {
+      "site": "warwiki",
+      "title": "Unibersidad Stanford",
+      "badges": []
+    },
+    {
+      "site": "pawiki",
+      "title": "ਸਟੈਨਫੋਰਡ ਯੂਨੀਵਰਸਿਟੀ",
+      "badges": []
+    },
+    {
+      "site": "jvwiki",
+      "title": "Universitas Stanford",
+      "badges": []
+    },
+    {
+      "site": "svwiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "tewiki",
+      "title": "స్టాన్‌ఫర్డ్ విశ్వవిద్యాలయం",
+      "badges": []
+    },
+    {
+      "site": "mywiki",
+      "title": "စတန်းဖို့ဒ် တက္ကသိုလ်",
+      "badges": []
+    },
+    {
+      "site": "ltwiki",
+      "title": "Stanfordo universitetas",
+      "badges": []
+    },
+    {
+      "site": "rowiki",
+      "title": "Universitatea Stanford",
+      "badges": []
+    },
+    {
+      "site": "mrwiki",
+      "title": "स्टॅनफर्ड विद्यापीठ",
+      "badges": []
+    },
+    {
+      "site": "ruwikinews",
+      "title": "Категория:Стэнфордский университет",
+      "badges": []
+    },
+    {
+      "site": "tlwiki",
+      "title": "Pamantasang Stanford",
+      "badges": []
+    },
+    {
+      "site": "kuwiki",
+      "title": "Zanîngeha Stanford",
+      "badges": []
+    },
+    {
+      "site": "arzwiki",
+      "title": "جامعة ستانفورد",
+      "badges": []
+    },
+    {
+      "site": "kkwiki",
+      "title": "Стэнфорд университеті",
+      "badges": []
+    },
+    {
+      "site": "urwiki",
+      "title": "جامعہ سٹنفورڈ",
+      "badges": []
+    },
+    {
+      "site": "quwiki",
+      "title": "Stanford Yachay Suntur",
+      "badges": []
+    },
+    {
+      "site": "nowiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "dawiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "bgwiki",
+      "title": "Станфордски университет",
+      "badges": []
+    },
+    {
+      "site": "ptwiki",
+      "title": "Universidade Stanford",
+      "badges": []
+    },
+    {
+      "site": "uzwiki",
+      "title": "Stanford universiteti",
+      "badges": []
+    },
+    {
+      "site": "lawiki",
+      "title": "Universitas Stanfordiensis",
+      "badges": []
+    },
+    {
+      "site": "jawiki",
+      "title": "スタンフォード大学",
+      "badges": []
+    },
+    {
+      "site": "plwiki",
+      "title": "Uniwersytet Stanforda",
+      "badges": []
+    },
+    {
+      "site": "ruwiki",
+      "title": "Стэнфордский университет",
+      "badges": []
+    },
+    {
+      "site": "lvwiki",
+      "title": "Stenforda Universitāte",
+      "badges": []
+    },
+    {
+      "site": "scwiki",
+      "title": "Universidade de Stanford",
+      "badges": []
+    },
+    {
+      "site": "zhwiki",
+      "title": "史丹佛大學",
+      "badges": []
+    },
+    {
+      "site": "slwiki",
+      "title": "Univerza Stanford",
+      "badges": []
+    },
+    {
+      "site": "pnbwiki",
+      "title": "سٹینفورڈ یونیورسٹی",
+      "badges": []
+    },
+    {
+      "site": "glwiki",
+      "title": "Universidade Stanford",
+      "badges": []
+    },
+    {
+      "site": "azwiki",
+      "title": "Stenford Universiteti",
+      "badges": []
+    },
+    {
+      "site": "nnwiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "ndswiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "sahwiki",
+      "title": "Стэнфорд университета",
+      "badges": []
+    },
+    {
+      "site": "commonswiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "simplewiki",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "bawiki",
+      "title": "Стэнфорд университеты",
+      "badges": []
+    },
+    {
+      "site": "eswiki",
+      "title": "Universidad Stanford",
+      "badges": []
+    },
+    {
+      "site": "tawiki",
+      "title": "இசுட்டான்போர்டு பல்கலைக்கழகம்",
+      "badges": []
+    },
+    {
+      "site": "nlwiki",
+      "title": "Stanford-universiteit",
+      "badges": []
+    },
+    {
+      "site": "viwiki",
+      "title": "Đại học Stanford",
+      "badges": []
+    },
+    {
+      "site": "enwikiquote",
+      "title": "Stanford University",
+      "badges": []
+    },
+    {
+      "site": "fiwiki",
+      "title": "Stanfordin yliopisto",
+      "badges": []
+    },
+    {
+      "site": "zh_min_nanwiki",
+      "title": "Stanford Tāi-ha̍k",
+      "badges": []
+    },
+    {
+      "site": "thwiki",
+      "title": "มหาวิทยาลัยสแตนฟอร์ด",
+      "badges": []
+    },
+    {
+      "site": "gawiki",
+      "title": "Ollscoil Stanford",
+      "badges": []
+    },
+    {
+      "site": "cswiki",
+      "title": "Stanfordova univerzita",
+      "badges": []
+    },
+    {
+      "site": "shwiki",
+      "title": "Stanford",
+      "badges": []
+    },
+    {
+      "site": "mswiki",
+      "title": "Universiti Stanford",
+      "badges": []
+    },
+    {
+      "site": "arwiki",
+      "title": "جامعة ستانفورد",
+      "badges": []
+    },
+    {
+      "site": "skwiki",
+      "title": "Stanford University",
+      "badges": []
+    }
+  ],
+  "labels_en": "\"Stanford University\"",
+  "labels_fr": "\"université Stanford\"",
+  "labels_de": "\"Stanford University\"",
+  "labels_es": "\"Universidad Stanford\"",
+  "aliases_eng": [
+    "\"Leland Stanford Junior University\"",
+    "\"University of Stanford\"",
+    "\"Stanford\"",
+    "\"The Farm\""
+  ],
+  "aliases_fr": [
+    "\"Universite Stanford\"",
+    "\"University of Stanford\"",
+    "\"Stanford University\"",
+    "\"Université de Stanford\""
+  ],
+  "aliases_de": [
+    "\"Stanford School of Medicine\"",
+    "\"Stanford Universität\"",
+    "\"Universität Stanford\"",
+    "\"Stanford-University\"",
+    "\"Stanford University Medical School\"",
+    "\"Stanford-Universität\""
+  ],
+  "aliases_es": [
+    "\"Universidad de Stanford\""
+  ],
+  "existence_mag": true,
+  "existence_org": true,
+  "is_research_article_flag": false,
+  "instanceofs": [
+    {
+      "id": "q41506$A28C9429-ABFF-48FE-8C3E-8D06572038F8",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":902104,\"id\":\"Q902104\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$B074BA7F-8513-425E-91BC-6782EDF250E6",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":15936437,\"id\":\"Q15936437\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal"
+    },
+    {
+      "id": "Q41506$8C040827-E189-4162-BAFB-8F0C5FF59ABF",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":23002054,\"id\":\"Q23002054\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":6042926,\"id\":\"Q6042926\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "3a898e189b5a0c811a5d4ee8eeab4639efe4b6e1"
+        }
+      ]
+    },
+    {
+      "id": "Q41506$D22903AB-EF0C-4EE9-8585-DF9671F11922",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":45400320,\"id\":\"Q45400320\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":1227538,\"id\":\"Q1227538\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248"
+          ],
+          "hash": "cfd697a99ce1b4308e5c6bc8c44ce885d5ecf865"
+        }
+      ]
+    }
+  ],
+  "instanceofarr": [
+    "{\"entity-type\":\"item\",\"numeric-id\":902104,\"id\":\"Q902104\"}",
+    "{\"entity-type\":\"item\",\"numeric-id\":15936437,\"id\":\"Q15936437\"}",
+    "{\"entity-type\":\"item\",\"numeric-id\":23002054,\"id\":\"Q23002054\"}",
+    "{\"entity-type\":\"item\",\"numeric-id\":45400320,\"id\":\"Q45400320\"}"
+  ],
+  "instanceof": "{\"entity-type\":\"item\",\"numeric-id\":902104,\"id\":\"Q902104\"},{\"entity-type\":\"item\",\"numeric-id\":15936437,\"id\":\"Q15936437\"},{\"entity-type\":\"item\",\"numeric-id\":23002054,\"id\":\"Q23002054\"},{\"entity-type\":\"item\",\"numeric-id\":45400320,\"id\":\"Q45400320\"}",
+  "instanceofid": "Q902104",
+  "countries": "{\"entity-type\":\"item\",\"numeric-id\":30,\"id\":\"Q30\"}",
+  "countriesarr": [
+    "{\"entity-type\":\"item\",\"numeric-id\":30,\"id\":\"Q30\"}"
+  ],
+  "countryid": "Q30",
+  "MAGIDs": [
+    {
+      "id": "Q41506$5D0FC48D-4917-4EC3-97BC-DC6DA9C9A20C",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P6366",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"97018004\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":60683589,\"id\":\"Q60683589\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P2427",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"grid.168010.e\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-01-19T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P2427",
+            "P813"
+          ],
+          "hash": "8aa3b2facb7585be17270a267fabf0a331b7754e"
+        }
+      ]
+    }
+  ],
+  "MAGIDsarr": [
+    "\"97018004\""
+  ],
+  "MAGID": "\"97018004\"",
+  "RINGGOLDIds": "\"6429\"",
+  "RINGGOLDIdsarr": [
+    "\"6429\""
+  ]
+}

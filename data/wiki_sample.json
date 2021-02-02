@@ -1,0 +1,629 @@
+{
+  "id": "Q66896625",
+  "typ": "item",
+  "labels": {
+    "en": "\"Promotion of secondary anti-DNP antibody production in mice by type III pneumococcal polysaccharide (SIII) and dinitrophenylated rabbit antibody to SIII\"",
+    "nl": "\"Promotion of secondary anti-DNP antibody production in mice by type III pneumococcal polysaccharide\""
+  },
+  "descriptions": {
+    "en": "\"scientific article published on 01 July 1975\"",
+    "nl": "\"wetenschappelijk artikel\"",
+    "de": "\"im Juli 1975 veröffentlichter wissenschaftlicher Artikel\""
+  },
+  "aliases": {},
+  "claims": [
+    {
+      "id": "Q66896625$2E556ED6-E21E-4EA4-B219-97A351D73A58",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P577",
+        "dataType": "time",
+        "dataValue": {
+          "typ": "time",
+          "value": "{\"time\":\"+1975-07-01T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$FF733809-5ED2-464B-84F0-BE6D43FFCAF5",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P304",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"39-47\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$B234B731-E241-42C8-AEFE-BB0D7A725333",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P31",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":13442814,\"id\":\"Q13442814\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$6B4BA097-0371-480C-AF71-34C852D3A189",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P478",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"29\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$313A8E12-16DF-478B-9300-9602C5F57B02",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P921",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":134219,\"id\":\"Q134219\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P887",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":69652283,\"id\":\"Q69652283\"}"
+              }
+            }
+          ],
+          "order": [
+            "P887"
+          ],
+          "hash": "0723282bb80042897ca697416c050b4bf7fb5428"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$0C1D96EC-7946-4081-8D48-2CFBBC0FF2BD",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1433",
+        "dataType": "wikibase-item",
+        "dataValue": {
+          "typ": "wikibase-entityid",
+          "value": "{\"entity-type\":\"item\",\"numeric-id\":15754984,\"id\":\"Q15754984\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$CFEE740F-6E22-4138-8CFE-A5CF7ABFC947",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P1476",
+        "dataType": "monolingualtext",
+        "dataValue": {
+          "typ": "monolingualtext",
+          "value": "{\"text\":\"Promotion of secondary anti-DNP antibody production in mice by type III pneumococcal polysaccharide (SIII) and dinitrophenylated rabbit antibody to SIII\",\"language\":\"en\"}"
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$45E421C1-17F1-4A15-8798-C153F3A564E1",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P698",
+        "dataType": "external-id",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"1095473\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$A83C446A-D0D5-4E46-9D5A-A31F727A8023",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P433",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"1\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    },
+    {
+      "id": "Q66896625$8955D0CD-C357-41B2-A417-B70FA9A97EE2",
+      "mainSnak": {
+        "typ": "value",
+        "property": "P2093",
+        "dataType": "string",
+        "dataValue": {
+          "typ": "string",
+          "value": "\"Mitchell GF\""
+        }
+      },
+      "typ": "statement",
+      "rank": "normal",
+      "qualifiers": [
+        {
+          "typ": "value",
+          "property": "P1545",
+          "dataType": "string",
+          "dataValue": {
+            "typ": "string",
+            "value": "\"1\""
+          },
+          "hash": "2a1ced1dca90648ea7e306acbadd74fc81a10722"
+        }
+      ],
+      "references": [
+        {
+          "snaks": [
+            {
+              "typ": "value",
+              "property": "P248",
+              "dataType": "wikibase-item",
+              "dataValue": {
+                "typ": "wikibase-entityid",
+                "value": "{\"entity-type\":\"item\",\"numeric-id\":5412157,\"id\":\"Q5412157\"}"
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P698",
+              "dataType": "external-id",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"1095473\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P854",
+              "dataType": "url",
+              "dataValue": {
+                "typ": "string",
+                "value": "\"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:1095473%20AND%20SRC:MED&resulttype=core&format=json\""
+              }
+            },
+            {
+              "typ": "value",
+              "property": "P813",
+              "dataType": "time",
+              "dataValue": {
+                "typ": "time",
+                "value": "{\"time\":\"+2019-08-31T00:00:00Z\",\"timezone\":0,\"before\":0,\"after\":0,\"precision\":11,\"calendarmodel\":\"http://www.wikidata.org/entity/Q1985727\"}"
+              }
+            }
+          ],
+          "order": [
+            "P248",
+            "P698",
+            "P854",
+            "P813"
+          ],
+          "hash": "366f9cbbb59daa0ab4dacfb900689ecb04a06947"
+        }
+      ]
+    }
+  ],
+  "siteLinks": []
+}
