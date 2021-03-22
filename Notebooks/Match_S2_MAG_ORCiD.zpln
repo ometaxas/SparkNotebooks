@@ -1043,7 +1043,7 @@
     "fontSize": 9.0,
     "results": {},
     "enabled": true,
-    "editorHide": true
+    "editorHide": false
    },
    "settings": {
     "params": {},

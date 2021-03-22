@@ -1,0 +1,154 @@
+﻿{
+ "paragraphs": [
+  {
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-02-22T12:07:33+0200",
+   "config": {
+    "editorSetting": {
+     "language": "scala",
+     "editOnDblClick": false,
+     "completionKey": "TAB",
+     "completionSupport": true
+    },
+    "colWidth": 12.0,
+    "editorMode": "ace/mode/scala",
+    "fontSize": 9.0,
+    "results": {},
+    "enabled": true
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1613988452988_545527888",
+   "id": "paragraph_1613988452988_545527888",
+   "dateCreated": "2021-02-22T12:07:32+0200",
+   "dateStarted": "2021-02-22T12:07:33+0200",
+   "dateFinished": "2021-02-22T12:07:33+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\nval fos_path =  \"/media/ometaxas/nvme/datasets/FoSAliases\"\n\n//val fileName =\"fos2umls_withaliases_all.csv\"\n//val fileName =\"foS2umls_all.csv\"\n\nval flatten_distinct = (array_distinct _) compose (flatten _)\n\nval extfieldsOfStudyschema = new StructType().\n                add(\"fieldOfStudyId\", LongType, false).\n                add(\"name\", StringType, true).\n                add(\"paperCount\", IntegerType, true).\n                add(\"wikiPage\", StringType, true).\n                add(\"aliases\", StringType, true)\n\n//val extfieldsOfStudydf = spark.read.options(Map(\"sep\"->\",\", \"header\"-> \"false\")).\n  //              schema(extfieldsOfStudyschema).\n    //            csv(s\"file:///home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/FoS2Find.csv/fosWikiDataAliases.csv\")\n\nval fileNameWIKI =\"fosWikiDataAliasesChecked.csv\"\nval fos2WIKIdf = spark.read.options(Map(\"sep\"->\",\", \"header\"-> \"false\"))\n                .schema(extfieldsOfStudyschema)\n                .csv(s\"file://$fos_path/$fileNameWIKI\")        \n        .select($\"fieldOfStudyId\",split($\"aliases\",\"\\\\|\").as(\"aliases_arr\"), $\"aliases\", $\"wikiPage\")\n\n \nval fos2WIKIdfgrp = fos2WIKIdf\n        .groupBy($\"fieldOfStudyId\")\n  .agg(\n    flatten_distinct(collect_list($\"aliases_arr\")).as(\"aliases_arr\"),\n      collect_set($\"wikiPage\").as(\"wikiPages\")\n  )\n\n    \n\nfos2WIKIdfgrp.printSchema()\nfos2WIKIdfgrp.show(10)\nprintln(fos2WIKIdfgrp.count())\n\nval fos2WIKIdfgrp_34343649 = fos2WIKIdf.filter($\"fieldOfStudyId\"===\"34343649\")\n\nfos2WIKIdfgrp_34343649.show(10)\n\n\nval fileNameUMLS =\"fos2umls_withaliases_all.csv\"\nval fos2UMLSdf = spark.read.options(Map(\"sep\"->\",\", \"header\"-> \"false\")).                \n                csv(s\"file://$fos_path/$fileNameUMLS\")\n        .select($\"_c0\".as(\"fieldOfStudyId\"), split($\"_c2\",\"\\\\|\").as(\"aliases_arr\"), $\"_c3\".as(\"umls_cid\"))\n\n  val fos2UMLSdfgrp = fos2UMLSdf\n        .groupBy($\"fieldOfStudyId\")\n  .agg(\n    flatten_distinct(collect_list($\"aliases_arr\")).as(\"aliases_arr\"),\n      collect_set($\"umls_cid\").as(\"umls_cids\")\n  )\n\nval fos2UMLSdf_34343649 = fos2UMLSdf.filter($\"fieldOfStudyId\"===\"34343649\" )\n\nfos2UMLSdf_34343649.show(10)\n\nfos2UMLSdfgrp.printSchema()\nfos2UMLSdfgrp.show(10)\nprintln(fos2UMLSdfgrp.count())\n\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20210201/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20210201/advanced\"\n\nval fieldsOfStudyTsvFilename = \"FieldsOfStudy.txt\"\n\nval fieldsOfStudyschema = new StructType().\n                add(\"fieldOfStudyId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"name\", StringType, true).\n                add(\"mainType\", StringType, true).\n                add(\"level\", IntegerType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval fieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(fieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$fieldsOfStudyTsvFilename\")\n                //.select($\"fieldsOfStudyId\", $\"normalizedName\", $\"level\", $\"paperCount\")\n\nfieldsOfStudydf.show(5)\nprintln(fieldsOfStudydf.count())\n\nval fieldsOfStudydfExt = fieldsOfStudydf.join(fos2WIKIdfgrp, fos2WIKIdfgrp(\"fieldOfStudyId\")===fieldsOfStudydf(\"fieldOfStudyId\"),\"outer\" )\n        .join(fos2UMLSdfgrp, fos2UMLSdfgrp(\"fieldOfStudyId\")===fieldsOfStudydf(\"fieldOfStudyId\"),\"outer\" )\n        .select( fieldsOfStudydf(\"fieldOfStudyId\"),\n                fieldsOfStudydf(\"magRank\"),\n                fieldsOfStudydf(\"normalizedName\"),\n                fieldsOfStudydf(\"name\"),\n                fieldsOfStudydf(\"mainType\"),\n                fieldsOfStudydf(\"level\"),\n                fieldsOfStudydf(\"paperCount\"),\n                fieldsOfStudydf(\"paperFamilyCount\"),\n                fieldsOfStudydf(\"citationCount\"),\n                fieldsOfStudydf(\"createdDate\"),            \n            fos2WIKIdfgrp(\"wikiPages\"),\n            fos2WIKIdfgrp(\"aliases_arr\").as(\"wiki_aliases\"),\n            fos2UMLSdfgrp(\"aliases_arr\").as(\"umls_aliases\"),            \n            fos2UMLSdfgrp(\"umls_cids\").as(\"umls_cids\"),\n            array_distinct(array_union(array_union(fos2WIKIdfgrp(\"aliases_arr\"), fos2UMLSdfgrp(\"aliases_arr\")),split($\"normalizedName\",\"\\\\|\"))).as(\"all_aliases_arr\")\n            )                     \n\n\nfieldsOfStudydfExt.show(10)\nprintln(fieldsOfStudydfExt.count())\n\nval fieldsOfStudydf_ext =  fieldsOfStudydfExt .select( fieldsOfStudydfExt(\"fieldOfStudyId\"),\n            fieldsOfStudydfExt(\"magRank\"),\n            fieldsOfStudydfExt(\"normalizedName\"),\n            fieldsOfStudydfExt(\"name\"),\n            fieldsOfStudydfExt(\"mainType\"),\n            fieldsOfStudydfExt(\"level\"),\n            fieldsOfStudydfExt(\"paperCount\"),\n            fieldsOfStudydfExt(\"paperFamilyCount\"),\n            fieldsOfStudydfExt(\"citationCount\"),\n            fieldsOfStudydfExt(\"createdDate\"),            \n            concat_ws(\"||\",fieldsOfStudydfExt(\"wikiPages\")).as(\"wikiPages\"),\n            concat_ws(\"||\",fieldsOfStudydfExt(\"umls_cids\")).as(\"umls_cids\"),\n            //fieldsOfStudydfExt(\"all_aliases_arr\")\n            concat_ws(\"||\",col(\"all_aliases_arr\").as(\"normalizedNames\")   )       \n)        \n\n      fieldsOfStudydf_ext.show(10)\nprintln(fieldsOfStudydf_ext.count())\n    \n\nfieldsOfStudydf_ext.coalesce(1).write.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).csv(s\"$fos_path/FieldsOfStudy_ext.txt\")\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-02-23T13:50:22+0200",
+   "config": {
+    "results": [
+     {}
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Console",
+        "chart": {
+         "series": [
+          {
+           "type": "Pie",
+           "values": {
+            "column": "fieldOfStudyId",
+            "index": 0.0
+           },
+           "labels": {
+            "column": "aliases_arr",
+            "index": 1.0
+           },
+           "showPercents": true
+          }
+         ]
+        }
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=314"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=315"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=316"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=317"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=318"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=319"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=320"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=321"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=322"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=323"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=324"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=325"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=326"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=327"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=328"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=329"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=330"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1614081022371_222982976",
+   "id": "paragraph_1614081022371_222982976",
+   "dateCreated": "2021-02-23T13:50:22+0200",
+   "dateStarted": "2021-02-23T13:50:22+0200",
+   "dateFinished": "2021-02-23T13:50:37+0200",
+   "status": "FINISHED"
+  }
+ ],
+ "name": "Zeppelin Notebook",
+ "id": "",
+ "noteParams": {},
+ "noteForms": {},
+ "angularObjects": {},
+ "config": {
+  "isZeppelinNotebookCronEnable": false,
+  "looknfeel": "default",
+  "personalizedMode": "false"
+ },
+ "info": {}
+}
