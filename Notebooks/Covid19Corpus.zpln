@@ -21,10 +21,6 @@
     "params": {},
     "forms": {}
    },
-   "results": {
-    "code": "SUCCESS",
-    "msg": []
-   },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
@@ -46,15 +42,6 @@
    "settings": {
     "params": {},
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "import org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer\nimport java.util.Locale\nimport org.apache.spark.storage.StorageLevel\nimport java.util.Calendar\n\u001b[1m\u001b[34mMAG_NLP\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/nlp\n\u001b[1m\u001b[34mMAG_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/mag\n\u001b[1m\u001b[34mMAG_ADV\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/advanced\n\u001b[1m\u001b[34mlogger\u001b[0m: \u001b[1m\u001b[32morg.slf4j.Logger\u001b[0m = org.slf4j.impl.Log4jLoggerAdapter(MyZeppelinL...\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {},
@@ -103,15 +90,6 @@
      }
     },
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "+--------+--------------------+--------+--------------------+--------------------+----------+---------+-------+--------------------+------------+--------------------+--------------------+------+----------------+--------+--------------------+--------------------+--------------------+-----+\n|cord_uid|                 sha|source_x|               title|                 doi|     pmcid|pubmed_id|license|            abstract|publish_time|             authors|             journal|mag_id|who_covidence_id|arxiv_id|      pdf_json_files|      pmc_json_files|                 url|s2_id|\n+--------+--------------------+--------+--------------------+--------------------+----------+---------+-------+--------------------+------------+--------------------+--------------------+------+----------------+--------+--------------------+--------------------+--------------------+-----+\n|57xo6xx2|8d7876047a1709d32...|     PMC|Immunologic Chang...|10.3201/eid1706.1...|PMC3358185| 21749768|  no-cc|We analyzed chang...|  2011-06-08|Shen, Hong-Hui; H...|    Emerg Infect Dis|  null|            null|    null|document_parses/p...|document_parses/p...|https://www.ncbi....| null|\n|mrvjd7pf|555c6d5dec99b8cf5...|     PMC|Structure of the ...|10.1038/s41467-01...|PMC6300606| 30568167|  cc-by|Type VI secretion...|  2018-12-19|Park, Young-Jun; ...|          Nat Commun|  null|            null|    null|document_parses/p...|document_parses/p...|https://www.ncbi....| null|\n|5lzj6rdd|c75d2d950ae6e19e4...|     PMC|Necrotizing enter...|  10.1007/bf02762112|PMC7090836| 11669033|  no-cc|Improvement in su...|        2001|Kulkarni, Anjali;...|    Indian J Pediatr|  null|            null|    null|document_parses/p...|                null|https://www.ncbi....| null|\n|nvpplyqd|f8c6b35492d7de9de...|     PMC|Viral lower urina...|10.1007/s11918-00...|PMC7088526| 32214913|  no-cc|Lower urinary tra...|  2007-04-16|   Paduch, Darius A.|   Curr Prostate Rep|  null|            null|    null|document_parses/p...|                null|https://www.ncbi....| null|\n|77apiqq2|d5eee9a90a68f77d0...|     PMC|     Avian influenza|10.1007/s11882-00...|PMC7089356| 16566867|  no-cc|The current epide...|        2006|Zeitlin, Gary A.;...|Curr Allergy Asth...|  null|            null|    null|document_parses/p...|                null|https://www.ncbi....| null|\n|w80bofno|                null|     PMC|Lessons from a pa...|     10.1038/463135b|PMC7095475| 20075871|  no-cc|It is time to ass...|  2010-01-13|                null|              Nature|  null|            null|    null|                null|                null|https://www.ncbi....| null|\n|2woctsxi|                null|     PMC|There are two sid...|     10.1038/422545b|PMC7095283| 12686959|  no-cc|A mystery epidemi...|        2003|                null|              Nature|  null|            null|    null|                null|                null|https://www.ncbi....| null|\n|aw5p16h9|8ea3f3b77fef57a5d...|     PMC|         Pneumologie|10.1007/s00108005...|PMC7095956| 10354939|  no-cc|Lungenerkrankunge...|        1999|          Seeger, W.|    Internist (Berl)|  null|            null|    null|document_parses/p...|                null|https://www.ncbi....| null|\n|7908s7bm|eb6bcd2e9d1de58a2...|     PMC|Plaudits for micr...| 10.1038/nrmicro2043|PMC7096872| 19031530|  no-cc|Prizes for scient...|        2008|                null|   Nat Rev Microbiol|  null|            null|    null|document_parses/p...|document_parses/p...|https://www.ncbi....| null|\n|7csjvrv4|d0e0877a44d56ff54...|     PMC|  Rotaviral Diarrhea|10.1016/s0749-073...|PMC7127803|  8358646|  no-cc|Rotavirus has bee...|  2017-05-19|   Dwyer, Roberta M.|Vet Clin North Am...|  null|            null|    null|document_parses/p...|document_parses/p...|https://www.ncbi....| null|\n+--------+--------------------+--------+--------------------+--------------------+----------+---------+-------+--------------------+------------+--------------------+--------------------+------+----------------+--------+--------------------+--------------------+--------------------+-----+\nonly showing top 10 rows\n\nroot\n |-- cord_uid: string (nullable = true)\n |-- sha: string (nullable = true)\n |-- source_x: string (nullable = true)\n |-- title: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- pmcid: string (nullable = true)\n |-- pubmed_id: string (nullable = true)\n |-- license: string (nullable = true)\n |-- abstract: string (nullable = true)\n |-- publish_time: string (nullable = true)\n |-- authors: string (nullable = true)\n |-- journal: string (nullable = true)\n |-- mag_id: string (nullable = true)\n |-- who_covidence_id: string (nullable = true)\n |-- arxiv_id: string (nullable = true)\n |-- pdf_json_files: string (nullable = true)\n |-- pmc_json_files: string (nullable = true)\n |-- url: string (nullable = true)\n |-- s2_id: string (nullable = true)\n\n339406\n+--------------------+--------+\n|              mag_id|cord_uid|\n+--------------------+--------+\n|          3122136738|xw284dbq|\n|                null|c7r8hgxv|\n| and that most sp...|xh7k1w32|\n|                null|46gy956y|\n|                null|dsbr24fi|\n+--------------------+--------+\nonly showing top 5 rows\n\n335194\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer\nimport java.util.Locale\nimport org.apache.spark.storage.StorageLevel\nimport java.util.Calendar\n\u001b[1m\u001b[34mcord19Path\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/Covid19\n\u001b[1m\u001b[34mcord19Name\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = 2021-02-08-CORD-19-MappedTo-2021-02-01-MAG-Backfill.csv\n\u001b[1m\u001b[34mcord19df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [cord_uid: string, sha: string ... 17 more fields]\n\u001b[1m\u001b[34mcord19OutPath\u001b[0m: \u001b[...\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {
@@ -163,23 +141,11 @@
     "params": {
      "bdtMeta": {
       "inlay": {
-       "size": {
-        "height": 214.0
-       },
        "state": {}
       }
      }
     },
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "9497442\n3119777\n3025152\n68145\n\u001b[1m\u001b[34mcord19_paperRefs\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paperReferenceId: bigint, mag_id: string ... 1 more field]\n\u001b[1m\u001b[34mcord19_paperRefsGrp\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paperReferenceId: bigint, refsCount: bigint]\n\u001b[1m\u001b[34mimportantRefs\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paperReferenceId: bigint, refsCount: bigint]\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {
@@ -222,10 +188,6 @@
     "params": {},
     "forms": {}
    },
-   "results": {
-    "code": "SUCCESS",
-    "msg": []
-   },
    "apps": [],
    "runtimeInfos": {
     "jobUrl": {
@@ -260,15 +222,6 @@
    "settings": {
     "params": {},
     "forms": {}
-   },
-   "results": {
-    "code": "ERROR",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "root\n |-- normalizedTitle: string (nullable = true)\n |-- publisherName: string (nullable = true)\n |-- journalId: string (nullable = true)\n |-- conferenceSeriesId: long (nullable = true)\n |-- pubYear: integer (nullable = true)\n |-- pubDate: string (nullable = true)\n |-- magRank: integer (nullable = true)\n |-- docTypetmp: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- mag_id: string (nullable = true)\n\n+--------------------+--------------------+---------+------------------+-------+----------+-------+----------+--------------------+----------+\n|     normalizedTitle|       publisherName|journalId|conferenceSeriesId|pubYear|   pubDate|magRank|docTypetmp|                 doi|    mag_id|\n+--------------------+--------------------+---------+------------------+-------+----------+-------+----------+--------------------+----------+\n|angiographic succ...|JACC Cardiovasc I...|117995063|              null|   2013|2013-02-01|  17785|   Journal|10.1016/J.JCIN.20...| 105223206|\n|statistical infer...|University of Cal...|167961193|              null|   2016|2016-03-29|  18514|   Journal|10.18637/JSS.V069...|2277437543|\n|deeplab semantic ...|                IEEE|199944782|              null|   2018|2018-04-01|  14765|   Journal|10.1109/TPAMI.201...|2412782625|\n|prospective monit...|John Wiley & Sons...| 14534568|              null|   2018|2018-06-01|  21019|   Journal|   10.1111/TID.12885|2789311706|\n|2017 esc eacts gu...|Oxford University...|181568219|              null|   2017|2017-09-21|  15088|   Journal|10.1093/EURHEARTJ...|2751630023|\n+--------------------+--------------------+---------+------------------+-------+----------+-------+----------+--------------------+----------+\nonly showing top 5 rows\n\n227830\norg.apache.spark.sql.AnalysisException: Cannot resolve column name \"paperId\" among (normalizedTitle, publisherName, journalId, conferenceSeriesId, pubYear, pubDate, magRank, docTypetmp, doi, mag_id);\n  at org.apache.spark.sql.Dataset.$anonfun$resolve$1(Dataset.scala:270)\n  at scala.Option.getOrElse(Option.scala:189)\n  at org.apache.spark.sql.Dataset.resolve(Dataset.scala:263)\n  at org.apache.spark.sql.Dataset.col(Dataset.scala:1353)\n  at org.apache.spark.sql.Dataset.apply(Dataset.scala:1320)\n  ... 53 elided\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {
@@ -310,15 +263,6 @@
    "settings": {
     "params": {},
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "\u001b[1m\u001b[34mcord19paperdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [normalizedTitle: string, publisherName: string ... 8 more fields]\n\u001b[1m\u001b[34mcord19paper_abstractsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [abstract: string, mag_id: string]\n\u001b[1m\u001b[34mcord19paperdfExt\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [mag_id: string, paperRank: int ... 14 more fields]\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {
@@ -363,15 +307,6 @@
    "settings": {
     "params": {},
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "root\n |-- fieldsOfStudyId: long (nullable = true)\n |-- score: double (nullable = true)\n |-- mag_id: string (nullable = true)\n |-- normalizedName: string (nullable = true)\n |-- level: integer (nullable = true)\n |-- paperCount: long (nullable = true)\n\n2293607\nroot\n |-- DescriptorUI: string (nullable = true)\n |-- DescriptorName: string (nullable = true)\n |-- QualifierUI: string (nullable = true)\n |-- QualifierName: string (nullable = true)\n |-- IsMajorTopic: boolean (nullable = true)\n |-- mag_id: string (nullable = true)\n\n2480048\n\u001b[1m\u001b[34mcord19_paperfos\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [fieldsOfStudyId: bigint, score: double ... 4 more fields]\n\u001b[1m\u001b[34mcord19_paperMeSH\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [DescriptorUI: string, DescriptorName: string ... 4 more fields]\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {
