@@ -103,6 +103,7 @@ val argsParser = new OptionParser[Params]("") {
       .builder()
       .config("SPARK_HOME", "/home/ometaxas/Projects/spark-3.0.0-bin-hadoop3.2")
       .config("spark.master", "local[*]")
+      //.config("spark.local.dir", "/media/ometaxas/nvme/spark")
       .config("spark.local.dir", "/media/datadisk/Datasets/Spark")
       .config("spark.driver.memory", "110g")
       .appName("WikidataJsonDumpConverter")
@@ -122,6 +123,7 @@ val argsParser = new OptionParser[Params]("") {
 
     val df = spark.read.
       textFile("/media/ometaxas/nvme/datasets/WikiData/latest-all.json").
+      //textFile("/media/datadisk/Datasets/WikiData/latest-all.json").
       //textFile("/media/ometaxas/nvme/datasets/WikiData/latest-all.json.gz").
       filter(_.length > 10). // Remove array surrounding data
       map(_.stripLineEnd.replaceAll("},$", "}")). // Remove colon after each item
@@ -133,6 +135,8 @@ val argsParser = new OptionParser[Params]("") {
     //Write dataframe overwriting if exists
     //df.repartition(256).write.mode(SaveMode.Overwrite).format("parquet").save("/media/ometaxas/nvme/datasets/WikiData/dump.parquet")
     df.repartition(400).write.mode(SaveMode.Overwrite).format("parquet").save("/home/ometaxas/Datasets/Wikidata/dump.parquet")
+    //df.repartition(400).write.mode(SaveMode.Overwrite).format("parquet").save("/media/ometaxas/nvme/datasets/WikiData/dump.parquet")
+
 
 
   }

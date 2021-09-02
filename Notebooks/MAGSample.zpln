@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 100g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-01-20T23:07:40+0200",
+   "dateUpdated": "2021-05-24T12:31:23+0300",
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -28,15 +28,15 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1611176860050_1101647111",
-   "id": "paragraph_1611176860050_1101647111",
-   "dateCreated": "2021-01-20T23:07:40+0200",
-   "dateStarted": "2021-01-20T23:07:40+0200",
-   "dateFinished": "2021-01-20T23:07:40+0200",
+   "jobName": "paragraph_1621848683127_860063001",
+   "id": "paragraph_1621848683127_860063001",
+   "dateCreated": "2021-05-24T12:31:23+0300",
+   "dateStarted": "2021-05-24T12:31:23+0300",
+   "dateFinished": "2021-05-24T12:31:23+0300",
    "status": "FINISHED"
   },
   {
-   "text": "%spark\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\n//org.apache.commons.lang3.StringUtils.stripAccents(input.toLowerCase(Locale.ENGLISH));\n\n\n\n//Get MAG AUthor - Pub pairs\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20201109/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20201109/advanced\"\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\nval authorsAffTsvFilename = \"Authors.txt\"\nval papersTsvFilename = \"Papers.txt\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n\n\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", LongType, true).\n    add(\"familyRank\", IntegerType, true).\n    add(\"createdDate\", DateType, true)\n    \n//199944782 IEEE Transactions on Pattern Analysis and Machine Intelligence ~7K \n//199944782 Nature ~200K\n//3880285  Science ~200K\n// 202381698 PLOS ONE ~ 262K\n//2597175965 arXiv: Computer Vision and Pattern Recognition ~39K\n// 2597365278 arXiv: Machine Learning ~ 11K\n// 118988714 JMLR 3.7K\n// 1158167855 CVPR: Computer Vision and Pattern Recognition 11K\n// 103482838 Communications of The ACM 13K \n// 1127325140 NeurIPS: Neural Information Processing Systems 12.5K \n// 1180662882 ICML 9K\n// 1130985203 KDD 6.5K\n// 1203999783 IJCAI: International Joint Conference on Artificial Intelligence 11K\n\n/*\nSample dataset counts: \n\nAuthors: 1,357,143\nPaper_Author_Affiliations: 2,787,121\nPaper_FoS: 4,243,126\nPaper_references: 14,030,446\nPaper_Abstracts1: 198,285\nPaper_Abstracts2: 206,690\nPapers: 488,212\n\n */\n\n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\"))\n         .schema(paperSchema)\n         .csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .filter(($\"conferenceSeriesId\" isin (1127325140, 1180662882, 1203999783, 1130985203)) ||  \n                ($\"journalId\" isin (\"199944782\",\"137773608\", \"3880285\", \"202381698\", \"2597175965\", \"2597365278\", \"118988714\", \"1158167855\")) \n                 && $\"pubYear\">2000)\n        .cache()\n\n\n//papersdf.printSchema\n//papersdf.show(5)\nprintln(\"papersdf: \"+papersdf.count())\n\npapersdf.coalesce(1).write.mode(\"overwrite\").options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$papersTsvFilename\")\n\nval paperIdsdf = papersdf.select($\"paperId\")\n",
+   "text": "%spark\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\n//org.apache.commons.lang3.StringUtils.stripAccents(input.toLowerCase(Locale.ENGLISH));\n\n\n\n//Get MAG AUthor - Pub pairs\n\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20210201/nlp\"\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20210201/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20210201/advanced\"\n\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\nval authorsAffTsvFilename = \"Authors.txt\"\nval papersTsvFilename = \"Papers.txt\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n\n\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", LongType, true).\n    add(\"familyRank\", IntegerType, true).\n    add(\"createdDate\", DateType, true)\n    \n//199944782 IEEE Transactions on Pattern Analysis and Machine Intelligence ~7K \n//199944782 Nature ~200K\n//3880285  Science ~200K\n// 202381698 PLOS ONE ~ 262K\n//2597175965 arXiv: Computer Vision and Pattern Recognition ~39K\n// 2597365278 arXiv: Machine Learning ~ 11K\n// 118988714 JMLR 3.7K\n// 1158167855 CVPR: Computer Vision and Pattern Recognition 11K\n// 103482838 Communications of The ACM 13K \n// 1127325140 NeurIPS: Neural Information Processing Systems 12.5K \n// 1180662882 ICML 9K\n// 1130985203 KDD 6.5K\n// 1203999783 IJCAI: International Joint Conference on Artificial Intelligence 11K\n\n/*\nSample dataset counts: \n\nAuthors: 1,357,143\nPaper_Author_Affiliations: 2,787,121\nPaper_FoS: 4,243,126\nPaper_references: 14,030,446\nPaper_Abstracts1: 198,285\nPaper_Abstracts2: 206,690\nPapers: 488,212\n\n */\n\n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\"))\n         .schema(paperSchema)\n         .csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .filter(($\"conferenceSeriesId\" isin (1127325140, 1180662882, 1203999783, 1130985203)) ||  \n                ($\"journalId\" isin (\"199944782\",\"137773608\", \"3880285\", \"202381698\", \"2597175965\", \"2597365278\", \"118988714\", \"1158167855\")) \n                 && $\"pubYear\">2000)\n        .cache()\n\n\n//papersdf.printSchema\n//papersdf.show(5)\nprintln(\"papersdf: \"+papersdf.count())\n\npapersdf.coalesce(1).write.mode(\"overwrite\").options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).mode(\"overwrite\").csv(s\"$MAG_HOME/sample/$papersTsvFilename\")\n\nval paperIdsdf = papersdf.select($\"paperId\")\n",
    "user": "anonymous",
    "dateUpdated": "2021-01-20T23:07:40+0200",
    "config": {},
@@ -255,7 +255,9 @@
    "dateUpdated": "2021-01-21T14:02:01+0200",
    "config": {
     "results": [
-     {}
+     {
+      "mode": "table"
+     }
     ]
    },
    "settings": {
@@ -266,23 +268,7 @@
         "height": 274.0
        },
        "state": {
-        "currentPage": "Table",
-        "chart": {
-         "series": [
-          {
-           "type": "Pie",
-           "values": {
-            "column": "paperId",
-            "index": 0.0
-           },
-           "labels": {
-            "column": "abstract",
-            "index": 1.0
-           },
-           "showPercents": true
-          }
-         ]
-        }
+        "currentPage": "Table"
        }
       }
      }

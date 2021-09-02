@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-03-09T16:33:19+0200",
+   "dateUpdated": "2021-06-14T13:01:06+0300",
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -21,21 +21,25 @@
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": []
+   },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1615300399183_539496866",
-   "id": "paragraph_1615300399183_539496866",
-   "dateCreated": "2021-03-09T16:33:19+0200",
-   "dateStarted": "2021-03-09T16:33:19+0200",
-   "dateFinished": "2021-03-09T16:33:19+0200",
+   "jobName": "paragraph_1623664866617_1374826041",
+   "id": "paragraph_1623664866617_1374826041",
+   "dateCreated": "2021-06-14T13:01:06+0300",
+   "dateStarted": "2021-06-14T13:01:06+0300",
+   "dateFinished": "2021-06-14T13:01:06+0300",
    "status": "FINISHED"
   },
   {
    "title": "Define MAG Dataframes",
    "text": "%spark\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20210201/nlp\"\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20210201/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20210201/advanced\"\n\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\nval authorsTsvFilename = \"Authors.txt\" \n                              \nval authorSchema = new StructType().\n                add(\"authorId\", LongType, false).\n                add(\"rank\", LongType, true).                \n                add(\"normalizedName\", StringType, true).\n                add(\"displayName\",StringType, true).\n                add(\"lastKnownAffiliationId\", LongType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n\n                \nval authordf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(authorSchema).\n                csv(s\"file://$MAG_HOME/$authorsTsvFilename\").select($\"authorId\",$\"displayName\", $\"paperCount\")\n\n\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\n\nval paperAuthorAffSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"authorId\", LongType, false).                \n                add(\"affiliationId\", LongType, true).\n                add(\"authorSequenceNumber\",IntegerType, true).\n                add(\"originalAuthor\", StringType, true).\n                add(\"originalAffiliation\", StringType, true)\n\n                \nval paperAuthorAffdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperAuthorAffSchema).\n                csv(s\"file://$MAG_HOME/$paperAuthorsAffTsvFilename\").select($\"paperId\", $\"authorId\")\n\nval papersTsvFilename = \"Papers.txt\"\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", StringType, true).\n    add(\"createdDate\", DateType, true)\n  \n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                    schema(paperSchema).\n                    csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .select($\"paperId\", $\"normalizedTitle\", $\"publisherName\", $\"journalId\", $\"conferenceSeriesId\", $\"pubYear\", $\"pubDate\", $\"magRank\", $\"docTypetmp\", $\"doi\")    \n\n\n\n\n//val papersdfcnt = papersdf.count()\n//println(papersdfcnt)\n//papersdf.printSchema\n//papersdf.show(5)\n\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval df3 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n//df3.printSchema\n//df3.show(5)\n\nval df4 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n//df4.printSchema\n//df4.show(5)\n\n\nval udf1 = udf[String, String]((index:String) => {\n    \n    val index2 = org.apache.commons.lang.StringUtils.replace(index, \"\\\\\\\"\", \"\\'\")\n    val indexNumber: String = org.apache.commons.lang.StringUtils.substringBetween(index2, \":\", \",\")\n    if (indexNumber == null) {\n      null\n    }\n    var outputText: StringBuilder = new StringBuilder()\n    try {\n      val textLength: Int = parseInt(indexNumber)\n      val text: Array[String] =  new Array[String](textLength)\n      val tokens: Array[String] =\n        org.apache.commons.lang.StringUtils.substringsBetween(index2, \"\\\"\", \"\\\"\")\n      for (i <- 0 until tokens.length - 2) {\n        if (tokens(i + 2).==(\"\\'\")) {\n          tokens(i + 2) = \"\\\"\"\n        }\n        val tokenPositions: Array[String] =\n          org.apache.commons.lang.StringUtils.substringsBetween(index2, \"[\", \"]\")\n        for (s <- tokenPositions(i).split(\",\")) {\n          if (s.matches(\"(.*)\\\\D(.*)\")) {\n          }\n          val wordPosition: Int = parseInt(s)\n          text(wordPosition) = tokens(i + 2)\n        }\n      }\n      for (j <- 0 until text.length) {\n        if (j < text.length - 1) {\n          outputText.append(text(j)).append(' ')\n        } else {\n          outputText.append(text(j))\n        }\n      }\n      outputText = new StringBuilder(\n        outputText.toString\n          .replaceAll(\"\\'\", \"\\\"\")\n          .replaceAll(\"\\\\w?\\\\\\\\\\\\w\\\\d+\", \" \"))\n    } catch {\n      case e: Exception => {\n        logger.error(\"Error while parsing \")\n        null\n      }\n\n    }\n    outputText.toString}\n    )\n\nval paperabstractsdf1 = df3.select($\"paperId\", udf1($\"abstractText\").as(\"abstract\"))\n//df5.show(5)\n\nval paperabstractsdf2 = df4.select($\"paperId\", udf1($\"abstractText\").as(\"abstract\"))\n//df6.show(5)\n\n//val paperabstractsdf = paperabstractsdf1.union(paperabstractsdf2).dropDuplicates()\n//val abstractsdfcnt = abstractsdf.count()\n//println(s\"abstractsdfcnt\")\n//paperabstractsdf.show(5)\n\nval paperFieldsOfStudyTsvFilename = \"PaperFieldsOfStudy.txt\"\n\nval paperIdFieldsOfStudyschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"score\", DoubleType, true)\n                \nval paperFieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperIdFieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$paperFieldsOfStudyTsvFilename\")\n//paperFieldsOfStudydf.printSchema\n//paperFieldsOfStudydf.show(5)\n\nval fieldsOfStudyTsvFilename = \"FieldsOfStudy.txt\"\n\nval fieldsOfStudyschema = new StructType().\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"name\", StringType, true).\n                add(\"mainType\", StringType, true).\n                add(\"level\", IntegerType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval fieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(fieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$fieldsOfStudyTsvFilename\")\n                .select($\"fieldsOfStudyId\", $\"normalizedName\", $\"level\", $\"paperCount\")\n//fieldsOfStudydf.printSchema\n//fieldsOfStudydf.show(5)\n\nval paperMeSHTsvFilename = \"PaperMeSH.txt\"\n\nval paperMeSHschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"DescriptorUI\", StringType, false).\n                add(\"DescriptorName\", StringType, false).                \n                add(\"QualifierUI\", StringType, true).\n                add(\"QualifierName\", StringType, true).\n                add(\"IsMajorTopic\", BooleanType, true)\n\n                \nval paperMeSHsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperMeSHschema).\n                csv(s\"file://$MAG_ADV/$paperMeSHTsvFilename\")\n\n\nval paperReferencesTsvFilename = \"PaperReferences.txt\"\n\nval paperRefsschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"paperReferenceId\", LongType, false)\n                \n                \nval paperReferencesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperRefsschema).\n                csv(s\"file://$MAG_HOME/$paperReferencesTsvFilename\")\n\n\n/*\nval paper_fos = paperFieldsOfStudydf.join(broadcast(fieldsOfStudydf), paperFieldsOfStudydf(\"fieldsOfStudyId\")=== fieldsOfStudydf(\"fieldsOfStudyId\"), \"inner\")\n                .groupBy(paperFieldsOfStudydf(\"paperId\").as(\"paper_fos_paperId\"))\n                .agg( \n                    //    sum(when($\"date\" > \"2017-03\", $\"value\")).alias(\"value3\"),\n                    //sum(when($\"date\" > \"2017-04\", $\"value\")).alias(\"value4\")\n                    collect_set(when($\"level\" > 1, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids\"),\n                    collect_set(when($\"level\" ===  0, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids_lvl0\"),\n                    collect_set(when($\"level\" ===  1, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids_lvl1\")\n                    )\n                    .persist(StorageLevel.DISK_ONLY)\n\n//paper_fos.show(5)\n*/\nval confSeriesTsvFilename = \"ConferenceSeries.txt\"\n\nval confSeriesschema = new StructType().\n                add(\"conferenceSeriesId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"conferenceName\", StringType, true).                \n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval confSeriesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(confSeriesschema).\n                csv(s\"file://$MAG_HOME/$confSeriesTsvFilename\")\n                //.select($\"conferenceSeriesId\", $\"conferenceName\")\n\nval journalsTsvFilename =  \"Journals.txt\"\n\nval journalschema = new StructType().\n                add(\"journalId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"journalName\", StringType, true).                \n                add(\"issn\", StringType, true).\n                add(\"publisher\", StringType, true).\n                add(\"webpage\", StringType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval journaldf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(journalschema).\n                csv(s\"file://$MAG_HOME/$journalsTsvFilename\")\n               // .select($\"journalId\", $\"journalName\")\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-03-10T13:54:27+0200",
+   "dateUpdated": "2021-06-14T13:01:10+0300",
    "config": {
     "title": true
    },
@@ -43,14 +47,243 @@
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "import org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer\nimport java.util.Locale\nimport org.apache.spark.storage.StorageLevel\nimport java.util.Calendar\n\u001b[1m\u001b[34mMAG_NLP\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/nlp\n\u001b[1m\u001b[34mMAG_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/mag\n\u001b[1m\u001b[34mMAG_ADV\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/advanced\n\u001b[1m\u001b[34mlogger\u001b[0m: \u001b[1m\u001b[32morg.slf4j.Logger\u001b[0m = org.slf4j.impl.Log4jLoggerAdapter(MyZeppelinL...\n"
+     }
+    ]
+   },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1615377267672_1155386236",
-   "id": "paragraph_1615377267672_1155386236",
-   "dateCreated": "2021-03-10T13:54:27+0200",
-   "dateStarted": "2021-03-10T13:54:27+0200",
-   "dateFinished": "2021-03-10T13:54:27+0200",
+   "jobName": "paragraph_1623664870391_63675667",
+   "id": "paragraph_1623664870391_63675667",
+   "dateCreated": "2021-06-14T13:01:10+0300",
+   "dateStarted": "2021-06-14T13:01:10+0300",
+   "dateFinished": "2021-06-14T13:01:22+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.DataFrame\n\nval outPath =   \"/media/ometaxas/nvme/datasets/Publishers\"\n\n/*\nval distinctPublisherJournalIds = papersdf.select(\"publisherName\",\"JournalId\").dropDuplicates().cache() \ndistinctPublisherJournalIds.show(5)\nprintln(distinctPublisherJournalIds.count())\ndistinctPublisherJournalIds.write.mode(\"overwrite\").parquet(s\"$outPath/distinctPublisherJournalIds.parquet\")\n*/\n\nval distinctPublisherconferenceSeriesIdJournalId = \n    papersdf.groupBy(\"publisherName\",\"conferenceSeriesId\", \"journalId\").count().sort($\"count\".desc).cache()\n//select(\"publisherName\",\"conferenceSeriesId\", \"journalId\").dropDuplicates().cache() \ndistinctPublisherconferenceSeriesIdJournalId.show(5)\nprintln(distinctPublisherconferenceSeriesIdJournalId.count())\ndistinctPublisherconferenceSeriesIdJournalId.write.mode(\"overwrite\").parquet(s\"$outPath/distinctPublisherconferenceSeriesIdJournalId.parquet\")\n\n\nval distinctPublisher = papersdf.groupBy(\"publisherName\").count().sort($\"count\".desc).cache()\n        //select(\"publisherName\").dropDuplicates().cache() \ndistinctPublisher.show(5)\nprintln(distinctPublisher.count())\ndistinctPublisher.write.mode(\"overwrite\").parquet(s\"$outPath/distinctPublisher.parquet\")\n\n/*\nval distinctPublisherconferenceSeriesId = papersdf.select(\"publisherName\",\"conferenceSeriesId\").dropDuplicates().cache() \ndistinctPublisherconferenceSeriesId.show(5)\nprintln(distinctPublisherconferenceSeriesId.count())\ndistinctPublisherconferenceSeriesId.write.mode(\"overwrite\").parquet(s\"$outPath/distinctPublisherconferenceSeriesId.parquet\")\n*/\n\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-06-14T13:03:09+0300",
+   "config": {
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Table"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+--------------------+------------------+---------+---------+\n|       publisherName|conferenceSeriesId|journalId|    count|\n+--------------------+------------------+---------+---------+\n|                null|              null|     null|102444358|\n|           Routledge|              null|     null|   684468|\n|Springer, Berlin,...|              null|     null|   487688|\n|    WILEY‐VCH Verlag|              null| 41354064|   373978|\n|      Springer, Cham|              null|     null|   370672|\n+--------------------+------------------+---------+---------+\nonly showing top 5 rows\n\n2530396\n+--------------------+---------+\n|       publisherName|    count|\n+--------------------+---------+\n|                null|119035772|\n|            Elsevier|  7341197|\n|                IEEE|  3828334|\n|John Wiley & Sons...|  1673600|\n|            Pergamon|  1624515|\n+--------------------+---------+\nonly showing top 5 rows\n\n1997071\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.DataFrame\n\u001b[1m\u001b[34moutPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/Publishers\n\u001b[1m\u001b[34mdistinctPublisherconferenceSeriesIdJournalId\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [publisherName: string, conferenceSeriesId: bigint ... 2 more fields]\n\u001b[1m\u001b[34mdistinctPublisher\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [publisherName: string, count: bigint]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=3"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=4"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=5"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=6"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1623664989633_825985879",
+   "id": "paragraph_1623664989633_825985879",
+   "dateCreated": "2021-06-14T13:03:09+0300",
+   "dateStarted": "2021-06-14T13:03:09+0300",
+   "dateFinished": "2021-06-14T13:22:39+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nprintln(paperReferencesdf.count())",
+   "user": "anonymous",
+   "dateUpdated": "2021-05-24T12:34:47+0300",
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "1737448124\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1621848887194_890666065",
+   "id": "paragraph_1621848887194_890666065",
+   "dateCreated": "2021-05-24T12:34:47+0300",
+   "dateStarted": "2021-05-24T12:34:47+0300",
+   "dateFinished": "2021-05-24T12:44:49+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\n\nval paper_types = papersdf\n                .groupBy($\"docTypetmp\").count()\n         //.agg( \n//                   count(\"paperReferenceId\").alias(\"refsCount\")\n  //      )\n        .cache()\n    \npaper_types.show()\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-05-22T15:53:17+0300",
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+-----------+--------+\n| docTypetmp|   count|\n+-----------+--------+\n|       null|80272795|\n|BookChapter| 3753979|\n|     Thesis| 5381849|\n|       Book| 4419176|\n| Conference| 4865193|\n+-----------+--------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mpaper_types\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docTypetmp: string, count: bigint]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=13"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=14"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=15"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=16"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1621687997228_1587524465",
+   "id": "paragraph_1621687997228_1587524465",
+   "dateCreated": "2021-05-22T15:53:17+0300",
+   "dateStarted": "2021-05-22T15:53:17+0300",
+   "dateFinished": "2021-05-22T16:12:33+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\npaper_types.show()",
+   "user": "anonymous",
+   "dateUpdated": "2021-05-22T16:28:07+0300",
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+-----------+--------+\n| docTypetmp|   count|\n+-----------+--------+\n|       null|80272795|\n|BookChapter| 3753979|\n|     Thesis| 5381849|\n|       Book| 4419176|\n| Conference| 4865193|\n|    Dataset|  126566|\n|     Patent|61037579|\n| Repository| 4279261|\n|    Journal|87357401|\n+-----------+--------+\n\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=17"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=18"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=19"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=20"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=21"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1621690087471_812736301",
+   "id": "paragraph_1621690087471_812736301",
+   "dateCreated": "2021-05-22T16:28:07+0300",
+   "dateStarted": "2021-05-22T16:28:07+0300",
+   "dateFinished": "2021-05-22T16:28:07+0300",
    "status": "FINISHED"
   },
   {

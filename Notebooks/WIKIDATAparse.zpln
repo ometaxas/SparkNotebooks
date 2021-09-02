@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.3.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.17-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2021-04-13T12:38:44+0300",
+   "dateUpdated": "2021-08-11T09:23:52+0300",
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -28,17 +28,17 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1618306724177_1906246491",
-   "id": "paragraph_1618306724177_1906246491",
-   "dateCreated": "2021-04-13T12:38:44+0300",
-   "dateStarted": "2021-04-13T12:38:44+0300",
-   "dateFinished": "2021-04-13T12:38:44+0300",
+   "jobName": "paragraph_1628663032099_342053576",
+   "id": "paragraph_1628663032099_342053576",
+   "dateCreated": "2021-08-11T09:23:52+0300",
+   "dateStarted": "2021-08-11T09:23:52+0300",
+   "dateFinished": "2021-08-11T09:23:52+0300",
    "status": "FINISHED"
   },
   {
    "text": "%spark\nval normStr = udf[String, String]((e: String) => {\n    if (e != null) {\n        e.toLowerCase()\n                //.replaceAll(\"[ <>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n                .replaceAll(\"\\\"\", \"\")\n                .trim()\n    } else e;\n\n})\n\nspark.udf.register(\"normStr\", normStr)\n\nval normArrStr = udf[Seq[String], Seq[String]]((e: Seq[String]) => {\n    if (e != null) {\n    e.map(_.toLowerCase().replaceAll(\"\\\"\", \"\").trim());\n    /*\n     for ( i <- 0 to (e.length - 1)) {\n         e(i) = e(i);\n      }\n        for ( r <- 0 to (e.length - 1)) {\n            e(r) = e(r).toLowerCase()\n                    //.replaceAll(\"[ <>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n                    .replaceAll(\"\\\"\", \"\")\n                    .trim();\n        }\n*/\n    } else e;\n\n})\n\nspark.udf.register(\"normArrStr\", normArrStr)\n\nval WIKI_HOME = \"/media/ometaxas/nvme/datasets/WikiData/dump.parquet\"\nval WIKI_OUT = \"/media/ometaxas/nvme/datasets/WikiData/out\"",
    "user": "anonymous",
-   "dateUpdated": "2021-04-13T12:39:53+0300",
+   "dateUpdated": "2021-08-11T09:23:55+0300",
    "config": {},
    "settings": {
     "params": {},
@@ -49,25 +49,25 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "\u001b[1m\u001b[34mnormStr\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2552/0x00007f2334d9f040@78d6bc1f,StringType,List(Some(class[value[0]: string])),None,true,true)\n\u001b[1m\u001b[34mnormArrStr\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2554/0x00007f2334d9c040@23212685,ArrayType(StringType,true),List(Some(class[value[0]: array<string>])),None,true,true)\n\u001b[1m\u001b[34mWIKI_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/WikiData/dump.parquet\n\u001b[1m\u001b[34mWIKI_OUT\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/WikiData/out\n"
+      "data": "\u001b[1m\u001b[34mnormStr\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2061/0x00007f12b9ffe040@2353b189,StringType,List(Some(class[value[0]: string])),None,true,true)\n\u001b[1m\u001b[34mnormArrStr\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2150/0x00007f12b97f9040@cd1a0b2,ArrayType(StringType,true),List(Some(class[value[0]: array<string>])),None,true,true)\n\u001b[1m\u001b[34mWIKI_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/WikiData/dump.parquet\n\u001b[1m\u001b[34mWIKI_OUT\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/WikiData/out\n"
      }
     ]
    },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1618306793203_920373240",
-   "id": "paragraph_1618306793203_920373240",
-   "dateCreated": "2021-04-13T12:39:53+0300",
-   "dateStarted": "2021-04-13T12:39:53+0300",
-   "dateFinished": "2021-04-13T12:39:53+0300",
+   "jobName": "paragraph_1628663035490_1933226414",
+   "id": "paragraph_1628663035490_1933226414",
+   "dateCreated": "2021-08-11T09:23:55+0300",
+   "dateStarted": "2021-08-11T09:23:55+0300",
+   "dateFinished": "2021-08-11T09:24:06+0300",
    "status": "FINISHED"
   },
   {
    "title": "Generic Stats on Wikidata",
    "text": "%spark\n\nval wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\nwikidatadf.show(10)\nwikidatadf.printSchema\nprintln(\"Wikidata cnt:\" + wikidatadf.count())\n",
    "user": "anonymous",
-   "dateUpdated": "2021-04-13T12:39:58+0300",
+   "dateUpdated": "2021-08-11T00:57:19+0300",
    "config": {
     "title": true,
     "results": [
@@ -91,7 +91,7 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "+------+----+--------------------+--------------------+------------------------+--------------------+--------------------+\n|    id| typ|              labels|        descriptions|                 aliases|              claims|           siteLinks|\n+------+----+--------------------+--------------------+------------------------+--------------------+--------------------+\n|Q14096|item|[ar -> \"جوانا مور...|[ar -> \"عالِمة حا...|                      []|[[Q14096$75d65783...|[[enwiki, Johanna...|\n|Q13744|item|[ta -> \"பட்டன்கஸ்...|[fr -> \"province ...|    [ceb -> [\"Lalawig...|[[Q13744$12B6E068...|[[mkwiki, Батанга...|\n| Q4840|item|[fr -> \"Spur Batt...|[fr -> \"batterie ...|                      []|[[Q4840$988A63C9-...|[[knwiki, ಸ್ಪರ್ ಬ...|\n| Q4290|item|[hy -> \"ներդրում\"...|[ba -> \"капиталды...|    [hy -> [\"Ավանդ\"],...|[[Q4290$BBECEFD0-...|[[mkwiki, Инвести...|\n|Q10056|item|[hy -> \"Զեյստ\", v...|[lb -> \"hollännes...|[ja -> [\"ゼイスト\"], ...|[[Q10056$cd813362...|[[mkwiki, Зајст, ...|\n|Q21507|item|[hy -> \"Զենակեր\",...|[hy -> \"համայնք Ֆ...|    [mg -> [\"Patrick ...|[[Q21507$9FC594D4...|[[trwiki, Zehnack...|\n|Q27550|item|[ar -> \"دولاج\", f...|[ar -> \"شركة فرنس...|    [de -> [\"Automobi...|[[Q27550$19aab53a...|[[itwiki, Delage,...|\n| Q2217|item|[ar -> \"ألتو هوسب...|[fr -> \"commune c...|                      []|[[Q2217$E57E2BF0-...|[[trwiki, Alto Ho...|\n|Q43715|item|[hy -> \"Դրակուլա\"...|[ar -> \"حاكم روما...|    [hy -> [\"Դռակուլա...|[[Q43715$F9619CA9...|[[barwiki, Vlad T...|\n|Q27785|item|[fr -> \"dena'ina\"...|[fr -> \"langue at...|    [en -> [\"Tanaina ...|[[Q27785$1CF53B5F...|[[trwiki, Denağin...|\n+------+----+--------------------+--------------------+------------------------+--------------------+--------------------+\nonly showing top 10 rows\n\nroot\n |-- id: string (nullable = true)\n |-- typ: string (nullable = true)\n |-- labels: map (nullable = true)\n |    |-- key: string\n |    |-- value: string (valueContainsNull = true)\n |-- descriptions: map (nullable = true)\n |    |-- key: string\n |    |-- value: string (valueContainsNull = true)\n |-- aliases: map (nullable = true)\n |    |-- key: string\n |    |-- value: array (valueContainsNull = true)\n |    |    |-- element: string (containsNull = true)\n |-- claims: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- id: string (nullable = true)\n |    |    |-- mainSnak: struct (nullable = true)\n |    |    |    |-- typ: string (nullable = true)\n |    |    |    |-- property: string (nullable = true)\n |    |    |    |-- dataType: string (nullable = true)\n |    |    |    |-- dataValue: struct (nullable = true)\n |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |-- value: string (nullable = true)\n |    |    |    |-- hash: string (nullable = true)\n |    |    |-- typ: string (nullable = true)\n |    |    |-- rank: string (nullable = true)\n |    |    |-- qualifiers: array (nullable = true)\n |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |-- property: string (nullable = true)\n |    |    |    |    |-- dataType: string (nullable = true)\n |    |    |    |    |-- dataValue: struct (nullable = true)\n |    |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |    |-- value: string (nullable = true)\n |    |    |    |    |-- hash: string (nullable = true)\n |    |    |-- references: array (nullable = true)\n |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |-- snaks: array (nullable = true)\n |    |    |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |    |    |-- property: string (nullable = true)\n |    |    |    |    |    |    |-- dataType: string (nullable = true)\n |    |    |    |    |    |    |-- dataValue: struct (nullable = true)\n |    |    |    |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |    |    |    |-- value: string (nullable = true)\n |    |    |    |    |    |    |-- hash: string (nullable = true)\n |    |    |    |    |-- order: array (nullable = true)\n |    |    |    |    |    |-- element: string (containsNull = true)\n |    |    |    |    |-- hash: string (nullable = true)\n |-- siteLinks: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- site: string (nullable = true)\n |    |    |-- title: string (nullable = true)\n |    |    |-- badges: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- url: string (nullable = true)\n\nWikidata cnt:92854518\n\u001b[1m\u001b[34mwikidatadf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, typ: string ... 5 more fields]\n"
+      "data": "+------+----+--------------------+--------------------+--------------------+--------------------+--------------------+\n|    id| typ|              labels|        descriptions|             aliases|              claims|           siteLinks|\n+------+----+--------------------+--------------------+--------------------+--------------------+--------------------+\n|Q20224|item|[pcd -> \"Buchholz...|[ar -> \"بلدية في ...|                  []|[[Q20224$A209CEE6...|[[mkwiki, Бухолц ...|\n|Q18608|item|[ar -> \"الذاكرة ا...|[uk -> \"тип пам'я...|[es -> [\"Memoria ...|[[Q18608$c9220a51...|[[itwiki, Memoria...|\n|Q15228|item|[hy -> \"Մատանիներ...|[ar -> \"رواية من ...|[fr -> [\"The Lord...|[[Q15228$ab168cde...|[[mkwiki, Господа...|\n|Q11866|item|[hy -> \"Թագավորի ...|[hy -> \"դանիացի գ...|[ar -> [\"الملك هو...|[[Q11866$7eaf398c...|[[itwikisource, Q...|\n|Q15944|item|[ar -> \"فالتر برا...|[fr -> \"politicie...|[hu -> [\"Walter B...|[[Q15944$3145cc0b...|[[trwiki, Walter ...|\n|  Q901|item|[hy -> \"գիտնական\"...|[hy -> \"գիտությու...|[hy -> [\"Գիտաշխատ...|[[Q901$A59A0CB3-A...|[[mkwiki, Научник...|\n|Q15946|item|[ar -> \"كاستيلأول...|[fr -> \"commune e...|[es -> [\"Castello...|[[Q15946$D89FB718...|[[sqwiki, Castell...|\n| Q6398|item|[hy -> \"1394\", se...|[hy -> \"տարեթիվ\",...|    [ar -> [\"١٣٩٤\"]]|[[q6398$23B3D494-...|[[barwiki, 1394, ...|\n|Q64780|item|[uk -> \"Алаш-орда...|[ar -> \"حزب سياسي...|[en -> [\"Alash\"],...|[[Q64780$A5FA475E...|[[trwiki, Alaş Or...|\n|Q58613|item|[ar -> \"عبد الرحم...|[ar -> \"علّامة وم...|[fr -> [\"Abd ar-R...|[[Q58613$30295806...|[[idwiki, Abdurra...|\n+------+----+--------------------+--------------------+--------------------+--------------------+--------------------+\nonly showing top 10 rows\n\nroot\n |-- id: string (nullable = true)\n |-- typ: string (nullable = true)\n |-- labels: map (nullable = true)\n |    |-- key: string\n |    |-- value: string (valueContainsNull = true)\n |-- descriptions: map (nullable = true)\n |    |-- key: string\n |    |-- value: string (valueContainsNull = true)\n |-- aliases: map (nullable = true)\n |    |-- key: string\n |    |-- value: array (valueContainsNull = true)\n |    |    |-- element: string (containsNull = true)\n |-- claims: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- id: string (nullable = true)\n |    |    |-- mainSnak: struct (nullable = true)\n |    |    |    |-- typ: string (nullable = true)\n |    |    |    |-- property: string (nullable = true)\n |    |    |    |-- dataType: string (nullable = true)\n |    |    |    |-- dataValue: struct (nullable = true)\n |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |-- value: string (nullable = true)\n |    |    |    |-- hash: string (nullable = true)\n |    |    |-- typ: string (nullable = true)\n |    |    |-- rank: string (nullable = true)\n |    |    |-- qualifiers: array (nullable = true)\n |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |-- property: string (nullable = true)\n |    |    |    |    |-- dataType: string (nullable = true)\n |    |    |    |    |-- dataValue: struct (nullable = true)\n |    |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |    |-- value: string (nullable = true)\n |    |    |    |    |-- hash: string (nullable = true)\n |    |    |-- references: array (nullable = true)\n |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |-- snaks: array (nullable = true)\n |    |    |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |    |    |-- property: string (nullable = true)\n |    |    |    |    |    |    |-- dataType: string (nullable = true)\n |    |    |    |    |    |    |-- dataValue: struct (nullable = true)\n |    |    |    |    |    |    |    |-- typ: string (nullable = true)\n |    |    |    |    |    |    |    |-- value: string (nullable = true)\n |    |    |    |    |    |    |-- hash: string (nullable = true)\n |    |    |    |    |-- order: array (nullable = true)\n |    |    |    |    |    |-- element: string (containsNull = true)\n |    |    |    |    |-- hash: string (nullable = true)\n |-- siteLinks: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- site: string (nullable = true)\n |    |    |-- title: string (nullable = true)\n |    |    |-- badges: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- url: string (nullable = true)\n\nWikidata cnt:93507700\n\u001b[1m\u001b[34mwikidatadf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, typ: string ... 5 more fields]\n"
      }
     ]
    },
@@ -104,31 +104,31 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=0"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=0"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=1"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=1"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=2"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=2"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1618306798127_1917404001",
-   "id": "paragraph_1618306798127_1917404001",
-   "dateCreated": "2021-04-13T12:39:58+0300",
-   "dateStarted": "2021-04-13T12:39:58+0300",
-   "dateFinished": "2021-04-13T12:40:03+0300",
+   "jobName": "paragraph_1628632639537_414432552",
+   "id": "paragraph_1628632639537_414432552",
+   "dateCreated": "2021-08-11T00:57:19+0300",
+   "dateStarted": "2021-08-11T00:57:19+0300",
+   "dateFinished": "2021-08-11T00:57:25+0300",
    "status": "FINISHED"
   },
   {
    "title": "get countries",
    "text": "%spark\nimport org.apache.spark.sql.functions.countDistinct;\nimport org.apache.spark.storage.StorageLevel;\n\nval wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\n\nval countriesWIKIdf = wikidatadf\n        .withColumn(\"label_en\", normStr($\"labels\".getItem(\"en\")))\n        .withColumn(\"ISO3166_2codeValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P297')\"))\n        .withColumn(\"ISO3166_2Codes\", expr(\"TRANSFORM (ISO3166_2codeValue, x -> x.mainSnak.dataValue.value)\"))\n        .withColumn(\"ISO3166_2Code\", normStr(element_at(col(\"ISO3166_2Codes\"), 1)))\n        .withColumn(\"ISO3166_3codeValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P298')\"))\n        .withColumn(\"ISO3166_3Codes\", expr(\"TRANSFORM (ISO3166_3codeValue, x -> x.mainSnak.dataValue.value)\"))\n        .withColumn(\"ISO3166_3Code\", normStr(element_at(col(\"ISO3166_3Codes\"), 1)))\n\n        .withColumn(\"instanceofsVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P31')\"))\n        .withColumn(\"instanceofs\", expr(\"TRANSFORM (instanceofsVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        .withColumn(\"isCountry\", array_contains(col(\"instanceofs\"), \"Q6256\"))\n\n        .filter($\"isCountry\")\n        .select($\"id\", $\"label_en\", $\"ISO3166_2Code\", $\"ISO3166_3Code\")\n\n        .persist(StorageLevel.DISK_ONLY)\n\ncountriesWIKIdf.show(10)\ncountriesWIKIdf.printSchema\nprintln(\"Wikidata cnt:\" + countriesWIKIdf.count())\ncountriesWIKIdf.write.mode(\"overwrite\").parquet(s\"$WIKI_OUT/countries_wikidata.parquet\")\n//countriesWIKIdf.write.json(s\"$WIKI_HOME/countries_wikidata.json\")\n",
    "user": "anonymous",
-   "dateUpdated": "2021-04-13T12:41:12+0300",
+   "dateUpdated": "2021-08-11T01:03:33+0300",
    "config": {
     "title": true,
     "results": [
@@ -148,11 +148,11 @@
     "forms": {}
    },
    "results": {
-    "code": "SUCCESS",
+    "code": "ERROR",
     "msg": [
      {
       "type": "TEXT",
-      "data": "+----+-----------+-------------+-------------+\n|  id|   label_en|ISO3166_2Code|ISO3166_3Code|\n+----+-----------+-------------+-------------+\n|Q241|       cuba|           cu|          cub|\n|Q954|   zimbabwe|           zw|          zwe|\n|Q962|      benin|           bj|          ben|\n| Q39|switzerland|           ch|          che|\n|Q800| costa rica|           cr|          cri|\n|Q784|   dominica|           dm|          dma|\n| Q79|      egypt|           eg|          egy|\n|Q769|    grenada|           gd|          grd|\n|Q114|      kenya|           ke|          ken|\n| Q36|     poland|           pl|          pol|\n+----+-----------+-------------+-------------+\nonly showing top 10 rows\n\nroot\n |-- id: string (nullable = true)\n |-- label_en: string (nullable = true)\n |-- ISO3166_2Code: string (nullable = true)\n |-- ISO3166_3Code: string (nullable = true)\n\nWikidata cnt:233\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mwikidatadf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, typ: string ... 5 more fields]\n\u001b[1m\u001b[34mcountriesWIKIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: string, label_en: string ... 2 more fields]\n"
+      "data": "java.lang.RuntimeException: org.apache.thrift.transport.TTransportException: java.net.SocketException: Connection timed out (Read failed)\n\tat org.apache.zeppelin.interpreter.remote.PooledRemoteClient.callRemoteFunction(PooledRemoteClient.java:86)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.callRemoteFunction(RemoteInterpreterProcess.java:88)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:216)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:458)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:72)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:130)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:180)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: org.apache.thrift.transport.TTransportException: java.net.SocketException: Connection timed out (Read failed)\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:127)\n\tat org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:455)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:354)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:243)\n\tat org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:77)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.recv_interpret(RemoteInterpreterService.java:252)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:236)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.lambda$interpret$3(RemoteInterpreter.java:217)\n\tat org.apache.zeppelin.interpreter.remote.PooledRemoteClient.callRemoteFunction(PooledRemoteClient.java:82)\n\t... 13 more\nCaused by: java.net.SocketException: Connection timed out (Read failed)\n\tat java.base/java.net.SocketInputStream.socketRead0(Native Method)\n\tat java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)\n\tat java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)\n\tat java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)\n\tat java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:252)\n\tat java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:292)\n\tat java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:351)\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:125)\n\t... 22 more\n"
      }
     ]
    },
@@ -165,43 +165,43 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=3"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=0"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=4"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=1"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=5"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=2"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=6"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=3"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=7"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=4"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=8"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=5"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=9"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=6"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1618306872372_699333607",
-   "id": "paragraph_1618306872372_699333607",
-   "dateCreated": "2021-04-13T12:41:12+0300",
-   "dateStarted": "2021-04-13T12:41:12+0300",
-   "dateFinished": "2021-04-13T12:58:47+0300",
-   "status": "FINISHED"
+   "jobName": "paragraph_1628633013876_1967045272",
+   "id": "paragraph_1628633013876_1967045272",
+   "dateCreated": "2021-08-11T01:03:33+0300",
+   "dateStarted": "2021-08-11T01:03:33+0300",
+   "dateFinished": "2021-08-11T03:16:00+0300",
+   "status": "ERROR"
   },
   {
    "title": "Get Organizations",
    "text": "%spark\n//Process WIKIDATA parquet files \n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\nimport org.apache.spark.storage.StorageLevel;\n\n\n/* Properties \nMAG_Id: P6366\nGRID_ID: P2427\nRinggold ID: P3500\nROR: P6782\nISNI: P213\nCrossRefFunder: P3153\n\nCountry: P17\nOfficial WEB Site: P856\n    language of work or name: P407\nparent Org: P749\nChildren(subsidiary): P355\n\nInstance_Of: P31\nscholarly article: Q13442814\nOfficialName: P1448\n\n\n*/\n\nval countriesWIKIdf = spark.read.parquet(s\"$WIKI_OUT/countries_wikidata.parquet\")\nval wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\n\nval magWIKIdf = wikidatadf\n        //.withColumn(\"label_lng\", map_keys($\"labels\").getItem(0))\n        //.withColumn(\"label\", map_values($\"labels\").getItem(0))\n        //.withColumn(\"existence_flag\", expr(\"exists(claims, x -> x.id = 'Q27721769$8226B15F-37DE-4BEF-8F8F-80D442DFDDA9')\"))\n        //.withColumn(\"existence_flag\", expr(\"exists(claims, x -> x.mainSnak.property = 'P356' and x.mainSnak.dataValue.value = '\\\"10.1111/J.1464-5491.2009.02743.X\\\"')\"))\n\n        .withColumn(\"labels_en\",normStr($\"labels\".getItem(\"en\")))\n        .withColumn(\"labels_fr\", normStr($\"labels\".getItem(\"fr\")))\n        .withColumn(\"labels_de\", normStr($\"labels\".getItem(\"de\")))\n        .withColumn(\"labels_es\", normStr($\"labels\".getItem(\"es\")))\n        \n        .withColumn(\"aliases_en\", normArrStr($\"aliases\".getItem(\"en\")))\n        //.withColumn(\"aliases_en\", normArrStr($\"aliases_en1\"))\n        \n        .withColumn(\"aliases_fr\", normArrStr($\"aliases\".getItem(\"fr\")))\n        //.withColumn(\"aliases_fr\", normArrStr($\"aliases_fr1\"))\n        \n        .withColumn(\"aliases_de\", normArrStr($\"aliases\".getItem(\"de\")))\n        //.withColumn(\"aliases_de\", normArrStr($\"aliases_de1\"))\n        \n        .withColumn(\"aliases_es\", normArrStr($\"aliases\".getItem(\"es\")))\n        //.withColumn(\"aliases_es\", normArrStr($\"aliases_es1\"))\n        \n        .withColumn(\"existence_mag\", expr(\"exists(claims, x -> x.mainSnak.property = 'P6366')\")) //has MAG_ID\n        .withColumn(\"existence_org\", expr(\"exists(claims, x ->  x.mainSnak.property = 'P2427'  OR x.mainSnak.property = 'P3500'   OR x.mainSnak.property = 'P6782'  )\")) // has either GRID or Ringgold\n        .withColumn(\"is_research_article_flag\", expr(\"exists(claims, x -> x.mainSnak.property = 'P31' and x.mainSnak.dataValue.value = 'Q13442814')\")) //Is Scholarly Article \n        \n        .withColumn(\"instanceofsVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P31')\"))\n        .withColumn(\"instanceofs\", expr(\"TRANSFORM (instanceofsVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        .withColumn(\"is_country_flag\", array_contains(col(\"instanceofs\"), \"Q6256\"))\n\n        .withColumn(\"countriesVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P17')\"))\n        .withColumn(\"countryId\", element_at(expr(\"TRANSFORM (countriesVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n\n        .withColumn(\"subsidiaryVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P355')\"))\n        .withColumn(\"subsidiaries\", expr(\"TRANSFORM (subsidiaryVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n\n        .withColumn(\"parentVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P749')\"))\n        .withColumn(\"parents\", expr(\"TRANSFORM (parentVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n\n        .withColumn(\"WebPageValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P856')\"))\n        .withColumn(\"WebPage\", normStr(element_at(expr(\"TRANSFORM (WebPageValue, x -> x.mainSnak.dataValue.value)\"), 1))) //Official WEB Site\n\n\n        .withColumn(\"MAG_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6366')\"))\n        .withColumn(\"MAG_ID\", normStr(element_at(expr(\"TRANSFORM (MAG_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        //.withColumn(\"MAGID\",concat_ws(\",\",col(\"MAGIDsarr\")))\n\n        .withColumn(\"RINGGOLD_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P3500')\"))\n        .withColumn(\"RINGGOLD_ID\", normStr(element_at(expr(\"TRANSFORM (RINGGOLD_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        //.withColumn(\"RINGGOLDIds\",concat_ws(\",\",col(\"RINGGOLDIdsarr\")))\n\n        .withColumn(\"ROR_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6782')\"))\n        .withColumn(\"ROR_ID\", normStr(element_at(expr(\"TRANSFORM (ROR_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n\n        .withColumn(\"ISNI_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P213')\"))\n        .withColumn(\"ISNI_ID\", normStr(element_at(expr(\"TRANSFORM (ISNI_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n\n        .withColumn(\"GRID_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P2427')\"))\n        .withColumn(\"GRID_ID\", normStr(element_at(expr(\"TRANSFORM (GRID_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n\n\n        .withColumn(\"CR_FUNDER_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P3153')\"))\n        .withColumn(\"CR_FUNDER_ID\", normStr(element_at(expr(\"TRANSFORM (CR_FUNDER_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        //.withColumn(\"ISO3166_3Code\",  element_at(col(\"ISO3166_3Codes\"),1))\n\n\n        .filter($\"existence_org\" === true && $\"typ\" === \"item\" && $\"is_research_article_flag\" === false && $\"is_country_flag\" === false )\n        .join(broadcast(countriesWIKIdf), countriesWIKIdf(\"Id\") === $\"countryId\", \"outer\")\n        .select(wikidatadf(\"id\"), $\"existence_mag\", $\"existence_org\", $\"MAG_ID\", $\"CR_FUNDER_ID\", $\"GRID_ID\", $\"ISNI_ID\", $\"ROR_ID\", $\"RINGGOLD_ID\", $\"WebPage\", $\"parents\"\n            , $\"subsidiaries\", $\"countryId\", $\"labels_en\", $\"labels_es\", $\"labels_fr\", $\"labels_de\", $\"aliases_en\", $\"aliases_es\", $\"aliases_de\", $\"aliases_fr\", $\"ISO3166_3Code\"\n            , $\"ISO3166_2Code\")\n        //.limit(10).cache()\n       .persist(StorageLevel.DISK_ONLY)\n\nmagWIKIdf.show()\nmagWIKIdf.printSchema\nprintln(\"Wikidata cnt:\" + magWIKIdf.count())\n\n//magWIKIdf.write.mode(\"overwrite\").json(s\"$WIKI_OUT/sample_out.json\")\nmagWIKIdf.write.mode(\"overwrite\").parquet(s\"$WIKI_OUT/wiki_orgs.parquet\")\n",
    "user": "anonymous",
-   "dateUpdated": "2021-04-13T13:53:12+0300",
+   "dateUpdated": "2021-08-11T01:04:39+0300",
    "config": {
     "title": true,
     "results": [
@@ -224,11 +224,11 @@
     "forms": {}
    },
    "results": {
-    "code": "SUCCESS",
+    "code": "ERROR",
     "msg": [
      {
       "type": "TEXT",
-      "data": "+----------+-------------+-------------+----------+------------+-------------+-------------------+---------+-----------+--------------------+---------+------------+---------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+----------+-------------+-------------+\n|        id|existence_mag|existence_org|    MAG_ID|CR_FUNDER_ID|      GRID_ID|            ISNI_ID|   ROR_ID|RINGGOLD_ID|             WebPage|  parents|subsidiaries|countryId|           labels_en|           labels_es|           labels_fr|           labels_de|          aliases_en|          aliases_es|aliases_de|aliases_fr|ISO3166_3Code|ISO3166_2Code|\n+----------+-------------+-------------+----------+------------+-------------+-------------------+---------+-----------+--------------------+---------+------------+---------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+----------+-------------+-------------+\n|Q100924085|        false|         true|      null|        null|         null|0000 0004 0396 5684|     null|     187094|                null|       []|          []|   Q25228|saint james schoo...|                null|                null|                null|                null|                null|      null|      null|         null|         null|\n|Q102228280|        false|         true|      null|        null|         null|0000 0004 0505 9394|     null|     264914|                null|       []|          []|   Q25228|anguilla communit...|                null|                null|                null|                null|                null|      null|      null|         null|         null|\n| Q17141904|         true|         true|2802914177|        null|grid.472476.4|0000 0004 1756 4080|00kgqwj69|     117088|     http://auis.edu|       []|          []|   Q25228|american universi...|                null|                null|american universi...|[university of si...|                null|      null|      null|         null|         null|\n|  Q3315277|        false|         true|      null|        null|grid.500532.1|               null|04gfk4b59|       null|http://www.cultur...|       []|          []|     Q419| ministry of culture|ministerio de cul...|ministère de la c...|                null|                null|[ministerio de cu...|      null|      null|          per|           pe|\n|  Q6979226|         true|         true|  13735046|        null|grid.441688.7|0000 0001 2231 392x|004fs0e42|     125814|http://www.unitru...|       []|          []|     Q419|national universi...|universidad nacio...|                null|                null|                null|               [unc]|      null|      null|          per|           pe|\n| Q20022058|        false|         true|      null|        null|grid.441932.9|0000 0004 0402 2653|031vfrf75|     125824|http://www.unp.ed...|       []|          []|     Q419|universidad nacio...|universidad nacio...|                null|                null|                null|[unt, universidad...|      null|      null|          per|           pe|\n| Q30297175|        false|         true|      null|        null|grid.454361.1|0000 0001 2234 8647|04cma1r71|       null|http://www.grade....|       []|          []|     Q419|group for the ana...|grupo de análisis...|                null|                null|             [grade]|[grupo de analisi...|      null|      null|          per|           pe|\n| Q50039706|        false|         true|      null|        null|grid.492848.b|               null|02309hn07|       null|http://www.vialib...|       []|          []|     Q419|           via libre|                null|                null|                null|                null|                null|      null|      null|          per|           pe|\n|  Q4807490|         true|         true|  27832314|        null|grid.422949.0|               null|02bm24g42|       null|http://www.impact...|       []|          []|     Q419|asociación civil ...|                null|                null|                null|[asociacion civil...|                null|      null|      null|          per|           pe|\n| Q24639285|        false|         true|      null|        null|grid.414887.6|               null|02cbk9w51|       null|http://hdosdemayo...|       []|          []|     Q419|hospital real de ...|hospital nacional...|                null|                null|                null|[hospital dos de ...|      null|      null|          per|           pe|\n| Q29054165|        false|         true|      null|        null|grid.441690.e|               null|05e2jbm26|       null|                null|       []|          []|     Q419|universidad priva...|universidad priva...|                null|                null|                null|                null|      null|      null|          per|           pe|\n| Q30281971|        false|         true|      null|        null|grid.419080.4|0000 0001 2236 6140|05by4rq81|       null|http://www.iin.sl...|       []|          []|     Q419|instituto de inve...|                null|                null|                null|               [iin]|                null|      null|      null|          per|           pe|\n|  Q6156772|        false|         true|      null|        null|grid.479985.e|0000 0004 4912 1209|040gykh71|       null|http://www.utec.e...|       []|          []|     Q419|university of eng...|universidad de in...|                null|                null|[utec, university...|[universidad de i...|      null|      null|          per|           pe|\n| Q30294002|        false|         true|      null|        null|grid.441841.c|               null|04e8qfh32|       null|                null|       []|          []|     Q419|universidad marce...|                null|                null|                null|                null|                null|      null|      null|          per|           pe|\n| Q30286391|        false|         true|      null|        null|grid.427599.4|               null|046msyg33|       null|                null|       []|          []|     Q419|boca raton clinic...|                null|                null|                null|                null|                null|      null|      null|          per|           pe|\n| Q99309029|        false|         true|      null|        null|         null|0000 0004 4658 948x|     null|     393266|                null|[Q912887]|          []|     Q419|cambridge univers...|                null|                null|                null|                null|                null|      null|      null|          per|           pe|\n|  Q1117071|        false|         true|      null|        null|grid.441975.a|0000 0001 0739 3319|03eek8g24|      33219|http://www.upao.e...|       []|          []|     Q419|antenor orrego pr...|universidad priva...|université privée...|universidad priva...|[universidad priv...|                null|      null|      null|          per|           pe|\n| Q61931750|        false|         true|      null|        null|grid.502028.d|               null|03qgydn21|       null|http://www.ensb.e...|       []|          []|     Q419|escuela nacional ...|                null|                null|                null|[instituto nacion...|                null|      null|      null|          per|           pe|\n|  Q8960735|        false|         true|      null|        null|         null|0000 0004 0461 7673|     null|     207227|                null|[Q270145]|          []|     Q419|faculty of medici...|facultad de medic...|                null|                null|                null|[facultad de medi...|      null|      null|          per|           pe|\n| Q59536236|        false|         true|      null|        null|grid.499789.2|               null|045thzj17|       null|http://www.diresa...|       []|          []|     Q419|dirección regiona...|                null|                null|                null|                null|                null|      null|      null|          per|           pe|\n+----------+-------------+-------------+----------+------------+-------------+-------------------+---------+-----------+--------------------+---------+------------+---------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+----------+-------------+-------------+\nonly showing top 20 rows\n\nroot\n |-- id: string (nullable = true)\n |-- existence_mag: boolean (nullable = true)\n |-- existence_org: boolean (nullable = true)\n |-- MAG_ID: string (nullable = true)\n |-- CR_FUNDER_ID: string (nullable = true)\n |-- GRID_ID: string (nullable = true)\n |-- ISNI_ID: string (nullable = true)\n |-- ROR_ID: string (nullable = true)\n |-- RINGGOLD_ID: string (nullable = true)\n |-- WebPage: string (nullable = true)\n |-- parents: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- subsidiaries: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- countryId: string (nullable = true)\n |-- labels_en: string (nullable = true)\n |-- labels_es: string (nullable = true)\n |-- labels_fr: string (nullable = true)\n |-- labels_de: string (nullable = true)\n |-- aliases_en: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- aliases_es: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- aliases_de: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- aliases_fr: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- ISO3166_3Code: string (nullable = true)\n |-- ISO3166_2Code: string (nullable = true)\n\nWikidata cnt:164490\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mcountriesWIKIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, label_en: string ... 2 more fields]\n\u001b[1m\u001b[34mwikidatadf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, typ: string ... 5 more fields]\n\u001b[1m\u001b[34mmagWIKIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: string, existence_mag: boolean ... 21 more fields]\n"
+      "data": "java.lang.RuntimeException: org.apache.thrift.transport.TTransportException: java.net.SocketException: Connection timed out (Read failed)\n\tat org.apache.zeppelin.interpreter.remote.PooledRemoteClient.callRemoteFunction(PooledRemoteClient.java:86)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.callRemoteFunction(RemoteInterpreterProcess.java:88)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:216)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:458)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:72)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:130)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:180)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: org.apache.thrift.transport.TTransportException: java.net.SocketException: Connection timed out (Read failed)\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:127)\n\tat org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:455)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:354)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:243)\n\tat org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:77)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.recv_interpret(RemoteInterpreterService.java:252)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:236)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.lambda$interpret$3(RemoteInterpreter.java:217)\n\tat org.apache.zeppelin.interpreter.remote.PooledRemoteClient.callRemoteFunction(PooledRemoteClient.java:82)\n\t... 13 more\nCaused by: java.net.SocketException: Connection timed out (Read failed)\n\tat java.base/java.net.SocketInputStream.socketRead0(Native Method)\n\tat java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)\n\tat java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)\n\tat java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)\n\tat java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:252)\n\tat java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:292)\n\tat java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:351)\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:125)\n\t... 22 more\n"
      }
     ]
    },
@@ -241,34 +241,34 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=18"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=7"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=19"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=8"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=20"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=9"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=21"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=10"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=22"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=11"
       },
       {
-       "jobUrl": "http://192.168.2.7:4040/jobs/job?id=23"
+       "jobUrl": "http://172.17.0.1:4040/jobs/job?id=12"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1618311192876_1152122759",
-   "id": "paragraph_1618311192876_1152122759",
-   "dateCreated": "2021-04-13T13:53:12+0300",
-   "dateStarted": "2021-04-13T13:53:12+0300",
-   "dateFinished": "2021-04-13T14:10:01+0300",
-   "status": "FINISHED"
+   "jobName": "paragraph_1628633079127_58505325",
+   "id": "paragraph_1628633079127_58505325",
+   "dateCreated": "2021-08-11T01:04:39+0300",
+   "dateStarted": "2021-08-11T01:04:39+0300",
+   "dateFinished": "2021-08-11T03:16:00+0300",
+   "status": "ERROR"
   },
   {
    "text": "%spark\n//println(\"Wikidata cnt:\" + magWIKIdf.filter($\"ISO3166_2Code\"=!=\"\" && !isnull($\"ISO3166_2Code\")).count())\nmagWIKIdf.where(($\"ISO3166_3Code\".isNotNull).or($\"ISO3166_2Code\".isNotNull)).select($\"id\").agg(count(\"id\"), countDistinct(\"id\")).show(false)\n",
@@ -278,15 +278,6 @@
    "settings": {
     "params": {},
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "+---------+---------+\n|count(id)|count(id)|\n+---------+---------+\n|161953   |161953   |\n+---------+---------+\n\n"
-     }
-    ]
    },
    "apps": [],
    "runtimeInfos": {
@@ -319,10 +310,6 @@
    "settings": {
     "params": {},
     "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": []
    },
    "apps": [],
    "runtimeInfos": {
@@ -358,15 +345,6 @@
     "params": {},
     "forms": {}
    },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "+-----+-------------+-------------+------+------------+-------+-------------------+------+-----------+--------------------+-------+------------+---------+---------+---------+---------+---------+-------------+-------------+--------------------+--------------------+--------------------+--------------------+\n|   id|existence_mag|existence_org|MAG_ID|CR_FUNDER_ID|GRID_ID|            ISNI_ID|ROR_ID|RINGGOLD_ID|             WebPage|parents|subsidiaries|countryId|labels_en|labels_es|labels_fr|labels_de|ISO3166_3Code|ISO3166_2Code|              alt_en|              alt_es|              alt_de|              alt_fr|\n+-----+-------------+-------------+------+------------+-------+-------------------+------+-----------+--------------------+-------+------------+---------+---------+---------+---------+---------+-------------+-------------+--------------------+--------------------+--------------------+--------------------+\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          cze|           cz|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          som|           so|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          esh|           eh|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          niu|           nu|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          arg|           ar|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          tkm|           tm|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          prt|           pt|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          blr|           by|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          jpn|           jp|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n|Q1000|        false|         true|  null|        null|   null|0000 0001 2195 6165|  null|     206922|http://www.legabo...|     []|          []|    Q1000|    gabon|    gabón|    gabon|    gabun|          bra|           br|[gabonese republi...|[república gabone...|[gabonese republi...|[république gabon...|\n+-----+-------------+-------------+------+------------+-------+-------------------+------+-----------+--------------------+-------+------------+---------+---------+---------+---------+---------+-------------+-------------+--------------------+--------------------+--------------------+--------------------+\nonly showing top 10 rows\n\n\u001b[1m\u001b[34mdouble\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/WikiData/out/duplicaterecords/double.parquet\n\u001b[1m\u001b[34mdoublerecordsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, existence_mag: boolean ... 21 more fields]\n"
-     }
-    ]
-   },
    "apps": [],
    "runtimeInfos": {
     "jobUrl": {
@@ -400,9 +378,315 @@
    },
    "apps": [],
    "status": "READY",
-   "text": "%spark",
+   "text": "%spark\n",
    "id": "",
    "config": {}
+  },
+  {
+   "title": "Filter Publisher data",
+   "text": "%spark\nimport org.apache.spark.sql.functions.countDistinct;\nimport org.apache.spark.storage.StorageLevel;\n\nval countriesWIKIdf = spark.read.parquet(s\"$WIKI_OUT/countries_wikidata.parquet\")\nval wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\n\nval publishersWIKIdf = wikidatadf\n        .withColumn(\"labels_en\",normStr($\"labels\".getItem(\"en\")))\n        .withColumn(\"labels_fr\", normStr($\"labels\".getItem(\"fr\")))\n        .withColumn(\"labels_de\", normStr($\"labels\".getItem(\"de\")))\n        .withColumn(\"labels_es\", normStr($\"labels\".getItem(\"es\")))        \n        .withColumn(\"aliases_en\", normArrStr($\"aliases\".getItem(\"en\")))        \n        .withColumn(\"aliases_fr\", normArrStr($\"aliases\".getItem(\"fr\")))      \n        .withColumn(\"aliases_de\", normArrStr($\"aliases\".getItem(\"de\")))\n        .withColumn(\"aliases_es\", normArrStr($\"aliases\".getItem(\"es\")))\n        \n        .withColumn(\"instanceofsVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P31')\"))\n        .withColumn(\"instanceofs\", expr(\"TRANSFORM (instanceofsVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        .withColumn(\"existence_org\", expr(\"exists(claims, x ->  x.mainSnak.property = 'P2427'  OR x.mainSnak.property = 'P3500'   OR x.mainSnak.property = 'P6782'  )\")) // has either GRID or Ringgold\n        .withColumn(\"isPublisher\", array_contains(col(\"instanceofs\"), \"Q2085381\") || array_contains(col(\"instanceofs\"), \"Q45400320\"))\n        \n        .withColumn(\"countriesVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P17')\"))\n        .withColumn(\"countryId\", element_at(expr(\"TRANSFORM (countriesVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        \n        .withColumn(\"MAG_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6366')\"))\n        .withColumn(\"MAG_ID\", normStr(element_at(expr(\"TRANSFORM (MAG_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"RINGGOLD_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P3500')\"))\n        .withColumn(\"RINGGOLD_ID\", normStr(element_at(expr(\"TRANSFORM (RINGGOLD_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"ROR_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6782')\"))\n        .withColumn(\"ROR_ID\", normStr(element_at(expr(\"TRANSFORM (ROR_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"ISNI_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P213')\"))\n        .withColumn(\"ISNI_ID\", normStr(element_at(expr(\"TRANSFORM (ISNI_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"GRID_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P2427')\"))\n        .withColumn(\"GRID_ID\", normStr(element_at(expr(\"TRANSFORM (GRID_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"subsidiaryVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P355')\"))\n        .withColumn(\"subsidiaries\", expr(\"TRANSFORM (subsidiaryVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        .withColumn(\"parentVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P749')\"))\n        .withColumn(\"parents\", expr(\"TRANSFORM (parentVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        .withColumn(\"WebPageValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P856')\"))\n        .withColumn(\"WebPage\", normStr(element_at(expr(\"TRANSFORM (WebPageValue, x -> x.mainSnak.dataValue.value)\"), 1))) //Official WEB Site\n\n        .filter($\"isPublisher\")\n        .join(broadcast(countriesWIKIdf), countriesWIKIdf(\"Id\") === $\"countryId\", \"outer\")\n        .select(wikidatadf(\"id\"), $\"existence_org\", $\"MAG_ID\",  $\"GRID_ID\", $\"ISNI_ID\", $\"ROR_ID\", $\"RINGGOLD_ID\", $\"WebPage\", $\"parents\"\n            , $\"subsidiaries\", $\"countryId\", $\"labels_en\", $\"labels_es\", $\"labels_fr\", $\"labels_de\", $\"aliases_en\", $\"aliases_es\", $\"aliases_de\", $\"aliases_fr\", $\"ISO3166_3Code\"\n            , $\"ISO3166_2Code\")\n        //.limit(10).cache()\n        .persist(StorageLevel.DISK_ONLY)\n\npublishersWIKIdf.show(10)\npublishersWIKIdf.printSchema\nprintln(\"Wikidata cnt:\" + publishersWIKIdf.count())\npublishersWIKIdf.write.mode(\"overwrite\").parquet(s\"$WIKI_OUT/publishers_wikidata.parquet\")\n\n//countriesWIKIdf.write.json(s\"$WIKI_HOME/countries_wikidata.json\")",
+   "user": "anonymous",
+   "dateUpdated": "2021-08-11T09:24:51+0300",
+   "config": {
+    "title": true,
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Table"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+---------+-------------+---------+-------------+-------------------+---------+-----------+--------------------+----------+------------+---------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-------------+-------------+\n|       id|existence_org|   MAG_ID|      GRID_ID|            ISNI_ID|   ROR_ID|RINGGOLD_ID|             WebPage|   parents|subsidiaries|countryId|           labels_en|           labels_es|           labels_fr|           labels_de|          aliases_en|          aliases_es|          aliases_de|          aliases_fr|ISO3166_3Code|ISO3166_2Code|\n+---------+-------------+---------+-------------+-------------------+---------+-----------+--------------------+----------+------------+---------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-------------+-------------+\n|Q52619627|        false|     null|         null|               null|     null|       null|                null|        []|          []|     Q419|asociación peruan...|                null|                null|                null|                null|                null|                null|                null|          per|           pe|\n|   Q29675|         true|192703252|grid.441813.b|0000 0001 2154 1816|01751w114|      42694|http://www.ulima....|        []|          []|     Q419|  university of lima| universidad de lima|  université de lima|    universität lima|         [ulima, ul]|         [ulima, ul]|                null|                null|          per|           pe|\n| Q6156418|        false|     null|         null|               null|     null|       null|http://www.ucp.ed...|        []|          []|     Q419|universidad cient...|universidad cient...|                null|                null|                null|[universidad cien...|                null|                null|          per|           pe|\n|Q74433922|        false|     null|         null|               null|     null|       null|                null|        []|          []|     Q419|  editorial kaypunku|                null|                null|                null|[editorial kaypunku]|                null|                null|                null|          per|           pe|\n|Q74434752|        false|     null|         null|               null|     null|       null|                null|        []|          []|     Q419|instituto univers...|instituto univers...|                null|                null|[instituto univer...|        [inudi perú]|                null|                null|          per|           pe|\n| Q5202348|         true|159360068|grid.441927.d|0000 0001 0636 5180|010xy3m51|     113069| http://udep.edu.pe/| [Q160918]|          []|     Q419| university of piura|universidad de piura| université de piura|universidad de piura|[universidad de p...|                null|                null|                null|          per|           pe|\n| Q2636927|         true|919628346|grid.441818.0|0000 0001 2097 8266|05mmg7t28|       null|http://www.up.edu...|        []|          []|     Q419|universidad del p...|universidad del p...|université du pac...|universidad del p...|[mascota: fernand...|[universidad del ...|                null|[université du pa...|          per|           pe|\n| Q2067204|         true|     null|grid.441904.c|0000 0001 2166 4023|02mb17771|      33224|http://www.urp.ed...|        []|          []|     Q419|ricardo palma uni...|universidad ricar...|université ricard...|universität ricar...|[universidad rica...|               [urp]|[universidad rica...|                null|          per|           pe|\n| Q5917586|         true|     null|grid.419228.4|0000 0004 0636 549x|03gx6zj11|      54719|https://web.ins.g...|[Q3065012]|          []|     Q419|national institut...|instituto naciona...|                null|                null|[instituto vaccin...|                null|                null|                null|          per|           pe|\n|Q74435633|        false|     null|         null|               null|     null|       null|                null|        []|          []|     Q419|sociedad materno ...|                null|                null|                null|[sociedad materno...|                null|                null|                null|          per|           pe|\n+---------+-------------+---------+-------------+-------------------+---------+-----------+--------------------+----------+------------+---------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-------------+-------------+\nonly showing top 10 rows\n\nroot\n |-- id: string (nullable = true)\n |-- existence_org: boolean (nullable = true)\n |-- MAG_ID: string (nullable = true)\n |-- GRID_ID: string (nullable = true)\n |-- ISNI_ID: string (nullable = true)\n |-- ROR_ID: string (nullable = true)\n |-- RINGGOLD_ID: string (nullable = true)\n |-- WebPage: string (nullable = true)\n |-- parents: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- subsidiaries: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- countryId: string (nullable = true)\n |-- labels_en: string (nullable = true)\n |-- labels_es: string (nullable = true)\n |-- labels_fr: string (nullable = true)\n |-- labels_de: string (nullable = true)\n |-- aliases_en: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- aliases_es: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- aliases_de: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- aliases_fr: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- ISO3166_3Code: string (nullable = true)\n |-- ISO3166_2Code: string (nullable = true)\n\nWikidata cnt:18252\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mcountriesWIKIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, label_en: string ... 2 more fields]\n\u001b[1m\u001b[34mwikidatadf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, typ: string ... 5 more fields]\n\u001b[1m\u001b[34mpublishersWIKIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: string, existence_org: boolean ... 19 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://172.17.0.1:4041/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://172.17.0.1:4041/jobs/job?id=1"
+      },
+      {
+       "jobUrl": "http://172.17.0.1:4041/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://172.17.0.1:4041/jobs/job?id=3"
+      },
+      {
+       "jobUrl": "http://172.17.0.1:4041/jobs/job?id=4"
+      },
+      {
+       "jobUrl": "http://172.17.0.1:4041/jobs/job?id=5"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1628663091235_411991386",
+   "id": "paragraph_1628663091235_411991386",
+   "dateCreated": "2021-08-11T09:24:51+0300",
+   "dateStarted": "2021-08-11T09:24:51+0300",
+   "dateFinished": "2021-08-11T09:43:55+0300",
+   "status": "FINISHED"
+  },
+  {
+   "title": "Get Journals & Conferences",
+   "text": "%spark\nimport org.apache.spark.sql.functions.countDistinct;\nimport org.apache.spark.storage.StorageLevel;\n\nval countriesWIKIdf = spark.read.parquet(s\"$WIKI_OUT/countries_wikidata.parquet\")\nval wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\n\n//short name (P1813)\n//owned by (P127)\n//title (P1476)\n\n\nval journalsWIKIdf = wikidatadf\n        .withColumn(\"labels_en\",normStr($\"labels\".getItem(\"en\")))\n        .withColumn(\"labels_fr\", normStr($\"labels\".getItem(\"fr\")))\n        .withColumn(\"labels_de\", normStr($\"labels\".getItem(\"de\")))\n        .withColumn(\"labels_es\", normStr($\"labels\".getItem(\"es\")))        \n        .withColumn(\"aliases_en\", normArrStr($\"aliases\".getItem(\"en\")))        \n        .withColumn(\"aliases_fr\", normArrStr($\"aliases\".getItem(\"fr\")))      \n        .withColumn(\"aliases_de\", normArrStr($\"aliases\".getItem(\"de\")))\n        .withColumn(\"aliases_es\", normArrStr($\"aliases\".getItem(\"es\")))\n        \n        .withColumn(\"instanceofsVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P31')\"))\n        .withColumn(\"instanceofs\", expr(\"TRANSFORM (instanceofsVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        \n        // scientific journal (Q5633421), academic journal (Q737498), open-access journal (Q773668) , periodical (Q1002697), \n        // society journal (Q73364223), APC-free journal (Q73365499)\n        // scientific conference series (Q47258130), conference series (Q15900647), \n        .withColumn(\"isJournal\", array_contains(col(\"instanceofs\"), \"Q5633421\") || array_contains(col(\"instanceofs\"), \"Q737498\") || array_contains(col(\"instanceofs\"), \"Q773668\") || array_contains(col(\"instanceofs\"), \"Q1002697\") || array_contains(col(\"instanceofs\"), \"Q73364223\"))\n        .withColumn(\"hasJournalIds\", expr(\"exists(claims, x ->  x.mainSnak.property = 'P236'  OR x.mainSnak.property = 'P8375'   OR x.mainSnak.property = 'P1156' OR x.mainSnak.property = 'P5115' )\")) // has either ISSN, crossRefId, ScopusID\n        \n        .withColumn(\"countriesVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P17')\"))\n        .withColumn(\"countryId\", element_at(expr(\"TRANSFORM (countriesVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        \n        .withColumn(\"publisherVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P123')\"))\n        .withColumn(\"publisherId\", element_at(expr(\"TRANSFORM (publisherVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        .withColumn(\"publisherIds\", expr(\"TRANSFORM (publisherVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        \n        .withColumn(\"ownerVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P127')\"))\n        .withColumn(\"ownerId\", element_at(expr(\"TRANSFORM (ownerVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        .withColumn(\"ownerIds\", expr(\"TRANSFORM (ownerVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        \n        .withColumn(\"TitleValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P1476')\"))\n        .withColumn(\"Title\", normStr(element_at(expr(\"TRANSFORM (TitleValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"ShortNameValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P1813')\"))\n        .withColumn(\"ShortName\", normStr(element_at(expr(\"TRANSFORM (ShortNameValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        \n        .withColumn(\"MAG_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6366')\"))\n        .withColumn(\"MAG_ID\", normStr(element_at(expr(\"TRANSFORM (MAG_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"SCOPUS_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P1156')\"))\n        .withColumn(\"SCOPUS_ID\", normStr(element_at(expr(\"TRANSFORM (SCOPUS_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"OPENCITATION_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P3181')\"))\n        .withColumn(\"OPENCITATION_ID\", normStr(element_at(expr(\"TRANSFORM (OPENCITATION_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"ISSN_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P236')\"))\n        .withColumn(\"ISSN_ID\", normStr(element_at(expr(\"TRANSFORM (ISSN_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"CROSSREFJOURNAL_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P8375')\"))\n        .withColumn(\"CROSSREFJOURNAL_ID\", normStr(element_at(expr(\"TRANSFORM (CROSSREFJOURNAL_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"DIMENSIONS_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6180')\"))\n        .withColumn(\"DIMENSIONS_ID\", normStr(element_at(expr(\"TRANSFORM (DIMENSIONS_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"DOAJ_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P5115')\"))\n        .withColumn(\"DOAJ_ID\", normStr(element_at(expr(\"TRANSFORM (DOAJ_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))        \n        .withColumn(\"WebPageValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P856')\"))\n        .withColumn(\"WebPage\", normStr(element_at(expr(\"TRANSFORM (WebPageValue, x -> x.mainSnak.dataValue.value)\"), 1))) //Official WEB Site\n\n        .filter($\"isJournal\" || $\"hasJournalIds\")\n        .join(broadcast(countriesWIKIdf), countriesWIKIdf(\"Id\") === $\"countryId\", \"outer\")\n        .select(wikidatadf(\"id\"), $\"ShortName\" , $\"Title\", $\"publisherId\",$\"publisherIds\",$\"ownerId\",$\"ownerIds\", $\"countryId\",\n             $\"MAG_ID\",  $\"ISSN_ID\", $\"CROSSREFJOURNAL_ID\", $\"DIMENSIONS_ID\", $\"DOAJ_ID\", $\"OPENCITATION_ID\",$\"SCOPUS_ID\", $\"WebPage\", $\"labels_en\", $\"labels_es\", $\"labels_fr\", $\"labels_de\", $\"aliases_en\", $\"aliases_es\", $\"aliases_de\", \n            $\"aliases_fr\", $\"ISO3166_3Code\"   , $\"ISO3166_2Code\", $\"isJournal\" , $\"hasJournalIds\")\n        //.limit(10).cache()\n        .persist(StorageLevel.DISK_ONLY)\n\njournalsWIKIdf.show(10)\njournalsWIKIdf.printSchema\nprintln(\"Wikidata cnt:\" + journalsWIKIdf.count())\njournalsWIKIdf.write.mode(\"overwrite\").parquet(s\"$WIKI_OUT/journals_wikidata.parquet\")",
+   "user": "anonymous",
+   "dateUpdated": "2021-08-11T10:05:24+0300",
+   "config": {
+    "title": true,
+    "results": [
+     {}
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "table": {
+         "columnWidths": {
+          "Title": 390.0
+         }
+        },
+        "currentPage": "Console"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1628665524063_1519518705",
+   "id": "paragraph_1628665524063_1519518705",
+   "dateCreated": "2021-08-11T10:05:24+0300",
+   "dateStarted": "2021-08-11T10:05:24+0300",
+   "status": "RUNNING"
+  },
+  {
+   "title": "Get Conferences",
+   "text": "%spark\n\nval countriesWIKIdf = spark.read.parquet(s\"$WIKI_OUT/countries_wikidata.parquet\")\nval wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\n\n//short name (P1813)\n//owned by (P127)\n//title (P1476)\n\n\nval conferencesWIKIdf = wikidatadf\n        .withColumn(\"labels_en\",normStr($\"labels\".getItem(\"en\")))\n        .withColumn(\"labels_fr\", normStr($\"labels\".getItem(\"fr\")))\n        .withColumn(\"labels_de\", normStr($\"labels\".getItem(\"de\")))\n        .withColumn(\"labels_es\", normStr($\"labels\".getItem(\"es\")))        \n        .withColumn(\"aliases_en\", normArrStr($\"aliases\".getItem(\"en\")))        \n        .withColumn(\"aliases_fr\", normArrStr($\"aliases\".getItem(\"fr\")))      \n        .withColumn(\"aliases_de\", normArrStr($\"aliases\".getItem(\"de\")))\n        .withColumn(\"aliases_es\", normArrStr($\"aliases\".getItem(\"es\")))\n        \n        .withColumn(\"instanceofsVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P31')\"))\n        .withColumn(\"instanceofs\", expr(\"TRANSFORM (instanceofsVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        \n        // scientific journal (Q5633421), academic journal (Q737498), open-access journal (Q773668) , periodical (Q1002697), \n        // society journal (Q73364223), APC-free journal (Q73365499)\n        // scientific conference series (Q47258130), conference series (Q15900647), \n        .withColumn(\"isConference\", array_contains(col(\"instanceofs\"), \"Q47258130\") || array_contains(col(\"instanceofs\"), \"Q15900647\"))\n        .withColumn(\"hasConfIds\", expr(\"exists(claims, x ->  x.mainSnak.property = 'P5127'  )\")) // has either ISSN, crossRefId, ScopusID\n        \n        .withColumn(\"countriesVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P17')\"))\n        .withColumn(\"countryId\", element_at(expr(\"TRANSFORM (countriesVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        \n        .withColumn(\"publisherVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P123')\"))\n        .withColumn(\"publisherId\", element_at(expr(\"TRANSFORM (publisherVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        .withColumn(\"publisherIds\", expr(\"TRANSFORM (publisherVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        \n        .withColumn(\"ownerVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P127')\"))\n        .withColumn(\"ownerId\", element_at(expr(\"TRANSFORM (ownerVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n        .withColumn(\"ownerIds\", expr(\"TRANSFORM (ownerVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        \n        .withColumn(\"TitleValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P1476')\"))\n        .withColumn(\"Title\", normStr(element_at(expr(\"TRANSFORM (TitleValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"ShortNameValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P1813')\"))\n        .withColumn(\"ShortName\", normStr(element_at(expr(\"TRANSFORM (ShortNameValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        \n        //WikiCFP conference series ID (P5127)\n        .withColumn(\"MAG_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6366')\"))\n        .withColumn(\"MAG_ID\", normStr(element_at(expr(\"TRANSFORM (MAG_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"SCOPUS_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P1156')\"))\n        .withColumn(\"SCOPUS_ID\", normStr(element_at(expr(\"TRANSFORM (SCOPUS_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"WikiCFP_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P5127')\"))\n        .withColumn(\"WikiCFP_ID\", normStr(element_at(expr(\"TRANSFORM (WikiCFP_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))        \n        .withColumn(\"CROSSREFJOURNAL_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P8375')\"))\n        .withColumn(\"CROSSREFJOURNAL_ID\", normStr(element_at(expr(\"TRANSFORM (CROSSREFJOURNAL_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        .withColumn(\"DIMENSIONS_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6180')\"))\n        .withColumn(\"DIMENSIONS_ID\", normStr(element_at(expr(\"TRANSFORM (DIMENSIONS_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))                \n        .withColumn(\"WebPageValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P856')\"))\n        .withColumn(\"WebPage\", normStr(element_at(expr(\"TRANSFORM (WebPageValue, x -> x.mainSnak.dataValue.value)\"), 1))) //Official WEB Site\n\n        .filter($\"isConference\" )\n        .join(broadcast(countriesWIKIdf), countriesWIKIdf(\"Id\") === $\"countryId\", \"left\")\n        .select(wikidatadf(\"id\"), $\"ShortName\" , $\"Title\", $\"publisherId\",$\"publisherIds\",$\"ownerId\",$\"ownerIds\", $\"countryId\",\n             $\"MAG_ID\",  $\"WikiCFP_ID\", $\"CROSSREFJOURNAL_ID\", $\"DIMENSIONS_ID\", $\"SCOPUS_ID\", $\"WebPage\", $\"labels_en\", $\"labels_es\", $\"labels_fr\", $\"labels_de\", $\"aliases_en\", $\"aliases_es\", $\"aliases_de\", \n            $\"aliases_fr\",\n            $\"ISO3166_3Code\"   , $\"ISO3166_2Code\", \n           $\"isConference\" , $\"hasConfIds\")\n        //.limit(10).cache()\n        .persist(StorageLevel.DISK_ONLY)\n\nconferencesWIKIdf.show(10)\nconferencesWIKIdf.printSchema\nprintln(\"Wikidata cnt:\" + conferencesWIKIdf.count())\nconferencesWIKIdf.write.mode(\"overwrite\").parquet(s\"$WIKI_OUT/conferences_WIKI.parquet\")",
+   "user": "anonymous",
+   "dateUpdated": "2021-06-24T16:10:29+0300",
+   "config": {
+    "title": true,
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "table": {
+         "columnWidths": {
+          "Title": 338.0
+         }
+        },
+        "currentPage": "Table"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=104"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=105"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=107"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=108"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=109"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=110"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1624540229034_1624150070",
+   "id": "paragraph_1624540229034_1624150070",
+   "dateCreated": "2021-06-24T16:10:29+0300",
+   "dateStarted": "2021-06-24T16:10:29+0300",
+   "dateFinished": "2021-06-24T16:30:08+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nprintln(\"publishers cnt:\" + publishersWIKIdf.count())\nprintln(\"publishers with links to Institutions cnt:\" + publishersWIKIdf.filter($\"existence_org\").count())\nprintln(\"publishers cnt:\" + journalsWIKIdf.count())\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-06-24T16:50:36+0300",
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=114"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=115"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=116"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1624542636108_1439811040",
+   "id": "paragraph_1624542636108_1439811040",
+   "dateCreated": "2021-06-24T16:50:36+0300",
+   "dateStarted": "2021-06-24T16:50:36+0300",
+   "dateFinished": "2021-06-24T16:50:36+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\n//val publishersWIKIdf\n\nval orgsWikiDf = spark.read.parquet(s\"$WIKI_OUT/wiki_orgs.parquet\")\n\n//val publisherNotInOrgs = publishersWIKIdf\n //.join(broadcast(orgsWikiDf), orgsWikiDf(\"Id\") === publishersWIKIdf(\"Id\"), \"leftanti\")\n   //     .cache()\n\n//publisherNotInOrgs.show(10, false)\n//println(\"publisherNotInOrgs cnt:\" + publisherNotInOrgs.count())\n\nval journalsWithPublishersdf =  journalsWIKIdf\n        .join(broadcast(orgsWikiDf), orgsWikiDf(\"Id\") === $\"publisherId\", \"inner\").cache()\n        //.join(broadcast(publisherNotInOrgs), publisherNotInOrgs(\"Id\") === $\"publisherId\", \"inner\")        \n        //.join(broadcast(publishersWIKIdf), publishersWIKIdf(\"Id\") === $\"ownerId\", \"outer\")\n        //.filter($\"isJournal\" || $\"hasJournalIds\").cache()        \n        journalsWithPublishersdf.show(10, false)\nprintln(\"journalsWithPublishersdf cnt:\" + journalsWithPublishersdf.count())\n\nval conferencesWIKIdfwithPublishers = conferencesWIKIdf\n.join(broadcast(orgsWikiDf), orgsWikiDf(\"Id\") === $\"publisherId\", \"inner\").cache()\n        //.join(broadcast(publisherNotInOrgs), publisherNotInOrgs(\"Id\") === $\"publisherId\", \"inner\")        \n        //.join(broadcast(publishersWIKIdf), publishersWIKIdf(\"Id\") === $\"ownerId\", \"outer\")\n        //.filter($\"isJournal\" || $\"hasJournalIds\").cache()        \n        conferencesWIKIdfwithPublishers.show(10, false)\nprintln(\"conferencesWIKIdfwithPublishers cnt:\" + conferencesWIKIdfwithPublishers.count())\n\nimport org.apache.spark.sql.functions.{lit, schema_of_json, from_json}\nimport collection.JavaConverters._\n\n//val schema = schema_of_json(lit(journalsWIKIdf.select($\"Title\").as[String].first))\n//journalsWIKIdf.withColumn(\"Title_txt\", from_json($\"Title\", schema, Map[String, String]().asJava)).show(10, false)\n\n//journalsWIKIdf\n  //      .withColumn(\"title2\", $\"Title\")\n    //    .withColumn(\"title_txt\",expr(\"TRANSFORM (title2, x -> get_json_object(x,\\\"$.text\\\"))\"))\n        //.withColumn(\"title_txt\",get_json_object($Title,\\\"$.text\\\"))\n      //  .show(10, false)\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-06-24T16:53:56+0300",
+   "config": {
+    "results": [
+     {
+      "keys": [
+       {
+        "name": "id",
+        "index": 0,
+        "aggr": "sum"
+       }
+      ],
+      "groups": [],
+      "values": [
+       {
+        "name": "CROSSREFJOURNAL_ID",
+        "index": 10,
+        "aggr": "avg"
+       }
+      ],
+      "mode": "lineChart"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Console"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=117"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=119"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=120"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=121"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=123"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=124"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=125"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=126"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=127"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=128"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=129"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1624542836581_868506337",
+   "id": "paragraph_1624542836581_868506337",
+   "dateCreated": "2021-06-24T16:53:56+0300",
+   "dateStarted": "2021-06-24T16:53:56+0300",
+   "dateFinished": "2021-06-24T16:54:01+0300",
+   "status": "FINISHED"
   },
   {
    "settings": {
@@ -413,7 +697,8 @@
    "status": "READY",
    "text": "%spark\n//Process WIKIDATA parquet files \n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\nimport org.apache.spark.storage.StorageLevel;\n\n\n//val wikidatadf = spark.read.parquet(s\"file://$WIKI_HOME\")\n\n//val countriesWIKIdf = spark.read.parquet(s\"$WIKI_OUT/countries_wikidata.parquet\")\n//  /part-00000-02658916-9459-424b-822a-4344eec93163-c000.snappy.parquet\n\n//\"claims\":[{\"id\":\"Q43469437$1DB22FAF-5063-4CD2-A681-5E1585E343C7\",\n// \"mainSnak\":{\"typ\":\"value\",\"property\":\"P356\",\"dataType\":\"external-id\",\"dataValue\":{\"typ\":\"string\",\"value\":\"\\\"10.1111/J.1464-5491.2009.02743.X\\\"\"}}/\n\n//wikidatadf.show(40)\n//wikidatadf.filter($\"aliases\"===\"P356\").show(20)\n\n\n//val wikipropdf = wikidatadf.filter($\"typ\"===\"property\")\n//.persist(StorageLevel.DISK_ONLY)\n\n\n//println(\"poperties cnt:\" + wikipropdf.count())\n\n/* Properties \nMAG_Id: P6366\nGRID_ID: P2427\nRinggold ID: P3500\nROR: P6782\nISNI: P213\nCrossRefFunder: P3153\n\nCountry: P17\nOfficial WEB Site: P856\n    language of work or name: P407\nparent Org: P749\nChildren(subsidiary): P355\n\nInstance_Of: P31\nscholarly article: Q13442814\nOfficialName: P1448\n\n\n*/\nval magWIKIdf = wikidatadf\n        //.withColumn(\"label_lng\", map_keys($\"labels\").getItem(0))\n        //.withColumn(\"label\", map_values($\"labels\").getItem(0))\n        //.withColumn(\"existence_flag\", expr(\"exists(claims, x -> x.id = 'Q27721769$8226B15F-37DE-4BEF-8F8F-80D442DFDDA9')\"))\n        //.withColumn(\"existence_flag\", expr(\"exists(claims, x -> x.mainSnak.property = 'P356' and x.mainSnak.dataValue.value = '\\\"10.1111/J.1464-5491.2009.02743.X\\\"')\"))\n\n        .withColumn(\"labels_en\",normStr($\"labels\".getItem(\"en\")))\n        .withColumn(\"labels_fr\", normStr($\"labels\".getItem(\"fr\")))\n        .withColumn(\"labels_de\", normStr($\"labels\".getItem(\"de\")))\n        .withColumn(\"labels_es\", normStr($\"labels\".getItem(\"es\")))\n        \n        .withColumn(\"aliases_en\", normArrStr($\"aliases\".getItem(\"en\")))\n        //.withColumn(\"aliases_en\", normArrStr($\"aliases_en1\"))\n        \n        .withColumn(\"aliases_fr\", normArrStr($\"aliases\".getItem(\"fr\")))\n        //.withColumn(\"aliases_fr\", normArrStr($\"aliases_fr1\"))\n        \n        .withColumn(\"aliases_de\", normArrStr($\"aliases\".getItem(\"de\")))\n        //.withColumn(\"aliases_de\", normArrStr($\"aliases_de1\"))\n        \n        .withColumn(\"aliases_es\", normArrStr($\"aliases\".getItem(\"es\")))\n        //.withColumn(\"aliases_es\", normArrStr($\"aliases_es1\"))\n        \n        .withColumn(\"existence_mag\", expr(\"exists(claims, x -> x.mainSnak.property = 'P6366')\")) //has MAG_ID\n        .withColumn(\"existence_org\", expr(\"exists(claims, x ->  x.mainSnak.property = 'P2427'  OR x.mainSnak.property = 'P3500'   OR x.mainSnak.property = 'P6782'  )\")) // has either GRID or Ringgold\n        .withColumn(\"is_research_article_flag\", expr(\"exists(claims, x -> x.mainSnak.property = 'P31' and x.mainSnak.dataValue.value = 'Q13442814')\")) //Is Scholarly Article \n\n        .withColumn(\"instanceofsVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P31')\"))\n        .withColumn(\"instanceofs\", expr(\"TRANSFORM (instanceofsVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n        //.withColumn(\"instanceofids\",get_json_object($\"instanceofarr\", \"$.id\").alias(\"instanceof.id\")) // only the first id\n        //.withColumn(\"instanceof\",concat_ws(\",\",col(\"instanceofarr\")))\n        //.withColumn(\"instanceofid\",get_json_object($\"instanceof\", \"$.id\").alias(\"instanceof.id\")) // only the first id\n\n        .withColumn(\"countriesVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P17')\"))\n        .withColumn(\"countryId\", element_at(expr(\"TRANSFORM (countriesVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"), 1))\n\n        .withColumn(\"subsidiaryVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P355')\"))\n        .withColumn(\"subsidiaries\", expr(\"TRANSFORM (subsidiaryVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n\n        .withColumn(\"parentVal\", expr(\"filter(claims, x -> x.mainSnak.property = 'P749')\"))\n        .withColumn(\"parents\", expr(\"TRANSFORM (parentVal, x -> get_json_object(x.mainSnak.dataValue.value,\\\"$.id\\\"))\"))\n\n        .withColumn(\"WebPageValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P856')\"))\n        .withColumn(\"WebPage\", normStr(element_at(expr(\"TRANSFORM (WebPageValue, x -> x.mainSnak.dataValue.value)\"), 1))) //Official WEB Site\n\n\n        .withColumn(\"MAG_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6366')\"))\n        .withColumn(\"MAG_ID\", normStr(element_at(expr(\"TRANSFORM (MAG_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        //.withColumn(\"MAGID\",concat_ws(\",\",col(\"MAGIDsarr\")))\n\n        .withColumn(\"RINGGOLD_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P3500')\"))\n        .withColumn(\"RINGGOLD_ID\", normStr(element_at(expr(\"TRANSFORM (RINGGOLD_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        //.withColumn(\"RINGGOLDIds\",concat_ws(\",\",col(\"RINGGOLDIdsarr\")))\n\n        .withColumn(\"ROR_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P6782')\"))\n        .withColumn(\"ROR_ID\", normStr(element_at(expr(\"TRANSFORM (ROR_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n\n        .withColumn(\"ISNI_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P213')\"))\n        .withColumn(\"ISNI_ID\", normStr(element_at(expr(\"TRANSFORM (ISNI_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n\n        .withColumn(\"GRID_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P2427')\"))\n        .withColumn(\"GRID_ID\", normStr(element_at(expr(\"TRANSFORM (GRID_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n\n\n        .withColumn(\"CR_FUNDER_IDsValue\", expr(\"filter(claims, x -> x.mainSnak.property = 'P3153')\"))\n        .withColumn(\"CR_FUNDER_ID\", normStr(element_at(expr(\"TRANSFORM (CR_FUNDER_IDsValue, x -> x.mainSnak.dataValue.value)\"), 1)))\n        //.withColumn(\"ISO3166_3Code\",  element_at(col(\"ISO3166_3Codes\"),1))\n\n\n        .filter($\"existence_org\" === true && $\"typ\" === \"item\" && $\"is_research_article_flag\" === false)\n        .join(broadcast(countriesWIKIdf), countriesWIKIdf(\"Id\") === $\"countryId\", \"outer\")\n        .select(wikidatadf(\"id\"), $\"existence_mag\", $\"existence_org\", $\"MAG_ID\", $\"CR_FUNDER_ID\", $\"GRID_ID\", $\"ISNI_ID\", $\"ROR_ID\", $\"RINGGOLD_ID\", $\"WebPage\", $\"parents\"\n            , $\"subsidiaries\", $\"countryId\", $\"labels_en\", $\"labels_es\", $\"labels_fr\", $\"labels_de\", $\"aliases_en\", $\"aliases_es\", $\"aliases_de\", $\"aliases_fr\", $\"ISO3166_3Code\"\n            , $\"ISO3166_2Code\")\n        .persist(StorageLevel.DISK_ONLY)\n\nmagWIKIdf.show(10)\nmagWIKIdf.printSchema\nprintln(\"Wikidata cnt:\" + magWIKIdf.count())\n\nmagWIKIdf.write.parquet(s\"$WIKI_OUT/wiki_orgs.parquet\")\n\n\n",
    "config": {
-    "title": true
+    "title": true,
+    "editorHide": false
    },
    "title": "Filter all MAG related entities"
   },

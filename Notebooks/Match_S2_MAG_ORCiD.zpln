@@ -1,7 +1,7 @@
 {
  "paragraphs": [
   {
-   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 100g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true",
+   "text": "%spark.conf",
    "user": "anonymous",
    "dateUpdated": "2021-01-21T12:48:41+0200",
    "config": {
@@ -34,6 +34,16 @@
    "dateStarted": "2021-01-21T12:48:41+0200",
    "dateFinished": "2021-01-21T12:48:41+0200",
    "status": "FINISHED"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 100g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true",
+   "config": {}
   },
   {
    "text": "%spark\nimport org.apache.commons.lang3.StringUtils\nimport java.util.Locale;\n\nval shortNormName = udf[String, String]((e:String) => {\n    \n    val normname = org.apache.commons.lang3.StringUtils.stripAccents(e.toLowerCase(Locale.ENGLISH))\n    //.replaceAll(\"[^\\\\p{ASCII}]\", \"\")\n     .replaceAll(\"[<>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n    .replaceAll(\"Æ\", \"AE\")\n    .replaceAll(\"Ð\", \"D\")\n    .replaceAll(\"Ø\", \"O\")\n    .replaceAll(\"Þ\", \"TH\")\n    .replaceAll(\"ß\", \"ss\")\n    .replaceAll(\"ð\", \"d\")\n    .replaceAll(\"æ\", \"ae\")\n    .replaceAll(\"ø\", \"o\")\n    .replaceAll(\"þ\", \"th\")\n    .replaceAll(\"Œ\", \"OE\")\n    .replaceAll(\"œ\", \"oe\")\n    .replaceAll(\"ƒ\", \"f\")\n\t.trim().split(\" \")\n    \n\n val shortName =  if (normname.length == 1) normname(0) else normname(0).take(1) + normname(normname.length-1)\n shortName\n\n    \n})\n\nspark.udf.register(\"shortNormName\", shortNormName)\n\nval normName = udf[String, String]((e:String) => {\n    \n org.apache.commons.lang3.StringUtils.stripAccents(e.toLowerCase(Locale.ENGLISH))\n     .replaceAll(\"[ <>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n    .replaceAll(\"Æ\", \"AE\")\n    .replaceAll(\"Ð\", \"D\")\n    .replaceAll(\"Ø\", \"O\")\n    .replaceAll(\"Þ\", \"TH\")\n    .replaceAll(\"ß\", \"ss\")\n    .replaceAll(\"ð\", \"d\")\n    .replaceAll(\"æ\", \"ae\")\n    .replaceAll(\"ø\", \"o\")\n    .replaceAll(\"þ\", \"th\")\n    .replaceAll(\"Œ\", \"OE\")\n    .replaceAll(\"œ\", \"oe\")\n    .replaceAll(\"ƒ\", \"f\")\n\t.trim()\n    \n})\n\nspark.udf.register(\"normName\", normName)\n",
@@ -330,7 +340,9 @@
     "enabled": true,
     "results": {
      "0": {
-      "graph": {}
+      "graph": {
+       "mode": "table"
+      }
      }
     },
     "editorSetting": {

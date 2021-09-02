@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.3.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.17-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2021-04-05T11:30:06+0300",
+   "dateUpdated": "2021-06-10T16:59:20+0300",
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -21,40 +21,210 @@
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": []
+   },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1617611406262_2051512753",
-   "id": "paragraph_1617611406262_2051512753",
-   "dateCreated": "2021-04-05T11:30:06+0300",
-   "dateStarted": "2021-04-05T11:30:06+0300",
-   "dateFinished": "2021-04-05T11:30:06+0300",
+   "jobName": "paragraph_1623333560570_1252728567",
+   "id": "paragraph_1623333560570_1252728567",
+   "dateCreated": "2021-06-10T16:59:20+0300",
+   "dateStarted": "2021-06-10T16:59:20+0300",
+   "dateFinished": "2021-06-10T16:59:20+0300",
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nval scidocsdata_HOME = \"/home/ometaxas/Projects/SciDocs/scidocs/data\"\n\nval paper_metadata_mag_meshdf = spark.read.json(s\"file://$scidocsdata_HOME/paper_metadata_view_cite_read.json\")\npaper_metadata_mag_meshdf.printSchema()\npaper_metadata_mag_meshdf.show(5)\n",
+   "text": "%spark\nval s2sanddata_HOME = \"/home/ometaxas/Projects/S2AND/S2AND/data/aminer\" \n    //\"/home/ometaxas/Projects/SciDocs/scidocs/data\"\n\nval paper_metadata_sand_aminer= spark.read\n       // .option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$s2sanddata_HOME/aminer_papers.json\")\npaper_metadata_sand_aminer.printSchema()\npaper_metadata_sand_aminer.show(5)\n",
    "user": "anonymous",
-   "dateUpdated": "2021-04-05T11:30:08+0300",
+   "dateUpdated": "2021-06-09T14:44:06+0300",
    "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "java.lang.RuntimeException: org.apache.thrift.transport.TTransportException: Socket is closed by peer.\n\tat org.apache.zeppelin.interpreter.remote.PooledRemoteClient.callRemoteFunction(PooledRemoteClient.java:86)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.callRemoteFunction(RemoteInterpreterProcess.java:88)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:216)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:458)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:72)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:130)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:180)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: org.apache.thrift.transport.TTransportException: Socket is closed by peer.\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:130)\n\tat org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:455)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:354)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:243)\n\tat org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:77)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.recv_interpret(RemoteInterpreterService.java:252)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:236)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.lambda$interpret$3(RemoteInterpreter.java:217)\n\tat org.apache.zeppelin.interpreter.remote.PooledRemoteClient.callRemoteFunction(PooledRemoteClient.java:82)\n\t... 13 more\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=9"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1623239046783_248249108",
+   "id": "paragraph_1623239046783_248249108",
+   "dateCreated": "2021-06-09T14:44:06+0300",
+   "dateStarted": "2021-06-09T14:44:06+0300",
+   "dateFinished": "2021-06-09T14:49:21+0300",
+   "status": "ABORT"
+  },
+  {
+   "text": "%spark\nval scidocsdata_HOME = \"/home/ometaxas/Projects/SparkNotebooks/data\"\nval paper_metadata_sci= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$scidocsdata_HOME/SciDocSample.json\")\npaper_metadata_sci.printSchema()\npaper_metadata_sci.show(5)\n\nprintln(paper_metadata_sci.count())\n\nval transform_df = paper_metadata_sci\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-06-10T16:59:28+0300",
+   "config": {
+    "results": [
+     {}
+    ]
+   },
    "settings": {
     "params": {
      "bdtMeta": {
       "inlay": {
-       "state": {}
+       "state": {
+        "currentPage": "Console"
+       }
       }
      }
     },
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- 0003aa77bdefc1c75f9d2ba732635c132fc0c863: struct (nullable = true)\n |    |-- abstract: string (nullable = true)\n |    |-- authors: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- cited_by: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- paper_id: string (nullable = true)\n |    |-- references: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- title: string (nullable = true)\n |    |-- year: long (nullable = true)\n |-- 0007181efc556fd1fcda2642e9bd85dd0f0c32d6: struct (nullable = true)\n |    |-- abstract: string (nullable = true)\n |    |-- authors: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- cited_by: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- paper_id: string (nullable = true)\n |    |-- references: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- title: string (nullable = true)\n |    |-- year: long (nullable = true)\n |-- 000c009765a276d166fc67595e107a9bc44f230d: struct (nullable = true)\n |    |-- abstract: string (nullable = true)\n |    |-- authors: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- cited_by: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- paper_id: string (nullable = true)\n |    |-- references: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- title: string (nullable = true)\n |    |-- year: long (nullable = true)\n\n+----------------------------------------+----------------------------------------+----------------------------------------+\n|0003aa77bdefc1c75f9d2ba732635c132fc0c863|0007181efc556fd1fcda2642e9bd85dd0f0c32d6|000c009765a276d166fc67595e107a9bc44f230d|\n+----------------------------------------+----------------------------------------+----------------------------------------+\n|                    [PROBLEM STATEMEN...|                                    null|                                    null|\n|                                    null|                    [Routers must per...|                                    null|\n|                                    null|                                    null|                    [The data of inte...|\n+----------------------------------------+----------------------------------------+----------------------------------------+\n\n3\n\u001b[1m\u001b[34mscidocsdata_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/SparkNotebooks/data\n\u001b[1m\u001b[34mpaper_metadata_sci\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [0003aa77bdefc1c75f9d2ba732635c132fc0c863: struct<abstract: string, authors: array<string> ... 5 more fields>, 0007181efc556fd1fcda2642e9bd85dd0f0c32d6: struct<abstract: string, authors: array<string> ... 5 more fields> ... 1 more field]\n"
+     }
+    ]
+   },
    "apps": [],
-   "runtimeInfos": {},
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1617611408674_331567310",
-   "id": "paragraph_1617611408674_331567310",
-   "dateCreated": "2021-04-05T11:30:08+0300",
-   "dateStarted": "2021-04-05T11:30:08+0300",
-   "dateFinished": "2021-04-05T11:30:13+0300",
-   "status": "ERROR"
+   "jobName": "paragraph_1623333568347_143474587",
+   "id": "paragraph_1623333568347_143474587",
+   "dateCreated": "2021-06-10T16:59:28+0300",
+   "dateStarted": "2021-06-10T16:59:28+0300",
+   "dateFinished": "2021-06-10T16:59:39+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval scidocsdata_HOME = \"/home/ometaxas/Projects/SparkNotebooks/data\" \n    //\"/home/ometaxas/Projects/SciDocs/scidocs/data\"\nimport org.apache.spark.sql.{DataFrame, SparkSession}\nimport org.apache.spark.sql.functions.explode\nimport scala.collection.JavaConverters._\nimport java.util.HashMap\nimport scala.collection.mutable.ArrayBuffer\nimport org.codehaus.jackson.map.ObjectMapper\n// import spark.implicits._\n\n    val dataSetSource = df.selectExpr(\"CAST(key AS STRING) key\", \"cast(value as string) value\", \"CAST(partition as String)\", \"CAST(offset as String)\", \"CAST(timestamp as String)\")\n      .select( $\"value\", $\"key\", $\"partition\", $\"offset\", $\"timestamp\").as[(String, String, String, String, String)]\n\n\n      val dataSetTranslated = dataSetSource.map(row=>{\n        val jsonInput= row._1\n        val key = row._2\n        val partition = row._3\n        val offset = row._4\n        val timestamp = row._5\n\n        //Converting Original JSON to ArrayBuffer of JSON(s)\n        val mapperObj = new ObjectMapper()\n        val jsonMap = mapperObj.readValue(jsonInput,classOf[HashMap[String,HashMap[String,String]]])\n        val JsonList = new ArrayBuffer[String]()\n        \nval paper_metadata_sci= spark.read\n        .option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$scidocsdata_HOME/SciDocSample.json\")\npaper_metadata_sci.printSchema()\npaper_metadata_sci.show(5)\n\n//spark.read.option(\"recordDelimiter\", \"line\").json(???)\n\n// parse one json value per file\n//spark.read.option(\"recordDelimiter\", \"file\").json(???)\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-05-24T18:23:44+0300",
+   "config": {
+    "results": [
+     {}
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Console"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- 0003aa77bdefc1c75f9d2ba732635c132fc0c863: struct (nullable = true)\n |    |-- abstract: string (nullable = true)\n |    |-- authors: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- cited_by: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- paper_id: string (nullable = true)\n |    |-- references: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- title: string (nullable = true)\n |    |-- year: long (nullable = true)\n |-- 0007181efc556fd1fcda2642e9bd85dd0f0c32d6: struct (nullable = true)\n |    |-- abstract: string (nullable = true)\n |    |-- authors: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- cited_by: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- paper_id: string (nullable = true)\n |    |-- references: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- title: string (nullable = true)\n |    |-- year: long (nullable = true)\n |-- 000c009765a276d166fc67595e107a9bc44f230d: struct (nullable = true)\n |    |-- abstract: string (nullable = true)\n |    |-- authors: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- cited_by: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- paper_id: string (nullable = true)\n |    |-- references: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- title: string (nullable = true)\n |    |-- year: long (nullable = true)\n\n+----------------------------------------+----------------------------------------+----------------------------------------+\n|0003aa77bdefc1c75f9d2ba732635c132fc0c863|0007181efc556fd1fcda2642e9bd85dd0f0c32d6|000c009765a276d166fc67595e107a9bc44f230d|\n+----------------------------------------+----------------------------------------+----------------------------------------+\n|                    [PROBLEM STATEMEN...|                                    null|                                    null|\n|                                    null|                    [Routers must per...|                                    null|\n|                                    null|                                    null|                    [The data of inte...|\n+----------------------------------------+----------------------------------------+----------------------------------------+\n\n\u001b[1m\u001b[34mscidocsdata_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/SparkNotebooks/data\n\u001b[1m\u001b[34mpaper_metadata_sci\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [0003aa77bdefc1c75f9d2ba732635c132fc0c863: struct<abstract: string, authors: array<string> ... 5 more fields>, 0007181efc556fd1fcda2642e9bd85dd0f0c32d6: struct<abstract: string, authors: array<string> ... 5 more fields> ... 1 more field]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=6"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1621869824639_1442640766",
+   "id": "paragraph_1621869824639_1442640766",
+   "dateCreated": "2021-05-24T18:23:44+0300",
+   "dateStarted": "2021-05-24T18:23:44+0300",
+   "dateFinished": "2021-05-24T18:23:44+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval paper_metadata_mag_meshdf = spark.read.json(s\"file://$scidocsdata_HOME/paper_metadata_mag_mesh.json\")\npaper_metadata_mag_meshdf.printSchema()\npaper_metadata_mag_meshdf.show(5)\n\nval paper_metadata_rec = spark.read.json(s\"file://$scidocsdata_HOME/paper_metadata_recomm.json\")\npaper_metadata_rec.printSchema()\npaper_metadata_rec.show(5)\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-05-19T17:13:57+0300",
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=3"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1621433637432_303546871",
+   "id": "paragraph_1621433637432_303546871",
+   "dateCreated": "2021-05-19T17:13:57+0300",
+   "dateStarted": "2021-05-19T17:13:57+0300",
+   "dateFinished": "2021-05-19T17:16:51+0300",
+   "status": "ABORT"
   }
  ],
  "name": "Zeppelin Notebook",
