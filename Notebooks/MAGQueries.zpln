@@ -70,7 +70,8 @@
    "config": {
     "results": [
      {}
-    ]
+    ],
+    "editorHide": true
    },
    "settings": {
     "params": {
@@ -124,7 +125,9 @@
    "text": "%spark\nnoResolvedInstitutions.show(50, false)",
    "user": "anonymous",
    "dateUpdated": "2021-01-29T19:43:28+0200",
-   "config": {},
+   "config": {
+    "editorHide": true
+   },
    "settings": {
     "params": {},
     "forms": {}
@@ -682,7 +685,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nval paper_author_fos_abstractsdfjson = spark.read.json(s\"$outPath/scitrus/authorPapers.json\")\npaper_author_fos_abstractsdfjson.printSchema()\nprintln(paper_author_fos_abstractsdf.count())\npaper_author_fos_abstractsdfjson.show(5)\n\n",
+   "text": "%spark\nval paper_author_fos_abstractsdfjson = spark.read.json(s\"$outPath/scitrus/authorPapers.json\")\npaper_author_fos_abstractsdfjson.printSchema()\nprintln(paper_author_fos_abstractsdf.count())\npaper_author_fos_abstractsdfjson.show(5)\n",
    "user": "anonymous",
    "dateUpdated": "2021-01-27T18:41:29+0200",
    "config": {
@@ -745,6 +748,16 @@
    "dateStarted": "2021-01-27T18:41:29+0200",
    "dateFinished": "2021-01-27T18:42:17+0200",
    "status": "FINISHED"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/2021-08-30/nlp\"\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\nval abstractTsvFilename3 = \"PaperAbstractsInvertedIndex.txt.3\"\nval abstractTsvFilename4 = \"PaperAbstractsInvertedIndex.txt.4\"\nval abstractTsvFilename5 = \"PaperAbstractsInvertedIndex.txt.5\"\n//val abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval df1 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n        .select($\"paperId\")\n//df3.printSchema\n//df3.show(5)\n\nval df2 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n.select($\"paperId\")\n\nval df3 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename3\")\n.select($\"paperId\")\n\nval df4 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename4\")\n.select($\"paperId\")\n\nval df5 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename5\")\n.select($\"paperId\")\n\n\n\nprintln(df2.count())\nprintln(df3.count())\nprintln(df4.count())\nprintln(df5.count())\n\n",
+   "config": {}
   }
  ],
  "name": "Zeppelin Notebook",

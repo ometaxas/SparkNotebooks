@@ -489,7 +489,7 @@
    "id": "paragraph_1628665524063_1519518705",
    "dateCreated": "2021-08-11T10:05:24+0300",
    "dateStarted": "2021-08-11T10:05:24+0300",
-   "status": "RUNNING"
+   "status": "ABORT"
   },
   {
    "title": "Get Conferences",
