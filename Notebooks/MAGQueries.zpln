@@ -1,9 +1,10 @@
 ﻿{
  "paragraphs": [
   {
-   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n",
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n \nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 60g\nspark.driver.maxResultSize 5g \n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\n#spark.rapids.sql.concurrentGpuTasks=3\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \nspark.executor.resource.gpu.amount=1\n#spark.task.resource.gpu.amount=0.25\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark                                         \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp, /media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n#spark.executor.memory  30g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n#spark.executor.cores=4\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-05-17T21:02:54+0300",
+   "dateUpdated": "2021-11-18T17:18:17+0200",
+   "progress": 0.0,
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -28,17 +29,182 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1621274573976_1820666662",
-   "id": "paragraph_1621274573976_1820666662",
-   "dateCreated": "2021-05-17T21:02:53+0300",
-   "dateStarted": "2021-05-17T21:02:54+0300",
-   "dateFinished": "2021-05-17T21:02:54+0300",
+   "jobName": "paragraph_1637248697372_1805389612",
+   "id": "paragraph_1637248697372_1805389612",
+   "dateCreated": "2021-11-18T17:18:17+0200",
+   "dateStarted": "2021-11-18T17:18:17+0200",
+   "dateFinished": "2021-11-18T17:18:17+0200",
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\n//he features that we need are: pkgID or magID, publicationDate, abstract, normalizedTitle, authors(theirs pkgID and displayNames), publisher, publicationYear, publishedIn(displayName, normalizedName, pkgId) and tags(normalizedName, pkgId)\n/*\npkgId\npublicationDate\nabstract\n            normalizedTitle\n            authors {\n              pkgId\n              displayNames\n            }\n            publisher\n            publicationYear\n            publishedIn {\n              displayName\n              normalizedName\n              pkgId\n            }\n            tags {\n                normalizedName\n                pkgId\n            }\n */\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/20210201/nlp\"\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/20210201/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/20210201/advanced\"\nval outPath = \"/media/ometaxas/nvme/datasets/scitrus/FOS\";\n\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\nval authorsTsvFilename = \"Authors.txt\" \n                              \nval authorSchema = new StructType().\n                add(\"authorId\", LongType, false).\n                add(\"rank\", LongType, true).                \n                add(\"normalizedName\", StringType, true).\n                add(\"displayName\",StringType, true).\n                add(\"lastKnownAffiliationId\", LongType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n\n                \nval authordf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(authorSchema).\n                csv(s\"file://$MAG_HOME/$authorsTsvFilename\").select($\"authorId\",$\"displayName\", $\"paperCount\")\n\n\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\n\nval paperAuthorAffSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"authorId\", LongType, false).                \n                add(\"affiliationId\", LongType, true).\n                add(\"authorSequenceNumber\",IntegerType, true).\n                add(\"originalAuthor\", StringType, true).\n                add(\"originalAffiliation\", StringType, true)\n\n                \nval paperAuthorAffdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperAuthorAffSchema).\n                csv(s\"file://$MAG_HOME/$paperAuthorsAffTsvFilename\")\n               //.select($\"paperId\", $\"authorId\")\n\nval papersTsvFilename = \"Papers.txt\"\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", StringType, true).\n    add(\"createdDate\", DateType, true)\n  \n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                    schema(paperSchema).\n                    csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .select($\"paperId\", $\"normalizedTitle\", $\"publisherName\", $\"journalId\", $\"conferenceSeriesId\", $\"pubYear\")    \n\n\n\n\n//val papersdfcnt = papersdf.count()\n//println(papersdfcnt)\n//papersdf.printSchema\n//papersdf.show(5)\n\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval df3 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n//df3.printSchema\n//df3.show(5)\n\nval df4 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n//df4.printSchema\n//df4.show(5)\n\n\nval udf1 = udf[String, String]((index:String) => {\n    \n    val index2 = org.apache.commons.lang.StringUtils.replace(index, \"\\\\\\\"\", \"\\'\")\n    val indexNumber: String = org.apache.commons.lang.StringUtils.substringBetween(index2, \":\", \",\")\n    if (indexNumber == null) {\n      null\n    }\n    var outputText: StringBuilder = new StringBuilder()\n    try {\n      val textLength: Int = parseInt(indexNumber)\n      val text: Array[String] =  new Array[String](textLength)\n      val tokens: Array[String] =\n        org.apache.commons.lang.StringUtils.substringsBetween(index2, \"\\\"\", \"\\\"\")\n      for (i <- 0 until tokens.length - 2) {\n        if (tokens(i + 2).==(\"\\'\")) {\n          tokens(i + 2) = \"\\\"\"\n        }\n        val tokenPositions: Array[String] =\n          org.apache.commons.lang.StringUtils.substringsBetween(index2, \"[\", \"]\")\n        for (s <- tokenPositions(i).split(\",\")) {\n          if (s.matches(\"(.*)\\\\D(.*)\")) {\n          }\n          val wordPosition: Int = parseInt(s)\n          text(wordPosition) = tokens(i + 2)\n        }\n      }\n      for (j <- 0 until text.length) {\n        if (j < text.length - 1) {\n          outputText.append(text(j)).append(' ')\n        } else {\n          outputText.append(text(j))\n        }\n      }\n      outputText = new StringBuilder(\n        outputText.toString\n          .replaceAll(\"\\'\", \"\\\"\")\n          .replaceAll(\"\\\\w?\\\\\\\\\\\\w\\\\d+\", \" \"))\n    } catch {\n      case e: Exception => {\n        logger.error(\"Error while parsing \")\n        null\n      }\n\n    }\n    outputText.toString}\n    )\n\nval paperabstractsdf1 = df3.select($\"paperId\", udf1($\"abstractText\").as(\"abstract\"))\n//df5.show(5)\n\nval paperabstractsdf2 = df4.select($\"paperId\", udf1($\"abstractText\").as(\"abstract\"))\n//df6.show(5)\n\n//val paperabstractsdf = paperabstractsdf1.union(paperabstractsdf2).dropDuplicates()\n//val abstractsdfcnt = abstractsdf.count()\n//println(s\"abstractsdfcnt\")\n//paperabstractsdf.show(5)\n\nval paperFieldsOfStudyTsvFilename = \"PaperFieldsOfStudy.txt\"\n\nval paperIdFieldsOfStudyschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"score\", DoubleType, true)\n                \nval paperFieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperIdFieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$paperFieldsOfStudyTsvFilename\")\n//paperFieldsOfStudydf.printSchema\n//paperFieldsOfStudydf.show(5)\n\nval fieldsOfStudyTsvFilename = \"FieldsOfStudy.txt\"\n\nval fieldsOfStudyschema = new StructType().\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"name\", StringType, true).\n                add(\"mainType\", StringType, true).\n                add(\"level\", IntegerType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval fieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(fieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$fieldsOfStudyTsvFilename\")\n                .select($\"fieldsOfStudyId\", $\"normalizedName\", $\"level\", $\"paperCount\")\n//fieldsOfStudydf.printSchema\n//fieldsOfStudydf.show(5)\n/*\nval paper_fos = paperFieldsOfStudydf.join(broadcast(fieldsOfStudydf), paperFieldsOfStudydf(\"fieldsOfStudyId\")=== fieldsOfStudydf(\"fieldsOfStudyId\"), \"inner\")\n                .groupBy(paperFieldsOfStudydf(\"paperId\").as(\"paper_fos_paperId\"))\n                .agg( \n                    //    sum(when($\"date\" > \"2017-03\", $\"value\")).alias(\"value3\"),\n                    //sum(when($\"date\" > \"2017-04\", $\"value\")).alias(\"value4\")\n                    collect_set(when($\"level\" > 1, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids\"),\n                    collect_set(when($\"level\" ===  0, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids_lvl0\"),\n                    collect_set(when($\"level\" ===  1, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids_lvl1\")\n                    )\n                    .persist(StorageLevel.DISK_ONLY)\n\n//paper_fos.show(5)\n*/\nval confSeriesTsvFilename = \"ConferenceSeries.txt\"\n\nval confSeriesschema = new StructType().\n                add(\"conferenceSeriesId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"conferenceName\", StringType, true).                \n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval confSeriesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(confSeriesschema).\n                csv(s\"file://$MAG_HOME/$confSeriesTsvFilename\")\n                .select($\"conferenceSeriesId\", $\"conferenceName\")\n\nval journalsTsvFilename =  \"Journals.txt\"\n\nval journalschema = new StructType().\n                add(\"journalId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"journalName\", StringType, true).                \n                add(\"issn\", StringType, true).\n                add(\"publisher\", StringType, true).\n                add(\"webpage\", StringType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval journaldf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(journalschema).\n                csv(s\"file://$MAG_HOME/$journalsTsvFilename\")\n                .select($\"journalId\", $\"journalName\")\n\n\n\n\n",
+   "title": "MAG DFs",
+   "text": "%spark\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport org.apache.spark.sql.{DataFrame, Dataset}\n\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\nimport java.util.Calendar;\n\n/*\nval MAG_NLP =  \"/media/datadisk/Datasets/MAG/2021-11-10/nlp\"\nval MAG_HOME = \"/media/datadisk/Datasets/MAG/2021-11-10/mag\"\nval MAG_ADV =  \"/media/datadisk/Datasets/MAG/2021-11-10/advanced\"\nval outPath =  \"/media/datadisk/Datasets/MAG/2021-11-10/out\"\n*/\n\nval MAG_NLP =  \"/media/ometaxas/nvme/datasets/MAGsample/nlp\"\nval MAG_HOME = \"/media/ometaxas/nvme/datasets/MAGsample/mag\"\nval MAG_ADV =  \"/media/ometaxas/nvme/datasets/MAGsample/advanced\"\nval outPath =  \"/media/ometaxas/nvme/datasets/MAGsample/out\"\n\n\n\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\nval authorsTsvFilename = \"Authors.txt\" \n                              \nval authorSchema = new StructType().\n                add(\"authorId\", LongType, false).\n                add(\"rank\", LongType, true).                \n                add(\"normalizedName\", StringType, true).\n                add(\"displayName\",StringType, true).\n                add(\"lastKnownAffiliationId\", LongType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n\n                \nval authordf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(authorSchema).\n                csv(s\"file://$MAG_HOME/$authorsTsvFilename\").select($\"authorId\",$\"displayName\", $\"paperCount\")\n\n\nval paperAuthorsAffTsvFilename = \"PaperAuthorAffiliations.txt\"\n\nval paperAuthorAffSchema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"authorId\", LongType, false).                \n                add(\"affiliationId\", LongType, true).\n                add(\"authorSequenceNumber\",IntegerType, true).\n                add(\"originalAuthor\", StringType, true).\n                add(\"originalAffiliation\", StringType, true)\n\n                \nval paperAuthorAffdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperAuthorAffSchema).\n                csv(s\"file://$MAG_HOME/$paperAuthorsAffTsvFilename\").select($\"paperId\", $\"authorId\")\n\nval papersTsvFilename = \"Papers.txt\"\nval paperSchema = new StructType().\n    add(\"paperId\", LongType, false).\n    add(\"magRank\", IntegerType, true).\n    add(\"doi\", StringType, true).\n    add(\"docTypetmp\", StringType, true).\n    add(\"normalizedTitle\", StringType, true).\n    add(\"title\", StringType, false).\n    add(\"bookTitle\", StringType, true).\n    add(\"pubYear\", IntegerType, true).\n    add(\"pubDate\", StringType, true).\n    add(\"onlineDate\", StringType, true).\n    add(\"publisherName\", StringType, true).\n    add(\"journalId\", StringType, true).\n    add(\"conferenceSeriesId\", LongType, true).\n    add(\"conferenceInstancesId\", LongType, true).\n    add(\"volume\", StringType, true).\n    add(\"issue\", StringType, true).\n    add(\"firstPage\", StringType, true).\n    add(\"lastPage\", StringType, true).\n    add(\"referenceCount\", LongType, true).\n    add(\"citationCount\", LongType, true).\n    add(\"estimatedCitation\", LongType, true).\n    add(\"originalVenue\", StringType, true).\n    add(\"familyId\", StringType, true).\n    add(\"createdDate\", DateType, true)\n  \n\nval papersdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                    schema(paperSchema).\n                    csv(s\"file://$MAG_HOME/$papersTsvFilename\")\n        .select($\"paperId\", $\"normalizedTitle\", $\"publisherName\", $\"journalId\", $\"conferenceSeriesId\", $\"pubYear\", $\"pubDate\", $\"magRank\", $\"docTypetmp\", $\"doi\")    \n\n//val papersdfcnt = papersdf.count()\n//println(papersdfcnt)\n//papersdf.printSchema\n//papersdf.show(5)\n\nval abstractTsvFilename1 = \"PaperAbstractsInvertedIndex.txt.1\"\nval abstractTsvFilename2 = \"PaperAbstractsInvertedIndex.txt.2\"\n\nval schema = new StructType().\n                add(\"paperId\", StringType, false).\n                add(\"abstractText\", StringType, false)\n                \nval df3 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename1\")\n//df3.printSchema\n//df3.show(5)\n\nval df4 = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(schema).\n                csv(s\"file://$MAG_NLP/$abstractTsvFilename2\")\n//df4.printSchema\n//df4.show(5)\n\n\nval udf1 = udf[String, String]((index:String) => {\n    \n    val index2 = org.apache.commons.lang.StringUtils.replace(index, \"\\\\\\\"\", \"\\'\")\n    val indexNumber: String = org.apache.commons.lang.StringUtils.substringBetween(index2, \":\", \",\")\n    if (indexNumber == null) {\n      null\n    }\n    var outputText: StringBuilder = new StringBuilder()\n    try {\n      val textLength: Int = parseInt(indexNumber)\n      val text: Array[String] =  new Array[String](textLength)\n      val tokens: Array[String] =\n        org.apache.commons.lang.StringUtils.substringsBetween(index2, \"\\\"\", \"\\\"\")\n      for (i <- 0 until tokens.length - 2) {\n        if (tokens(i + 2).==(\"\\'\")) {\n          tokens(i + 2) = \"\\\"\"\n        }\n        val tokenPositions: Array[String] =\n          org.apache.commons.lang.StringUtils.substringsBetween(index2, \"[\", \"]\")\n        for (s <- tokenPositions(i).split(\",\")) {\n          if (s.matches(\"(.*)\\\\D(.*)\")) {\n          }\n          val wordPosition: Int = parseInt(s)\n          text(wordPosition) = tokens(i + 2)\n        }\n      }\n      for (j <- 0 until text.length) {\n        if (j < text.length - 1) {\n          outputText.append(text(j)).append(' ')\n        } else {\n          outputText.append(text(j))\n        }\n      }\n      outputText = new StringBuilder(\n        outputText.toString\n          .replaceAll(\"\\'\", \"\\\"\")\n          .replaceAll(\"\\\\w?\\\\\\\\\\\\w\\\\d+\", \" \"))\n    } catch {\n      case e: Exception => {\n        logger.error(\"Error while parsing \")\n        null\n      }\n\n    }\n    outputText.toString}\n    )\n\nval paperabstractsdf1 = df3.select($\"paperId\", udf1($\"abstractText\").as(\"abstract\"))\n//df5.show(5)\n\nval paperabstractsdf2 = df4.select($\"paperId\", udf1($\"abstractText\").as(\"abstract\"))\n//df6.show(5)\n\n//val paperabstractsdf = paperabstractsdf1.union(paperabstractsdf2).dropDuplicates()\n//val abstractsdfcnt = abstractsdf.count()\n//println(s\"abstractsdfcnt\")\n//paperabstractsdf.show(5)\n\nval paperFieldsOfStudyTsvFilename = \"PaperFieldsOfStudy.txt\"\n\nval paperIdFieldsOfStudyschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"score\", DoubleType, true)\n                \nval paperFieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperIdFieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$paperFieldsOfStudyTsvFilename\")\n//paperFieldsOfStudydf.printSchema\n//paperFieldsOfStudydf.show(5)\n\nval fieldsOfStudyTsvFilename = \"FieldsOfStudy.txt\"\n\nval fieldsOfStudyschema = new StructType().\n                add(\"fieldsOfStudyId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"name\", StringType, true).\n                add(\"mainType\", StringType, true).\n                add(\"level\", IntegerType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval fieldsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(fieldsOfStudyschema).\n                csv(s\"file://$MAG_ADV/$fieldsOfStudyTsvFilename\")\n                .select($\"fieldsOfStudyId\", $\"normalizedName\", $\"level\", $\"paperCount\")\n//fieldsOfStudydf.printSchema\n//fieldsOfStudydf.show(5)\n/*\nval paperMeSHTsvFilename = \"PaperMeSH.txt\"\n\nval paperMeSHschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"DescriptorUI\", StringType, false).\n                add(\"DescriptorName\", StringType, false).                \n                add(\"QualifierUI\", StringType, true).\n                add(\"QualifierName\", StringType, true).\n                add(\"IsMajorTopic\", BooleanType, true)\n\n                \nval paperMeSHsOfStudydf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperMeSHschema).\n                csv(s\"file://$MAG_ADV/$paperMeSHTsvFilename\")\n\n*/\n\nval paperReferencesTsvFilename = \"PaperReferences.txt\"\n\nval paperRefsschema = new StructType().\n                add(\"paperId\", LongType, false).\n                add(\"paperReferenceId\", LongType, false)\n                \n                \nval paperReferencesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(paperRefsschema).\n                csv(s\"file://$MAG_HOME/$paperReferencesTsvFilename\")\n\n\n/*\nval paper_fos = paperFieldsOfStudydf.join(broadcast(fieldsOfStudydf), paperFieldsOfStudydf(\"fieldsOfStudyId\")=== fieldsOfStudydf(\"fieldsOfStudyId\"), \"inner\")\n                .groupBy(paperFieldsOfStudydf(\"paperId\").as(\"paper_fos_paperId\"))\n                .agg( \n                    //    sum(when($\"date\" > \"2017-03\", $\"value\")).alias(\"value3\"),\n                    //sum(when($\"date\" > \"2017-04\", $\"value\")).alias(\"value4\")\n                    collect_set(when($\"level\" > 1, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids\"),\n                    collect_set(when($\"level\" ===  0, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids_lvl0\"),\n                    collect_set(when($\"level\" ===  1, paperFieldsOfStudydf(\"fieldsOfStudyId\"))).as(\"fosids_lvl1\")\n                    )\n                    .persist(StorageLevel.DISK_ONLY)\n\n//paper_fos.show(5)\n*/\nval confSeriesTsvFilename = \"ConferenceSeries.txt\"\n\nval confSeriesschema = new StructType().\n                add(\"conferenceSeriesId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"conferenceName\", StringType, true).                \n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval confSeriesdf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(confSeriesschema).\n                csv(s\"file://$MAG_HOME/$confSeriesTsvFilename\")\n                //.select($\"conferenceSeriesId\", $\"conferenceName\")\n\nval journalsTsvFilename =  \"Journals.txt\"\n\nval journalschema = new StructType().\n                add(\"journalId\", LongType, false).\n                add(\"magRank\", IntegerType, true).\n                add(\"normalizedName\", StringType, true).\n                add(\"journalName\", StringType, true).                \n                add(\"issn\", StringType, true).\n                add(\"publisher\", StringType, true).\n                add(\"webpage\", StringType, true).\n                add(\"paperCount\", LongType, true).\n                add(\"paperFamilyCount\", LongType, true).\n                add(\"citationCount\", LongType, true).\n                add(\"createdDate\", DateType, true)\n                \nval journaldf = spark.read.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n                schema(journalschema).\n                csv(s\"file://$MAG_HOME/$journalsTsvFilename\")\n               // .select($\"journalId\", $\"journalName\")\n\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-05-17T21:03:01+0300",
+   "dateUpdated": "2021-11-18T14:33:05+0200",
+   "progress": 0.0,
+   "config": {
+    "title": true
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "import org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport org.apache.spark.sql.{DataFrame, Dataset}\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer\nimport java.util.Locale\nimport org.apache.spark.storage.StorageLevel\nimport java.util.Calendar\n\u001b[1m\u001b[34mMAG_NLP\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/MAGsample/nlp\n\u001b[1m\u001b[34mMAG_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/MAGsample/mag\n\u001b[1m\u001b[34mMAG_ADV\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/MAGsample/advanced\n\u001b[1m\u001b[34moutPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m =...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637238785661_497609933",
+   "id": "paragraph_1637238785661_497609933",
+   "dateCreated": "2021-11-18T14:33:05+0200",
+   "dateStarted": "2021-11-18T14:33:05+0200",
+   "dateFinished": "2021-11-18T14:33:20+0200",
+   "status": "FINISHED"
+  },
+  {
+   "title": "Test Reading speed",
+   "text": "%spark\nimport java.time.LocalDateTime\nimport java.time.format.DateTimeFormatter\n\nprintln(LocalDateTime.now.format(DateTimeFormatter.ofPattern(\"YYYYMMdd_HHmmss\")))\n\nval MAG_pub_authorsdf = spark.read.parquet(\"/media/datadisk/Datasets/MAG_S2_ORCID/S2_MAG_Orcid.parquet\")\nprintln(\"MAG_pub_authorsdf  cnt:\"+MAG_pub_authorsdf.count())\nprintln(LocalDateTime.now.format(DateTimeFormatter.ofPattern(\"YYYYMMdd_HHmmss\")))\n\nval S2_MAG_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_all_2021.parquet\")\nprintln(\"S2_MAG_df  cnt:\"+S2_MAG_df.count())\nprintln(LocalDateTime.now.format(DateTimeFormatter.ofPattern(\"YYYYMMdd_HHmmss\")))\n\nprintln(\"papersdf  cnt:\"+papersdf.count())\nprintln(LocalDateTime.now.format(DateTimeFormatter.ofPattern(\"YYYYMMdd_HHmmss\")))\n/*\nCPU\n20211116_181543\nMAG_pub_authorsdf  cnt:661651048\n20211116_181546 -->\nS2_MAG_df  cnt:721177821\n20211116_181547\npapersdf  cnt:268253235\n20211116_183157 (15 min)\n */\n\n/*\nMAG_pub_authorsdf.show(20)\nMAG_pub_authorsdf.printSchema()\nprintln(\"MAG_pub_authorsdf  cnt:\"+MAG_pub_authorsdf.count())\n*/\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-16T18:43:34+0200",
+   "progress": 88.0,
+   "config": {
+    "title": true,
+    "editorHide": true
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "20211116_184334\nMAG_pub_authorsdf  cnt:661651048\n20211116_184356\nS2_MAG_df  cnt:721177821\n20211116_184357\npapersdf  cnt:519614\n20211116_184357\nimport java.time.LocalDateTime\nimport java.time.format.DateTimeFormatter\n\u001b[1m\u001b[34mMAG_pub_authorsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [MAGpaperId: bigint, MAGdoi: string ... 20 more fields]\n\u001b[1m\u001b[34mS2_MAG_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [magPaperId: bigint, magDoi: string ... 23 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=10"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=11"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=12"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=13"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=14"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637081014014_1150823523",
+   "id": "paragraph_1637081014014_1150823523",
+   "dateCreated": "2021-11-16T18:43:34+0200",
+   "dateStarted": "2021-11-16T18:43:34+0200",
+   "dateFinished": "2021-11-16T18:43:57+0200",
+   "status": "FINISHED"
+  },
+  {
+   "title": "Test Window based aggregation",
+   "text": "%spark\nimport org.apache.spark.sql.expressions.Window\n\nval journal_partition_sorted_by_rank = Window.partitionBy(\"journalId\").orderBy($\"magRank\")\nval journal_partition_sorted_by_date = Window.partitionBy(\"journalId\").orderBy($\"pubYear\".desc)\nval journal_id_partition = Window.partitionBy(\"journalId\")\n\nval top_k_papers = papersdf \n            .filter(papersdf(\"journalId\").isNotNull)                   \n            .withColumn(\"rank_within_journal\", row_number().over(journal_partition_sorted_by_rank))\n            .withColumn(\"recency_within_journal\", row_number().over(journal_partition_sorted_by_date))\n            .withColumn(\"paperCnt_in_journal\", count(col(\"paperId\")).over(journal_id_partition))\n            .withColumn(\"threshold_in_journal\", lit(0.2) * count(col(\"paperId\")).over(journal_id_partition))\n            .filter($\"rank_within_journal\"  <= $\"threshold_in_journal\" || $\"recency_within_journal\"  <= $\"threshold_in_journal\")\n\nprintln(papersdf.count())\nprintln(top_k_papers.count())\n//papersdf.groupBy(\"journalId\").count().show(50)\n//top_k_papers.groupBy(\"journalId\").count().show(50)\n\n\ntop_k_papers.show(20)       \n/*\nval journal_paper_fos_df = top_k_papers\n        .join(paperFieldsOfStudydf, top_k_papers(\"paperId\") === paperFieldsOfStudydf(\"paperId\"),  \"inner\")\n        .select(top_k_papers(\"journalId\"), top_k_papers(\"paperId\"), paperFieldsOfStudydf(\"fieldsOfStudyId\"))\n        //.filter(papersdf(\"journalId\").isNotNull)\n*/\nval journal_paper_fos_df = papersdf\n        .join(paperFieldsOfStudydf, papersdf(\"paperId\") === paperFieldsOfStudydf(\"paperId\"),  \"inner\")\n        .select(papersdf(\"journalId\"), papersdf(\"paperId\"), paperFieldsOfStudydf(\"fieldsOfStudyId\"))\n\n\nprintln(journal_paper_fos_df.count())\n\nval   journal_field_of_study_partition = Window.partitionBy(\"journalId\", \"fieldsOfStudyId\")\n\n\nval     journal_fos_weight_df = journal_paper_fos_df\n        .withColumn(\"total_fields_of_study_alias\", count(col(\"fieldsOfStudyId\")).over(journal_id_partition)). \n        withColumn(\"fields_of_study_per_journal_alias\", count(col(\"paperId\")).over(journal_field_of_study_partition)). \n        withColumn(\"field_of_study_normalized_weight\", (col(\"fields_of_study_per_journal_alias\") / col(\"total_fields_of_study_alias\")))\n\njournal_fos_weight_df.show(10)\n\n\n\nval journal_agg_df = journal_fos_weight_df. \n        groupBy(\"journalId\", \"fieldsOfStudyId\").\n        agg(\n            first(col(\"field_of_study_normalized_weight\")).alias(\"field_of_study_normalized_weight\")\n        )\n\njournal_agg_df.show(20)\n \n//val papersds =papersdf.as(\"Paper\")\n///papersds.show(5)\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T12:51:52+0200",
+   "progress": 99.0,
+   "config": {
+    "editorHide": false,
+    "title": true,
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Table"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "519614\n177032\n+----------+--------------------+--------------------+---------+------------------+-------+----------+-------+----------+--------------------+-------------------+----------------------+-------------------+--------------------+\n|   paperId|     normalizedTitle|       publisherName|journalId|conferenceSeriesId|pubYear|   pubDate|magRank|docTypetmp|                 doi|rank_within_journal|recency_within_journal|paperCnt_in_journal|threshold_in_journal|\n+----------+--------------------+--------------------+---------+------------------+-------+----------+-------+----------+--------------------+-------------------+----------------------+-------------------+--------------------+\n|2962730651|openpose realtime...|                IEEE|199944782|              null|   2021|2021-01-01|  16324|   Journal|10.1109/TPAMI.201...|                 70|                     1|               4746|               949.2|\n|2928165649|res2net a new mul...|                IEEE|199944782|              null|   2021|2021-02-01|  17182|   Journal|10.1109/TPAMI.201...|                196|                     2|               4746|               949.2|\n|3014641072|deep high resolut...|Institute of Elec...|199944782|              null|   2021|2021-10-01|  17375|   Journal|10.1109/TPAMI.202...|                246|                     3|               4746|               949.2|\n|2898200825|got 10k a large h...|                IEEE|199944782|              null|   2021|2021-05-01|  17730|   Journal|10.1109/TPAMI.201...|                350|                     4|               4746|               949.2|\n|2989676862|cascade r cnn hig...|                IEEE|199944782|              null|   2021|2021-05-01|  17888|   Journal|10.1109/TPAMI.201...|                422|                     5|               4746|               949.2|\n|3013529009|deep learning for...|                IEEE|199944782|              null|   2021|2021-10-01|  17898|   Journal|10.1109/TPAMI.202...|                426|                     6|               4746|               949.2|\n|3132455321|image segmentatio...|                IEEE|199944782|              null|   2021|2021-02-17|  18144|   Journal|10.1109/TPAMI.202...|                581|                     7|               4746|               949.2|\n|3125736290|deep learning for...|                IEEE|199944782|              null|   2021|2021-01-26|  18309|   Journal|10.1109/TPAMI.202...|                684|                     8|               4746|               949.2|\n|3000775737|residual dense ne...|                IEEE|199944782|              null|   2021|2021-07-01|  18353|   Journal|10.1109/TPAMI.202...|                708|                     9|               4746|               949.2|\n|2960416371|recipe1m a datase...|                IEEE|199944782|              null|   2021|2021-01-01|  18373|   Journal|10.1109/TPAMI.201...|                721|                    10|               4746|               949.2|\n|2998281665|high speed and hi...|                IEEE|199944782|              null|   2021|2021-06-01|  18420|   Journal|10.1109/TPAMI.201...|                755|                    11|               4746|               949.2|\n|2901114541|recent advances i...|IEEE Trans Patter...|199944782|              null|   2021|2021-10-01|  18496|   Journal|10.1109/TPAMI.202...|                817|                    12|               4746|               949.2|\n|3008105217|from points to pa...|IEEE Computer Soc...|199944782|              null|   2021|2021-08-01|  18621|   Journal|10.1109/TPAMI.202...|                906|                    13|               4746|               949.2|\n|2955060956|revisiting video ...|                IEEE|199944782|              null|   2021|2021-01-01|  18645|   Journal|10.1109/TPAMI.201...|                928|                    14|               4746|               949.2|\n|3166898278|arcface additive ...|Institute of Elec...|199944782|              null|   2021|2021-06-09|  18679|   Journal|10.1109/TPAMI.202...|                949|                    15|               4746|               949.2|\n|3006871679|deep multi view e...|IEEE Computer Soc...|199944782|              null|   2021|2021-04-01|  18714|   Journal|10.1109/TPAMI.202...|                987|                    16|               4746|               949.2|\n|2973673960|memc net motion e...|                IEEE|199944782|              null|   2021|2021-03-01|  18747|   Journal|10.1109/TPAMI.201...|               1019|                    17|               4746|               949.2|\n|2979509742|a review of domai...|                IEEE|199944782|              null|   2021|2021-03-01|  18756|   Journal|10.1109/TPAMI.201...|               1028|                    18|               4746|               949.2|\n|3030364939|a continual learn...|                IEEE|199944782|              null|   2021|2021-02-05|  18763|   Journal|10.1109/TPAMI.202...|               1036|                    19|               4746|               949.2|\n|2960871125|robust low rank t...|                IEEE|199944782|              null|   2021|2021-01-01|  18776|   Journal|10.1109/TPAMI.201...|               1050|                    20|               4746|               949.2|\n+----------+--------------------+--------------------+---------+------------------+-------+----------+-------+----------+--------------------+-------------------+----------------------+-------------------+--------------------+\nonly showing top 20 rows\n\n4630159\n+---------+----------+---------------+---------------------------+---------------------------------+--------------------------------+\n|journalId|   paperId|fieldsOfStudyId|total_fields_of_study_alias|fields_of_study_per_journal_alias|field_of_study_normalized_weight|\n+---------+----------+---------------+---------------------------+---------------------------------+--------------------------------+\n|199944782|2037328649|           4250|                      52669|                                1|            1.898650059807477E-5|\n|199944782|2142008226|          12843|                      52669|                                2|            3.797300119614954E-5|\n|199944782|2107479540|          12843|                      52669|                                2|            3.797300119614954E-5|\n|199944782|2107170260|          42812|                      52669|                                5|            9.493250299037384E-5|\n|199944782|2028753055|          42812|                      52669|                                5|            9.493250299037384E-5|\n|199944782|2104520762|          42812|                      52669|                                5|            9.493250299037384E-5|\n|199944782|2133436028|          42812|                      52669|                                5|            9.493250299037384E-5|\n|199944782|2104093257|          42812|                      52669|                                5|            9.493250299037384E-5|\n|199944782|2115986610|          58166|                      52669|                                7|            1.329055041865233...|\n|199944782|2132204530|          58166|                      52669|                                7|            1.329055041865233...|\n+---------+----------+---------------+---------------------------+---------------------------------+--------------------------------+\nonly showing top 10 rows\n\n+---------+---------------+--------------------------------+\n|journalId|fieldsOfStudyId|field_of_study_normalized_weight|\n+---------+---------------+--------------------------------+\n|199944782|           4250|            1.898650059807477E-5|\n|199944782|          12843|            3.797300119614954E-5|\n|199944782|          42812|            9.493250299037384E-5|\n|199944782|          58166|            1.329055041865233...|\n|199944782|          94940|            3.797300119614954E-5|\n|199944782|         120639|            3.797300119614954E-5|\n|199944782|         205068|             0.00286696159030929|\n|199944782|         288623|            3.797300119614954E-5|\n|199944782|         311688|            0.001025271032296...|\n|199944782|         459310|            3.797300119614954E-5|\n|199944782|         571446|            1.898650059807477E-5|\n|199944782|         577917|            1.898650059807477E-5|\n|199944782|         612670|            3.797300119614954E-5|\n|199944782|         612898|            1.898650059807477E-5|\n|199944782|         679329|            5.695950179422430...|\n|199944782|         689293|            1.898650059807477E-5|\n|199944782|         739882|            5.316220167460935E-4|\n|199944782|         761482|            3.797300119614954E-5|\n|199944782|         774472|            4.746625149518692E-4|\n|199944782|         812465|            1.898650059807477E-5|\n+---------+---------------+--------------------------------+\nonly showing top 20 rows\n\nimport org.apache.spark.sql.expressions.Window\n\u001b[1m\u001b[34mjournal_partition_sorted_by_rank\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@52343f99\n\u001b[1m\u001b[34mjournal_partition_sorted_by_date\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@77fb47f6\n\u001b[1m\u001b[34mjournal_id_partition\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@1fd618ce\n\u001b[1m\u001b[34mtop_k_papers\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paperId: bigint, normalizedTitle: string ... 12 more fields]\n\u001b[1m\u001b[34mjournal_paper_fos_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [journalId: string, paperId: bigint ... 1 mor...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=4"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=5"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=6"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637232712061_2055452840",
+   "id": "paragraph_1637232712061_2055452840",
+   "dateCreated": "2021-11-18T12:51:52+0200",
+   "dateStarted": "2021-11-18T12:51:52+0200",
+   "dateFinished": "2021-11-18T12:52:07+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nimport org.apache.spark.sql.catalyst.encoders.RowEncoder\nimport org.apache.spark.sql.{Encoder, Row}\nimport spark.implicits._\n\nval ds = Seq((\"99227100\", \"42222245\", \"2018-04-26\"),\n  (\"99227100\", \"42222245\", \"2018-05-01\"),\n  (\"34011381\", \"42830849\", \"2015-12-20\"),\n  (\"34011381\", \"42830849\", \"2016-11-27\"),\n  (\"34011381\", \"42830849\", \"2016-12-19\"),\n  (\"34011381\", \"42830849\", \"2017-08-05\")).toDS()\n\n//.toDF(\"ckey\", \"twkey\", \"s_date\")\n\nds.show()\n\ndef encoder(columns: Seq[String]): Encoder[Row] = RowEncoder(StructType(columns.map(StructField(_, StringType, nullable = false))))\n\nval outputCols = Seq(\"ckey\", \"twkey\", \"s_date\")\n\nval result = ds.groupByKey(_._1)\n  .flatMapGroups((_, rowsForEach) => {\n    val list1 = scala.collection.mutable.ListBuffer[Row]()\n    for (elem <- rowsForEach) {\n      list1.append(Row(elem._1, elem._2, elem._3))\n    }\n    list1\n  })(encoder(outputCols)).toDF\n\nresult.show()",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-17T20:00:11+0200",
+   "progress": 92.0,
    "config": {},
    "settings": {
     "params": {},
@@ -49,19 +215,342 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "import org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger\nimport org.slf4j.LoggerFactory\nimport org.apache.spark.sql.functions.concat_ws\nimport org.apache.spark.sql.functions.countDistinct\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer\nimport java.util.Locale\nimport org.apache.spark.storage.StorageLevel\nimport java.util.Calendar\n\u001b[1m\u001b[34mMAG_NLP\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/nlp\n\u001b[1m\u001b[34mMAG_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/mag\n\u001b[1m\u001b[34mMAG_ADV\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/MAG/20210201/advanced\n\u001b[1m\u001b[34moutPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/scitrus/FOS\n\u001b[1m\u001b[34mlog...\n"
+      "data": "+--------+--------+----------+\n|      _1|      _2|        _3|\n+--------+--------+----------+\n|99227100|42222245|2018-04-26|\n|99227100|42222245|2018-05-01|\n|34011381|42830849|2015-12-20|\n|34011381|42830849|2016-11-27|\n|34011381|42830849|2016-12-19|\n|34011381|42830849|2017-08-05|\n+--------+--------+----------+\n\n+--------+--------+----------+\n|    ckey|   twkey|    s_date|\n+--------+--------+----------+\n|34011381|42830849|2015-12-20|\n|34011381|42830849|2016-11-27|\n|34011381|42830849|2016-12-19|\n|34011381|42830849|2017-08-05|\n|99227100|42222245|2018-04-26|\n|99227100|42222245|2018-05-01|\n+--------+--------+----------+\n\nimport org.apache.spark.sql.catalyst.encoders.RowEncoder\nimport org.apache.spark.sql.{Encoder, Row}\nimport spark.implicits._\n\u001b[1m\u001b[34mds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[(String, String, String)]\u001b[0m = [_1: string, _2: string ... 1 more field]\n\u001b[1m\u001b[34mencoder\u001b[0m: \u001b[1m\u001b[32m(columns: Seq[String])org.apache.spark.sql.Encoder[org.apache.spark.sql.Row]\u001b[0m\n\u001b[1m\u001b[34moutputCols\u001b[0m: \u001b[1m\u001b[32mSeq[String]\u001b[0m = List(ckey, twkey, s_date)\n\u001b[1m\u001b[34mresult\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [ckey: string, twkey: string ... 1 more field]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=146"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=147"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=148"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=149"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=150"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637172011685_1557517488",
+   "id": "paragraph_1637172011685_1557517488",
+   "dateCreated": "2021-11-17T20:00:11+0200",
+   "dateStarted": "2021-11-17T20:00:11+0200",
+   "dateFinished": "2021-11-17T20:00:12+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\ncase class Sales(region: String, country: String, itemType: String, salesChannel: String, orderPriority: String, orderDate: java.sql.Date, unitsSold: Integer)\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T17:18:33+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "defined class Sales\n"
      }
     ]
    },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1621274581342_433904073",
-   "id": "paragraph_1621274581342_433904073",
-   "dateCreated": "2021-05-17T21:03:01+0300",
-   "dateStarted": "2021-05-17T21:03:01+0300",
-   "dateFinished": "2021-05-17T21:03:12+0300",
+   "jobName": "paragraph_1637248713882_818135739",
+   "id": "paragraph_1637248713882_818135739",
+   "dateCreated": "2021-11-18T17:18:33+0200",
+   "dateStarted": "2021-11-18T17:18:33+0200",
+   "dateFinished": "2021-11-18T17:18:47+0200",
    "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nimport scala.annotation.tailrec\n  \ncase class RolledUpSales(region: String, orderPriority: String, unitsSold: Integer)\n\n  def rollUpSales(region: String, sales: Iterator[Sales]): Seq[RolledUpSales] = {\n    \n    // 4\n    val sortedDataset = sales.toSeq.sortWith((a, b) => a.orderDate.before(b.orderDate))\n\n    // 5\n    @tailrec\n    def rollUp(items: List[Sales], accumulator: Seq[RolledUpSales]): Seq[RolledUpSales] = {\n      items match {\n        case x::xs =>\n          val matchingPriority = xs.takeWhile(p => p.orderPriority.equalsIgnoreCase(x.orderPriority))\n          val nonMatchingPriority = xs.dropWhile(p => p.orderPriority.equalsIgnoreCase(x.orderPriority))\n          val record = RolledUpSales(region, x.orderPriority, matchingPriority.map(_.unitsSold).foldLeft(x.unitsSold)(_ + _))\n          val rolledUpRecord = record +: accumulator\n          rollUp(nonMatchingPriority, rolledUpRecord)\n        case Nil => accumulator\n      }\n    }\n\n    rollUp(sortedDataset.toList, Seq.empty).reverse\n  }\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T17:18:56+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "import scala.annotation.tailrec\ndefined class RolledUpSales\n\u001b[1m\u001b[34mrollUpSales\u001b[0m: \u001b[1m\u001b[32m(region: String, sales: Iterator[Sales])Seq[RolledUpSales]\u001b[0m\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637248736609_805566614",
+   "id": "paragraph_1637248736609_805566614",
+   "dateCreated": "2021-11-18T17:18:56+0200",
+   "dateStarted": "2021-11-18T17:18:56+0200",
+   "dateFinished": "2021-11-18T17:18:57+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n    import spark.implicits._\n    import org.apache.spark.sql.functions._\n\n    \n\n\n    // 2 6/27/2010\n    val sales = spark\n      .read.option(\"delimiter\", \",\").option(\"header\", \"true\").option(\"inferSchema\", \"true\")\n      .csv(s\"/media/ometaxas/nvme/datasets/MAGsample/Sales_Records.csv\")\n        .select(\n          $\"Region\".as(\"region\"),\n          $\"Country\".as(\"country\"),\n          $\"Item Type\".as(\"itemType\"),\n          $\"Sales Channel\".as(\"salesChannel\"),\n          $\"Order Priority\".as(\"orderPriority\"),\n          to_date($\"Order Date\", \"M/d/yyyy\").as(\"orderDate\"),\n          $\"Units Sold\".as(\"unitsSold\")).as[Sales]\n\n    \n    // 3\n    //sales.show(10)\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T17:19:11+0200",
+   "progress": 100.0,
+   "config": {
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Table"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "import spark.implicits._\nimport org.apache.spark.sql.functions._\n\u001b[1m\u001b[34msales\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[Sales]\u001b[0m = [region: string, country: string ... 5 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637248751666_83159081",
+   "id": "paragraph_1637248751666_83159081",
+   "dateCreated": "2021-11-18T17:19:11+0200",
+   "dateStarted": "2021-11-18T17:19:11+0200",
+   "dateFinished": "2021-11-18T17:19:16+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n    import spark.implicits._\n    \n    \n    val output = sales.groupByKey(item => item.region).flatMapGroups(rollUpSales)\n    output.show(false)",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T17:19:19+0200",
+   "progress": 80.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 17 in stage 7.0 failed 1 times, most recent failure: Lost task 17.0 in stage 7.0 (TID 10) (192.168.2.10 executor driver): java.lang.ClassCastException: class RolledUpSales cannot be cast to class RolledUpSales (RolledUpSales is in unnamed module of loader org.apache.spark.repl.ExecutorClassLoader @1ebf5326; RolledUpSales is in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @6d6b150a)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage3.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:755)\n\tat org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:345)\n\tat org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:898)\n\tat org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:898)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:373)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:337)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:131)\n\tat org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)\n\tat org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2258)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2207)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2206)\n  at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)\n  at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2206)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1079)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1079)\n  at scala.Option.foreach(Option.scala:407)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1079)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2445)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2387)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2376)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:868)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2196)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2217)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2236)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:472)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:425)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:47)\n  at org.apache.spark.sql.Dataset.collectFromPlan(Dataset.scala:3696)\n  at org.apache.spark.sql.Dataset.$anonfun$head$1(Dataset.scala:2722)\n  at org.apache.spark.sql.Dataset.$anonfun$withAction$1(Dataset.scala:3687)\n  at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$5(SQLExecution.scala:103)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:163)\n  at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:90)\n  at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:775)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:64)\n  at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3685)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2722)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2929)\n  at org.apache.spark.sql.Dataset.getRows(Dataset.scala:301)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:338)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:827)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:804)\n  ... 48 elided\nCaused by: java.lang.ClassCastException: class RolledUpSales cannot be cast to class RolledUpSales (RolledUpSales is in unnamed module of loader org.apache.spark.repl.ExecutorClassLoader @1ebf5326; RolledUpSales is in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @6d6b150a)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage3.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:755)\n  at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:345)\n  at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:898)\n  at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:898)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:373)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:337)\n  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)\n  at org.apache.spark.scheduler.Task.run(Task.scala:131)\n  at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)\n  at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)\n  ... 3 more\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=3"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=4"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637248759522_2094780102",
+   "id": "paragraph_1637248759522_2094780102",
+   "dateCreated": "2021-11-18T17:19:19+0200",
+   "dateStarted": "2021-11-18T17:19:19+0200",
+   "dateFinished": "2021-11-18T17:19:22+0200",
+   "status": "ERROR"
+  },
+  {
+   "text": "%spark\n\n\ntrait HasFosScore {\n  def fosId: Long\n  def score: Double\n}\n\n\ncase class FosMagPaperDS (\n  paperId:               Long, \n  fosId:                 Long, \n  score:                 Double,\n  magRank:               Int,  \n  pubYear:               Option[Int],  \n  journalId:             String  \n)\nextends HasFosScore\n\ncase class AnnotationStatisticStep0 (\n  journalId:       String,\n  fosId:          Long,\n  paperCount:     Long,\n  scoreSum:       Double,\n  normalizedScore: Double\n)\n\n//def encoder(columns: Seq[String]): Encoder[Row] = RowEncoder(StructType(columns.map(StructField(_, StringType, nullable = false))))\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T14:43:29+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "defined class FosMagPaperDS\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637239408988_23685626",
+   "id": "paragraph_1637239408988_23685626",
+   "dateCreated": "2021-11-18T14:43:28+0200",
+   "dateStarted": "2021-11-18T14:43:29+0200",
+   "dateFinished": "2021-11-18T14:43:29+0200",
+   "status": "FINISHED"
+  },
+  {
+   "title": "GroupByKey & FlatMapGroups",
+   "text": "%spark\n\nimport org.apache.spark.sql.{DataFrame, Dataset}\nimport spark.implicits._\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.catalyst.encoders.RowEncoder\nimport org.apache.spark.sql.{Encoder, Row}\n\nval journal_paper_fos_df = papersdf\n        .join(paperFieldsOfStudydf, papersdf(\"paperId\") === paperFieldsOfStudydf(\"paperId\"),  \"inner\")\n        .select(papersdf(\"journalId\"), papersdf(\"paperId\"), paperFieldsOfStudydf(\"fieldsOfStudyId\").as(\"fosId\"), lit(1).as(\"score\"),    papersdf(\"magRank\"), papersdf(\"pubYear\"))\n        .filter(papersdf(\"journalId\").isNotNull)\n              \n\nval journal_paper_fos_ds =  journal_paper_fos_df.as[FosMagPaperDS]\n\njournal_paper_fos_ds.show(20)\n  \n\ndef encoder(columns: Seq[String]): Encoder[Row] = RowEncoder(StructType(columns.map(StructField(_, StringType, nullable = false))))\nval outputCols = Seq(\"ckey\")\n\nval journalFosStepTest:Dataset[FosMagPaperDS] =\n    journal_paper_fos_ds\n      .where(col(\"journalId\").isNotNull)\n      .groupByKey(_.journalId)\n      .flatMapGroups((journalIdOpt: String, it: Iterator[FosMagPaperDS]) => {          \n        /*val list1 = scala.collection.mutable.ListBuffer[Row]()         \n        for (elem <- it) {\n            list1.append(Row(elem.journalId))\n        }        \n        list1*/\n          val list1 = it.toList\n          list1\n    })\n//(encoder(outputCols)).toDF\n  \n\njournalFosStepTest.show(10)\n\n/*\n\n def fosStatistics(entityId: String, allFosList: List[HasFosScore]): List[AnnotationStatisticStep0] = {\n    val allFosSumScore                         = allFosList.foldLeft(0d)(_ + _.score)\n    val fosIdMap: Map[Long, List[HasFosScore]] = allFosList.groupBy(_.fosId)\n    val statisticList: List[AnnotationStatisticStep0] = fosIdMap.map { case (fosId: Long, fosList: List[HasFosScore]) =>\n      val oneFosCount     = fosList.size\n      val oneFosSumScore  = fosList.foldLeft(0d)(_ + _.score)\n      val normalizedScore = oneFosSumScore / allFosSumScore\n      AnnotationStatisticStep0(entityId, fosId, oneFosCount, oneFosSumScore, normalizedScore)\n    }.toList\n    statisticList\n  }\n\n\nval journalFosStep0DS: Dataset[AnnotationStatisticStep0] =\n    journal_paper_fos_ds\n      .where(col(\"journalId\").isNotNull)\n      .groupByKey(_.journalId)\n      .flatMapGroups { (journalIdOpt: String, it: Iterator[FosMagPaper]) =>\n        val journalId  = journalIdOpt\n        val allFosList = it.toList\n        fosStatistics(journalId, allFosList)\n      }\n\njournalFosStep0DS.show(10)\n*/",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T16:15:55+0200",
+   "progress": 60.0,
+   "config": {
+    "tableHide": true,
+    "title": true,
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "state": {
+        "currentPage": "Table"
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+---------+---------+----------+-----+-------+-------+\n|journalId|  paperId|     fosId|score|magRank|pubYear|\n+---------+---------+----------+-----+-------+-------+\n|137773608| 10347049|2779263046|    1|  19411|   2015|\n|137773608| 10347049| 105702510|    1|  19411|   2015|\n|137773608| 10347049|  86803240|    1|  19411|   2015|\n|137773608| 10347049| 106434640|    1|  19411|   2015|\n|137773608| 10347049| 205129389|    1|  19411|   2015|\n|137773608| 10347049|  12572115|    1|  19411|   2015|\n|137773608| 10347049|2780423034|    1|  19411|   2015|\n|137773608| 10347049| 156887251|    1|  19411|   2015|\n|137773608| 10347049|2779300802|    1|  19411|   2015|\n|137773608| 10347049|2776746205|    1|  19411|   2015|\n|  3880285| 40331827|  17744445|    1|  22906|   2004|\n|137773608| 91354286|2522767166|    1|  22896|   2001|\n|137773608| 91354286|  41008148|    1|  22896|   2001|\n|  3880285|127456397| 119767625|    1|  22487|   2005|\n|  3880285|127456397|  15744967|    1|  22487|   2005|\n|  3880285|127456397|2780235999|    1|  22487|   2005|\n|118988714|181529752|  26713055|    1|  19271|   2014|\n|118988714|181529752|2982832238|    1|  19271|   2014|\n|118988714|181529752|  22367795|    1|  19271|   2014|\n|118988714|181529752|  41008148|    1|  19271|   2014|\n+---------+---------+----------+-----+-------+-------+\nonly showing top 20 rows\n\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 39.0 failed 1 times, most recent failure: Lost task 0.0 in stage 39.0 (TID 1645) (omiros.station executor driver): java.lang.ClassCastException: class FosMagPaperDS cannot be cast to class FosMagPaperDS (FosMagPaperDS is in unnamed module of loader org.apache.spark.repl.ExecutorClassLoader @6b0c394e; FosMagPaperDS is in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @7f36cdf1)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage7.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:755)\n\tat org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:345)\n\tat org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:898)\n\tat org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:898)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:373)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:337)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:131)\n\tat org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)\n\tat org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2258)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2207)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2206)\n  at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)\n  at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2206)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1079)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1079)\n  at scala.Option.foreach(Option.scala:407)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1079)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2445)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2387)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2376)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:868)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2196)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2217)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2236)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:472)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:425)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:47)\n  at org.apache.spark.sql.Dataset.collectFromPlan(Dataset.scala:3696)\n  at org.apache.spark.sql.Dataset.$anonfun$head$1(Dataset.scala:2722)\n  at org.apache.spark.sql.Dataset.$anonfun$withAction$1(Dataset.scala:3687)\n  at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$5(SQLExecution.scala:103)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:163)\n  at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:90)\n  at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:775)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:64)\n  at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3685)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2722)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2929)\n  at org.apache.spark.sql.Dataset.getRows(Dataset.scala:301)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:338)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:825)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:784)\n  ... 51 elided\nCaused by: java.lang.ClassCastException: class FosMagPaperDS cannot be cast to class FosMagPaperDS (FosMagPaperDS is in unnamed module of loader org.apache.spark.repl.ExecutorClassLoader @6b0c394e; FosMagPaperDS is in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @7f36cdf1)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage7.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:755)\n  at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:345)\n  at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:898)\n  at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:898)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:373)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:337)\n  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)\n  at org.apache.spark.scheduler.Task.run(Task.scala:131)\n  at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)\n  at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)\n  ... 3 more\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=9"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=10"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637244955307_1866770190",
+   "id": "paragraph_1637244955307_1866770190",
+   "dateCreated": "2021-11-18T16:15:55+0200",
+   "dateStarted": "2021-11-18T16:15:55+0200",
+   "dateFinished": "2021-11-18T16:16:00+0200",
+   "status": "ERROR"
+  },
+  {
+   "text": "%spark\n\nimport org.apache.spark.sql.{DataFrame, Dataset}\nimport spark.implicits._\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.catalyst.encoders.RowEncoder\nimport org.apache.spark.sql.{Encoder, Row}\n\nval journal_paper_fos_df = papersdf\n        .join(paperFieldsOfStudydf, papersdf(\"paperId\") === paperFieldsOfStudydf(\"paperId\"),  \"inner\")\n        .select(papersdf(\"journalId\"), papersdf(\"paperId\"), paperFieldsOfStudydf(\"fieldsOfStudyId\").as(\"fosId\"), lit(1).as(\"score\"),    papersdf(\"magRank\"), papersdf(\"pubYear\"))\n        .filter(papersdf(\"journalId\").isNotNull)\n              \n\nval journal_paper_fos_ds =  journal_paper_fos_df.as[FosMagPaperDS]\n\n//journal_paper_fos_ds.show(20)\n  \n\n/*\ndef encoder(columns: Seq[String]): Encoder[Row] = RowEncoder(StructType(columns.map(StructField(_, StringType, nullable = false))))\nval outputCols = Seq(\"ckey\")\nval journalFosStepTest =\n    journal_paper_fos_ds\n      .where(col(\"journalId\").isNotNull)\n      .groupByKey(_.journalId)\n      .flatMapGroups((_, rowsForEach) => {          \n        val list1 = scala.collection.mutable.ListBuffer[Row]()         \n        for (elem <- rowsForEach) {\n            list1.append(Row(elem.journalId))\n        }        \n        list1\n    })(encoder(outputCols)).toDF\n  \n\njournalFosStepTest.show(10)\n*/\n/*\n\n def fosStatistics(entityId: String, allFosList: List[HasFosScore])\n //: List[AnnotationStatisticStep0] = \n {\n    val allFosSumScore                         = allFosList.foldLeft(0d)(_ + _.score)\n    val fosIdMap: Map[Long, List[HasFosScore]] = allFosList.groupBy(_.fosId)\n    allFosList \n    /*val statisticList: List[AnnotationStatisticStep0] = fosIdMap.map { case (fosId: Long, fosList: List[HasFosScore]) =>\n      val oneFosCount     = fosList.size\n      val oneFosSumScore  = fosList.foldLeft(0d)(_ + _.score)\n      val normalizedScore = oneFosSumScore / allFosSumScore\n      AnnotationStatisticStep0(entityId, fosId, oneFosCount, oneFosSumScore, normalizedScore)\n    }.toList\n    statisticList\n    */\n     \n    \n  }\n*/\n\n\nval journalFosStep0DS:Dataset[FosMagPaperDS]\n//: Dataset[AnnotationStatisticStep0] \n=\n    journal_paper_fos_ds\n      .where(col(\"journalId\").isNotNull)\n      .groupByKey(_.journalId)\n      .flatMapGroups ((journalIdOpt: String, it:Iterator[FosMagPaperDS]) =>\n            {\n              //val journalId  = journalIdOpt\n              //   val allFosList = it.toList\n               // allFosList\n                it\n        //fosStatistics(journalId, allFosList)\n      })\n\njournalFosStep0DS.count()\n",
+   "user": "anonymous",
+   "dateUpdated": "2021-11-18T14:33:55+0200",
+   "progress": 53.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "org.apache.spark.SparkException: Job aborted due to stage failure: Task 22 in stage 3.0 failed 1 times, most recent failure: Lost task 22.0 in stage 3.0 (TID 233) (omiros.station executor driver): java.lang.ClassCastException: class FosMagPaperDS cannot be cast to class FosMagPaperDS (FosMagPaperDS is in unnamed module of loader org.apache.spark.repl.ExecutorClassLoader @6b0c394e; FosMagPaperDS is in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @7f36cdf1)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage7.agg_doAggregateWithoutKey_0$(Unknown Source)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage7.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:755)\n\tat scala.collection.Iterator$$anon$10.hasNext(Iterator.scala:458)\n\tat org.apache.spark.shuffle.sort.BypassMergeSortShuffleWriter.write(BypassMergeSortShuffleWriter.java:132)\n\tat org.apache.spark.shuffle.ShuffleWriteProcessor.write(ShuffleWriteProcessor.scala:59)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:99)\n\tat org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:52)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:131)\n\tat org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)\n\tat org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2258)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2207)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2206)\n  at scala.collection.mutable.ResizableArray.foreach(ResizableArray.scala:62)\n  at scala.collection.mutable.ResizableArray.foreach$(ResizableArray.scala:55)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2206)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1079)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1079)\n  at scala.Option.foreach(Option.scala:407)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1079)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2445)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2387)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2376)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:868)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2196)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2217)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2236)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2261)\n  at org.apache.spark.rdd.RDD.$anonfun$collect$1(RDD.scala:1030)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:112)\n  at org.apache.spark.rdd.RDD.withScope(RDD.scala:414)\n  at org.apache.spark.rdd.RDD.collect(RDD.scala:1029)\n  at org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:390)\n  at org.apache.spark.sql.Dataset.$anonfun$count$1(Dataset.scala:3006)\n  at org.apache.spark.sql.Dataset.$anonfun$count$1$adapted(Dataset.scala:3005)\n  at org.apache.spark.sql.Dataset.$anonfun$withAction$1(Dataset.scala:3687)\n  at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$5(SQLExecution.scala:103)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:163)\n  at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:90)\n  at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:775)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:64)\n  at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3685)\n  at org.apache.spark.sql.Dataset.count(Dataset.scala:3005)\n  ... 47 elided\nCaused by: java.lang.ClassCastException: class FosMagPaperDS cannot be cast to class FosMagPaperDS (FosMagPaperDS is in unnamed module of loader org.apache.spark.repl.ExecutorClassLoader @6b0c394e; FosMagPaperDS is in unnamed module of loader scala.tools.nsc.interpreter.IMain$TranslatingClassLoader @7f36cdf1)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage7.agg_doAggregateWithoutKey_0$(Unknown Source)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage7.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:755)\n  at scala.collection.Iterator$$anon$10.hasNext(Iterator.scala:458)\n  at org.apache.spark.shuffle.sort.BypassMergeSortShuffleWriter.write(BypassMergeSortShuffleWriter.java:132)\n  at org.apache.spark.shuffle.ShuffleWriteProcessor.write(ShuffleWriteProcessor.scala:59)\n  at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:99)\n  at org.apache.spark.scheduler.ShuffleMapTask.runTask(ShuffleMapTask.scala:52)\n  at org.apache.spark.scheduler.Task.run(Task.scala:131)\n  at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)\n  at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)\n  ... 3 more\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1637238835682_151826577",
+   "id": "paragraph_1637238835682_151826577",
+   "dateCreated": "2021-11-18T14:33:55+0200",
+   "dateStarted": "2021-11-18T14:33:55+0200",
+   "dateFinished": "2021-11-18T14:34:04+0200",
+   "status": "ERROR"
   },
   {
    "text": "%spark\n/*\nadd(\"affiliationId\", LongType, true).\n                add(\"authorSequenceNumber\",IntegerType, true).\n                add(\"originalAuthor\", StringType, true).\n                add(\"originalAffiliation\", StringType, true)\n\n */\nval noResolvedInstitutions = paperAuthorAffdf\n        .filter(($\"affiliationId\" === \"\" || $\"affiliationId\".isNull) && ($\"originalAffiliation\"=!=\"\" && $\"originalAffiliation\".isNotNull))\n        .cache()\n\n\nnoResolvedInstitutions.show(10)\nprintln(noResolvedInstitutions.count())\n",
@@ -71,7 +560,8 @@
     "results": [
      {}
     ],
-    "editorHide": true
+    "editorHide": false,
+    "tableHide": true
    },
    "settings": {
     "params": {
@@ -80,6 +570,7 @@
        "size": {
         "height": 777.0
        },
+       "collapsed": true,
        "state": {}
       }
      }
