@@ -43,10 +43,15 @@
     "editorHide": false,
     "title": true,
     "results": {},
-    "enabled": true
+    "enabled": true,
+    "tableHide": false
    },
    "settings": {
-    "params": {},
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
     "forms": {}
    },
    "results": {
@@ -84,7 +89,7 @@
     "colWidth": 12.0,
     "editorMode": "ace/mode/scala",
     "fontSize": 9.0,
-    "editorHide": true,
+    "editorHide": false,
     "title": true,
     "results": {},
     "enabled": true
@@ -271,7 +276,7 @@
     },
     "editorMode": "ace/mode/scala",
     "title": true,
-    "editorHide": true
+    "editorHide": false
    },
    "settings": {
     "params": {},
@@ -431,7 +436,7 @@
      }
     ],
     "title": true,
-    "editorHide": true
+    "editorHide": false
    },
    "settings": {
     "params": {
@@ -512,7 +517,7 @@
     "colWidth": 12.0,
     "editorMode": "ace/mode/scala",
     "fontSize": 9.0,
-    "editorHide": true,
+    "editorHide": false,
     "title": true,
     "results": {
      "0": {
@@ -601,15 +606,14 @@
      {}
     ],
     "editorHide": false,
-    "title": true
+    "title": true,
+    "tableHide": true
    },
    "settings": {
     "params": {
      "bdtMeta": {
       "inlay": {
-       "state": {
-        "currentPage": "Console"
-       }
+       "collapsed": true
       }
      }
     },
@@ -691,8 +695,65 @@
    "title": "Analyze counts & Stats on matched datasets"
   },
   {
+   "text": "%spark\nval S2_MAG_Orcid_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_all_2021.parquet\")\n//S2_MAG_Orcid_df.printSchema\n\n//println(\"MAG_pub_authorsdf  cnt:\"+S2_MAG_Orcid_df.count())\n//721177821\n//println(\"MAG_pub_authorsdf multi-discipline cnt:\"+S2_MAG_Orcid_df.filter(size($\"fosIdsLevel0\")>1).count())\n//110360\n//println(\"MAG_pub_authorsdf multi-discipline cnt:\"+S2_MAG_Orcid_df.filter(size($\"fosIdsLevel0\")===1).count())\n//601000204\n\nval signGroupByshortNameFoSdf =  S2_MAG_Orcid_df.groupBy($\"magShortNormName\")\n        .agg(\n                    count(\"magPaperId\").as(\"cnt\")\n        )        \n\nprintln(\"[ 1K - 10K]:\",signGroupByshortNameFoSdf.filter($\"cnt\">1000 && $\"cnt\"<10000).count())\nprintln(\"[10K - 50K]:\",signGroupByshortNameFoSdf.filter($\"cnt\">10000 && $\"cnt\"<50000).count())\nprintln(\"[50K - 100K]:\",signGroupByshortNameFoSdf.filter($\"cnt\">50000 && $\"cnt\"<100000).count())\nprintln(\"[100K - 200K]:\",signGroupByshortNameFoSdf.filter($\"cnt\">100000 && $\"cnt\"< 200000).count())\nprintln(\">200.000:\",signGroupByshortNameFoSdf.filter($\"cnt\">200000).count())\n//(>10.000 cnt:,2632)\n//(>50.000 cnt:,291)\n//(>100.000 cnt:,81)\n\n//(>200.000 cnt:,17)\n\n\n//S2_MAG_Orcid_df.printSchema\n//println(\"S2_MAG_Orcid_orcid cnt:\" + S2_MAG_Orcid_df.filter($\"orcId\"=!=\"\"  && $\"orcId\".isNotNull).count())\n//5175070\n//S2_MAG_Orcid_df.select(countDistinct(\"s2PaperId\")).show(false)\n//168307507\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-10T12:58:08+0200",
+   "progress": 99.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "([ 1K - 10K]:,65271)\n([10K - 50K]:,4007)\n([50K - 100K]:,396)\n([100K - 200K]:,153)\n(>200.000:,105)\n\u001b[1m\u001b[34mS2_MAG_Orcid_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [magPaperId: bigint, magDoi: string ... 23 more fields]\n\u001b[1m\u001b[34msignGroupByshortNameFoSdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [magShortNormName: string, cnt: bigint]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=3"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=4"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=5"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644490688245_1583646021",
+   "id": "paragraph_1644490688245_1583646021",
+   "dateCreated": "2022-02-10T12:58:08+0200",
+   "dateStarted": "2022-02-10T12:58:08+0200",
+   "dateFinished": "2022-02-10T13:03:13+0200",
+   "status": "FINISHED"
+  },
+  {
    "title": "Match Hindawi Data",
-   "text": "%spark\n\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\n// Specify schema for your csv file\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\n\n\nval HIND_HOME = \"/home/ometaxas/Datasets/Hindawi\"\n\nval hind_author_pub_df = spark.read\n           .options(Map(\"header\"-> \"true\")).\n             //.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n               // schema(authorSchema).\n                csv(s\"file://$HIND_HOME/author_pub.csv\")\n      //  .filter($\"article_title\"===\"0\" || $\"hindaw_id\".isNull || $\"author_surname\".isNull )\n        //.filter($\"author_full_name\".isNotNull)\n        /*\n        .select(lower($\"DOI\").as(\"doi\"), $\"article_title\",$\"journal_name\", substring($\"published_date\",0,4).as(\"pub_year\"), \n$\"author_full_name\", $\"author_firstname\", $\"author_surname\", $\"orcid\".as(\"hind_orcId\"), $\"hindaw_id\",\nshortNormName($\"author_full_name\").as(\"hind_shortNormName\"), normName($\"author_full_name\").as(\"hind_normName\"))\n*/\n//hind_author_pub_df.printSchema()\nprintln(hind_author_pub_df.count())\n\nhind_author_pub_df.select(countDistinct(\"hindaw_id\")).show(false)\n//hind_author_pub_df.show(100)\n\n\n/*\nval S2_MAG_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_all_2021.parquet\").filter($\"magDoi\"=!=\"\"  && $\"magDoi\".isNotNull)\n\n/*val S2_MAG_Orcid_Hind_df = S2_MAG_df\n                    .join(broadcast(hind_author_pub_df), lower(S2_MAG_df(\"magDoi\")) === lower(hind_author_pub_df(\"doi\")) , \"inner\")\n        .filter( S2_MAG_df(\"s2AuthorShorNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  S2_MAG_df(\"magShortNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  \n                    ( jaro_winkler($\"magNormName\", hind_author_pub_df(\"hind_normName\")) > 0.82 && levenshtein($\"magNormName\", hind_author_pub_df(\"hind_normName\"))<3 && soundex($\"magNormName\") === soundex(hind_author_pub_df(\"hind_normName\")) ))\n        .cache()\n*/\nval S2_MAG_Orcid_Hind_df = hind_author_pub_df\n                    .join(S2_MAG_df, lower(S2_MAG_df(\"magDoi\")) === lower(hind_author_pub_df(\"doi\")) , \"left_anti\")\n        /*.filter( S2_MAG_df(\"s2AuthorShorNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  S2_MAG_df(\"magShortNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  \n                    ( jaro_winkler($\"magNormName\", hind_author_pub_df(\"hind_normName\")) > 0.82 && levenshtein($\"magNormName\", hind_author_pub_df(\"hind_normName\"))<3 && soundex($\"magNormName\") === soundex(hind_author_pub_df(\"hind_normName\")) ))*/\n        .cache()\n        /*\n                     .select(S2_MAG_df(\"magPaperId\"), S2_MAG_df(\"magDoi\"),  S2_MAG_df(\"magDisplayName\"), S2_MAG_df(\"magName\"), S2_MAG_df(\"magNormName\"), \n                            S2_MAG_df(\"magShortNormName\"),  S2_MAG_df(\"magAuthorId\"), S2_MAG_df(\"fosIds\"), S2_MAG_df(\"fosIdsLevel0\") ,S2_MAG_df(\"fosIdsLevel1\"), \n                            S2_MAG_df(\"authorIds\"), S2_MAG_df(\"authorNormNames\"), S2_MAG_df(\"authorShortNames\"),S2_MAG_df(\"affiliationIds\"), \n                            S2_MAG_df(\"s2AuthorId\"),S2_MAG_df(\"s2PaperId\"), S2_MAG_df(\"s2Doi\"), S2_MAG_df(\"s2AuthorName\"), S2_MAG_df(\"s2AuthorShorNormName\"), S2_MAG_df(\"s2AuthorNormName\"), S2_MAG_df(\"s2Fos\"), S2_MAG_df(\"soundex\"),orcid_df(\"ORCfullName\").as(\"orcFullName\"),orcid_df(\"ORCnormName\").as(\"orcNormName\"), orcid_df(\"orcId\") )\n */\n\nS2_MAG_Orcid_Hind_df.printSchema()\nS2_MAG_Orcid_Hind_df.show(5)\nprintln(S2_MAG_Orcid_Hind_df.count())\n\nS2_MAG_Orcid_Hind_df.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_Hind_df_anti.parquet\")\n\n*/\n//1087172\n//1022215",
+   "text": "%spark\n\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\n// Specify schema for your csv file\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\n//import  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\n\n\nval HIND_HOME = \"/home/ometaxas/Datasets/Hindawi\"\n\nval hind_author_pub_df = spark.read\n           .options(Map(\"header\"-> \"true\")).\n             //.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n               // schema(authorSchema).\n                csv(s\"file://$HIND_HOME/author_pub.csv\")\n      //  .filter($\"article_title\"===\"0\" || $\"hindaw_id\".isNull || $\"author_surname\".isNull )\n        //.filter($\"author_full_name\".isNotNull)\n        /*\n        .select(lower($\"DOI\").as(\"doi\"), $\"article_title\",$\"journal_name\", substring($\"published_date\",0,4).as(\"pub_year\"), \n$\"author_full_name\", $\"author_firstname\", $\"author_surname\", $\"orcid\".as(\"hind_orcId\"), $\"hindaw_id\",\nshortNormName($\"author_full_name\").as(\"hind_shortNormName\"), normName($\"author_full_name\").as(\"hind_normName\"))\n*/\n//hind_author_pub_df.printSchema()\nprintln(hind_author_pub_df.count())\n\nhind_author_pub_df.select(countDistinct(\"hindaw_id\")).show(false)\n//hind_author_pub_df.show(100)\n\n\n\nval S2_MAG_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_all_2021.parquet\").filter($\"magDoi\"=!=\"\"  && $\"magDoi\".isNotNull)\n\n/*val S2_MAG_Orcid_Hind_df = S2_MAG_df\n                    .join(broadcast(hind_author_pub_df), lower(S2_MAG_df(\"magDoi\")) === lower(hind_author_pub_df(\"doi\")) , \"inner\")\n        .filter( S2_MAG_df(\"s2AuthorShorNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  S2_MAG_df(\"magShortNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  \n                    ( jaro_winkler($\"magNormName\", hind_author_pub_df(\"hind_normName\")) > 0.82 && levenshtein($\"magNormName\", hind_author_pub_df(\"hind_normName\"))<3 && soundex($\"magNormName\") === soundex(hind_author_pub_df(\"hind_normName\")) ))\n        .cache()\n*/\nval S2_MAG_Orcid_Hind_df = hind_author_pub_df\n                    .join(S2_MAG_df, lower(S2_MAG_df(\"magDoi\")) === lower(hind_author_pub_df(\"doi\")) , \"left_anti\")\n        /*.filter( S2_MAG_df(\"s2AuthorShorNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  S2_MAG_df(\"magShortNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  \n                    ( jaro_winkler($\"magNormName\", hind_author_pub_df(\"hind_normName\")) > 0.82 && levenshtein($\"magNormName\", hind_author_pub_df(\"hind_normName\"))<3 && soundex($\"magNormName\") === soundex(hind_author_pub_df(\"hind_normName\")) ))*/\n        .cache()\n        /*\n                     .select(S2_MAG_df(\"magPaperId\"), S2_MAG_df(\"magDoi\"),  S2_MAG_df(\"magDisplayName\"), S2_MAG_df(\"magName\"), S2_MAG_df(\"magNormName\"), \n                            S2_MAG_df(\"magShortNormName\"),  S2_MAG_df(\"magAuthorId\"), S2_MAG_df(\"fosIds\"), S2_MAG_df(\"fosIdsLevel0\") ,S2_MAG_df(\"fosIdsLevel1\"), \n                            S2_MAG_df(\"authorIds\"), S2_MAG_df(\"authorNormNames\"), S2_MAG_df(\"authorShortNames\"),S2_MAG_df(\"affiliationIds\"), \n                            S2_MAG_df(\"s2AuthorId\"),S2_MAG_df(\"s2PaperId\"), S2_MAG_df(\"s2Doi\"), S2_MAG_df(\"s2AuthorName\"), S2_MAG_df(\"s2AuthorShorNormName\"), S2_MAG_df(\"s2AuthorNormName\"), S2_MAG_df(\"s2Fos\"), S2_MAG_df(\"soundex\"),orcid_df(\"ORCfullName\").as(\"orcFullName\"),orcid_df(\"ORCnormName\").as(\"orcNormName\"), orcid_df(\"orcId\") )\n*/\n\nS2_MAG_Orcid_Hind_df.printSchema()\nS2_MAG_Orcid_Hind_df.show(5)\nprintln(S2_MAG_Orcid_Hind_df.count())\n\nS2_MAG_Orcid_Hind_df.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_Hind_df_anti.parquet\")\n\n\n//1087172\n//1022215",
    "user": "anonymous",
    "dateUpdated": "2021-11-12T17:30:09+0200",
    "progress": 7.0,
@@ -701,15 +762,14 @@
     "title": true,
     "results": [
      {}
-    ]
+    ],
+    "tableHide": true
    },
    "settings": {
     "params": {
      "bdtMeta": {
       "inlay": {
-       "state": {
-        "currentPage": "Console"
-       }
+       "collapsed": true
       }
      }
     },
@@ -834,15 +894,13 @@
      {}
     ],
     "editorHide": false,
-    "tableHide": false
+    "tableHide": true
    },
    "settings": {
     "params": {
      "bdtMeta": {
       "inlay": {
-       "state": {
-        "currentPage": "Console"
-       }
+       "collapsed": true
       }
      }
     },
@@ -964,14 +1022,14 @@
   {
    "text": "%spark\nval S2_MAG_Orciddf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/authorMagS2OrcidLarge\")\nval S2_MAG_Orcid_orcid = S2_MAG_Orciddf.filter($\"orcId\"=!=\"\"  && $\"orcId\".isNotNull)\n.cache()\n\n//S2_MAG_Orcid_S2doi.printSchema\nprintln(\"S2_MAG_Orcid_orcid cnt:\" + S2_MAG_Orcid_orcid.count())\n//S2_MAG_Orcid_S2doi.show(40)\n\nS2_MAG_Orcid_orcid.select(countDistinct(\"orcId\")).show(false)\nS2_MAG_Orcid_orcid.select(countDistinct(\"MAGpaperId\")).show(false)",
    "user": "anonymous",
-   "dateUpdated": "2021-11-09T17:45:27+0200",
-   "progress": 94.0,
+   "dateUpdated": "2022-02-10T12:57:10+0200",
+   "progress": 0.0,
    "config": {
+    "editorHide": false,
+    "tableHide": true,
     "results": [
      {}
-    ],
-    "editorHide": false,
-    "tableHide": true
+    ]
    },
    "settings": {
     "params": {
@@ -987,57 +1045,35 @@
     "forms": {}
    },
    "results": {
-    "code": "SUCCESS",
+    "code": "ERROR",
     "msg": [
      {
       "type": "TEXT",
-      "data": "S2_MAG_Orcid_orcid cnt:2304850\n+---------------------+\n|count(DISTINCT orcId)|\n+---------------------+\n|2234106              |\n+---------------------+\n\n+--------------------------+\n|count(DISTINCT MAGpaperId)|\n+--------------------------+\n|1845673                   |\n+--------------------------+\n\n\u001b[1m\u001b[34mS2_MAG_Orciddf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [magPaperId: bigint, magDoi: string ... 26 more fields]\n\u001b[1m\u001b[34mS2_MAG_Orcid_orcid\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [magPaperId: bigint, magDoi: string ... 26 more fields]\n"
+      "data": "org.apache.spark.sql.AnalysisException: Path does not exist: file:/media/ometaxas/nvme/datasets/MAG_S2/authorMagS2OrcidLarge\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4(DataSource.scala:806)\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4$adapted(DataSource.scala:803)\n  at org.apache.spark.util.ThreadUtils$.$anonfun$parmap$2(ThreadUtils.scala:372)\n  at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)\n  at scala.util.Success.$anonfun$map$1(Try.scala:255)\n  at scala.util.Success.map(Try.scala:213)\n  at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)\n  at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)\n  at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)\n  at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)\n  at java.base/java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1426)\n  at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n  at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n  at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n  at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n  at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n"
      }
     ]
    },
    "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=3"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=4"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=5"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=6"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
+   "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1636472727468_1103686207",
-   "id": "paragraph_1636472727468_1103686207",
-   "dateCreated": "2021-11-09T17:45:27+0200",
-   "dateStarted": "2021-11-09T17:45:27+0200",
-   "dateFinished": "2021-11-09T18:05:52+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1644490630196_1013929625",
+   "id": "paragraph_1644490630196_1013929625",
+   "dateCreated": "2022-02-10T12:57:10+0200",
+   "dateStarted": "2022-02-10T12:57:10+0200",
+   "dateFinished": "2022-02-10T12:57:10+0200",
+   "status": "ERROR"
   },
   {
    "text": "%spark\nval S2_MAG_Orciddf_old = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid.parquet\")\nval S2_MAG_Orcid_orcid_old = S2_MAG_Orciddf_old.filter($\"orcId\"=!=\"\"  && $\"orcId\".isNotNull)\n.cache()\n\n//S2_MAG_Orcid_S2doi.printSchema\nprintln(\"S2_MAG_Orcid_orcid cnt:\" + S2_MAG_Orcid_orcid_old.count())\n//S2_MAG_Orcid_S2doi.show(40)\n\nS2_MAG_Orcid_orcid_old.select(countDistinct(\"orcId\")).show(false)\nS2_MAG_Orcid_orcid_old.select(countDistinct(\"MAGpaperId\")).show(false)\n",
    "user": "anonymous",
-   "dateUpdated": "2021-11-09T18:21:07+0200",
-   "progress": 95.0,
+   "dateUpdated": "2022-02-10T12:57:16+0200",
+   "progress": 0.0,
    "config": {
+    "editorHide": false,
+    "tableHide": true,
     "results": [
      {}
-    ],
-    "editorHide": false,
-    "tableHide": true
+    ]
    },
    "settings": {
     "params": {
@@ -1053,45 +1089,23 @@
     "forms": {}
    },
    "results": {
-    "code": "SUCCESS",
+    "code": "ERROR",
     "msg": [
      {
       "type": "TEXT",
-      "data": "S2_MAG_Orcid_orcid cnt:31658254\n+---------------------+\n|count(DISTINCT orcId)|\n+---------------------+\n|1943462              |\n+---------------------+\n\n+--------------------------+\n|count(DISTINCT MAGpaperId)|\n+--------------------------+\n|18095040                  |\n+--------------------------+\n\n\u001b[1m\u001b[34mS2_MAG_Orciddf_old\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [MAGpaperId: bigint, MAGdoi: string ... 20 more fields]\n\u001b[1m\u001b[34mS2_MAG_Orcid_orcid_old\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [MAGpaperId: bigint, MAGdoi: string ... 20 more fields]\n"
+      "data": "org.apache.spark.sql.AnalysisException: Path does not exist: file:/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid.parquet\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4(DataSource.scala:806)\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4$adapted(DataSource.scala:803)\n  at org.apache.spark.util.ThreadUtils$.$anonfun$parmap$2(ThreadUtils.scala:372)\n  at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)\n  at scala.util.Success.$anonfun$map$1(Try.scala:255)\n  at scala.util.Success.map(Try.scala:213)\n  at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)\n  at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)\n  at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)\n  at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)\n  at java.base/java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1426)\n  at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n  at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n  at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n  at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n  at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n"
      }
     ]
    },
    "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=3"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
+   "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1636474867609_561706000",
-   "id": "paragraph_1636474867609_561706000",
-   "dateCreated": "2021-11-09T18:21:07+0200",
-   "dateStarted": "2021-11-09T18:21:07+0200",
-   "dateFinished": "2021-11-09T18:37:20+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1644490636662_397144084",
+   "id": "paragraph_1644490636662_397144084",
+   "dateCreated": "2022-02-10T12:57:16+0200",
+   "dateStarted": "2022-02-10T12:57:16+0200",
+   "dateFinished": "2022-02-10T12:57:16+0200",
+   "status": "ERROR"
   },
   {
    "text": "%spark\nval HIND_HOME = \"/home/ometaxas/Datasets/Hindawi\"\nval hind_author_pub_df = spark.read\n           .options(Map(\"header\"-> \"true\")).\n             //.options(Map(\"sep\"->\"\\t\", \"header\"-> \"false\")).\n               // schema(authorSchema).\n                csv(s\"file://$HIND_HOME/author_pub.csv\")\n\nhind_author_pub_df.printSchema()\nhind_author_pub_df.show(5)\nprintln(hind_author_pub_df.count())\n\nhind_author_pub_df.\n\n",
@@ -1259,14 +1273,33 @@
    "config": {}
   },
   {
+   "text": "%spark\nimport org.apache.spark.storage.StorageLevel;\nimport org.apache.spark.sql.functions.countDistinct;\nimport  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils;\nimport java.util.Calendar;\n\n\n\nval S2_MAG_df = spark.read.parquet(\"/media/datadisk/Datasets/MAG_S2/S2_MAG_df.parquet\")\nprintln(\"S2_MAG_df cnt:\"+S2_MAG_df.count())\n\nval S2_MAG_df_diffs = S2_MAG_df.filter($\"S2doi\"=!=\"\"  && $\"S2doi\".isNotNull && $\"S2doi\"=!=$\"MAGdoi\")\n    .cache()\n\nprintln(\"s2doi diffs cnt:\"+S2_MAG_df_diffs.count())\nprintln(Calendar.getInstance().getTime())\n\n/*\nprintln(Calendar.getInstance().getTime())\nS2_MAG_df.groupBy($\"MAGdoi\")\n.agg( collect_list($\"MAGshortNormName\") as \"magauthors\", collect_list($\"S2shortNormName\") as \"s2authors\").show(10)\n\nprintln(Calendar.getInstance().getTime())\n*/\n\n//val dfdoidiffs = S2_MAG_df.select(countDistinct(\"S2doi\"))\n//dfdoidiffs.show(false)\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-10T12:56:45+0200",
+   "progress": 0.0,
+   "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "org.apache.spark.sql.AnalysisException: Path does not exist: file:/media/datadisk/Datasets/MAG_S2/S2_MAG_df.parquet\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4(DataSource.scala:806)\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4$adapted(DataSource.scala:803)\n  at org.apache.spark.util.ThreadUtils$.$anonfun$parmap$2(ThreadUtils.scala:372)\n  at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)\n  at scala.util.Success.$anonfun$map$1(Try.scala:255)\n  at scala.util.Success.map(Try.scala:213)\n  at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)\n  at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)\n  at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)\n  at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)\n  at java.base/java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1426)\n  at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n  at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n  at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n  at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n  at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n"
+     }
+    ]
+   },
    "apps": [],
-   "status": "READY",
-   "text": "%spark\nimport org.apache.spark.storage.StorageLevel;\nimport org.apache.spark.sql.functions.countDistinct;\nimport  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils;\nimport java.util.Calendar;\n\n\n\nval S2_MAG_df = spark.read.parquet(\"/media/datadisk/Datasets/MAG_S2/S2_MAG_df.parquet\")\nprintln(\"S2_MAG_df cnt:\"+S2_MAG_df.count())\n\nval S2_MAG_df_diffs = S2_MAG_df.filter($\"S2doi\"=!=\"\"  && $\"S2doi\".isNotNull && $\"S2doi\"=!=$\"MAGdoi\")\n    .cache()\n\nprintln(\"s2doi diffs cnt:\"+S2_MAG_df_diffs.count())\nprintln(Calendar.getInstance().getTime())\n\n/*\nprintln(Calendar.getInstance().getTime())\nS2_MAG_df.groupBy($\"MAGdoi\")\n.agg( collect_list($\"MAGshortNormName\") as \"magauthors\", collect_list($\"S2shortNormName\") as \"s2authors\").show(10)\n\nprintln(Calendar.getInstance().getTime())\n*/\n\n//val dfdoidiffs = S2_MAG_df.select(countDistinct(\"S2doi\"))\n//dfdoidiffs.show(false)\n\n",
-   "config": {}
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644490605130_1730246948",
+   "id": "paragraph_1644490605130_1730246948",
+   "dateCreated": "2022-02-10T12:56:45+0200",
+   "dateStarted": "2022-02-10T12:56:45+0200",
+   "dateFinished": "2022-02-10T12:56:45+0200",
+   "status": "ERROR"
   },
   {
    "title": "Statistics ",

@@ -1,0 +1,219 @@
+﻿{
+ "paragraphs": [
+  {
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\nspark.serializer org.apache.spark.serializer.KryoSerializer\n#spark.kryoserializer.buffer.max 1000M\n#spark.driver.memory 95g\n#spark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-09T10:29:24+0200",
+   "progress": 0.0,
+   "config": {
+    "editorSetting": {
+     "language": "scala",
+     "editOnDblClick": false,
+     "completionKey": "TAB",
+     "completionSupport": true
+    },
+    "colWidth": 12.0,
+    "editorMode": "ace/mode/scala",
+    "fontSize": 9.0,
+    "results": {},
+    "enabled": true
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": []
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644395364221_1824779980",
+   "id": "paragraph_1644395364221_1824779980",
+   "dateCreated": "2022-02-09T10:29:24+0200",
+   "dateStarted": "2022-02-09T10:29:24+0200",
+   "dateFinished": "2022-02-09T10:29:24+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nimport scala.xml.XML.encoding\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data\"\nval WORKS_PATH = \"/works\"\n\n//val WORKS_PATH = \"/works/updated_date=2022-01-21\"\n//val WORKS_PATH = \"/works/updated_date=2022-01-21/0000_part_01.gz\"\n//val WORKS_PATH = \"/sample\"\n\n\nval worksdf = spark.read\n        //.json(s\"file://$OA_HOME$WORKS_PATH\")\n        //.json(\"/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data/works/updated_date=2022-01-21/0000_part_01.gz\")\n       // .option(\"multiline\",\"true\")       \n        \n        .json(\"/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data/sampleworks_na.json\")\n        //.cache()\n        \n//println(\"worksdf  cnt:\"+worksdf.count())\nworksdf.printSchema()\nworksdf.show(10)\n\nval worksdf2 = spark.read\n        //.json(s\"file://$OA_HOME$WORKS_PATH\")\n        //.json(\"/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data/works/updated_date=2022-01-21/0000_part_01.gz\")\n       // .option(\"multiline\",\"true\")  \n        .option(\"pathGlobFilter\", \"*.gz\") \n        .schema(worksdf.schema)\n        .json(s\"$OA_HOME$WORKS_PATH\")\n        //.json(\"/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data/sampleworks.json\")\n        //.cache()\n   \nworksdf2.write.mode(\"overwrite\").parquet(s\"$OA_HOME/parquet/works\")\n//println(\"worksdf  cnt:\"+worksdf2.count())\n//worksdf2.printSchema()\n//worksdf2.show(10)\n\n        \n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-10T12:48:42+0200",
+   "progress": 0.0,
+   "config": {
+    "editorHide": false
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644490122790_339166128",
+   "id": "paragraph_1644490122790_339166128",
+   "dateCreated": "2022-02-10T12:48:42+0200",
+   "status": "ABORT"
+  },
+  {
+   "text": "%spark\nval OA_HOME = \"/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data\"\nval works_df = spark.read.parquet(s\"$OA_HOME/parquet/works\")\nprintln(\"works_df  cnt:\"+works_df.count())\nworks_df.printSchema()\nworks_df.show(10)\n\n\nval paper_types_all = works_df        \n                .groupBy( $\"type\")      \n                .count()\n        \npaper_types_all.show(50)\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-10T12:56:08+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "org.apache.spark.sql.AnalysisException: Path does not exist: file:/media/ometaxas/nvme/datasets/OpenAlex/openalex-snapshot/data/parquet/works\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4(DataSource.scala:806)\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4$adapted(DataSource.scala:803)\n  at org.apache.spark.util.ThreadUtils$.$anonfun$parmap$2(ThreadUtils.scala:372)\n  at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)\n  at scala.util.Success.$anonfun$map$1(Try.scala:255)\n  at scala.util.Success.map(Try.scala:213)\n  at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)\n  at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)\n  at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)\n  at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)\n  at java.base/java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1426)\n  at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n  at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n  at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n  at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n  at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644490568004_1731084035",
+   "id": "paragraph_1644490568004_1731084035",
+   "dateCreated": "2022-02-10T12:56:08+0200",
+   "dateStarted": "2022-02-10T12:56:08+0200",
+   "dateFinished": "2022-02-10T12:56:08+0200",
+   "status": "ERROR"
+  },
+  {
+   "text": "%spark\nval works_df = spark.read.parquet(s\"$OA_HOME/parquet/works\")\nprintln(\"works_df  cnt:\"+works_df.count())\nworks_df.printSchema()\nworks_df.show(10)\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-10T12:56:25+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "<console>:27: \u001b[31merror: \u001b[0mnot found: value OA_HOME\n       val works_df = spark.read.parquet(s\"$OA_HOME/parquet/works\")\n                                            ^\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644490585773_1605207250",
+   "id": "paragraph_1644490585773_1605207250",
+   "dateCreated": "2022-02-10T12:56:25+0200",
+   "dateStarted": "2022-02-10T12:56:25+0200",
+   "dateFinished": "2022-02-10T12:56:25+0200",
+   "status": "ERROR"
+  },
+  {
+   "text": "%spark\nval AUTHORS_PATH = \"/authors\"\n//val AUTHORS_PATH = \"/authors/updated_date=2022-01-20/0000_part_00.gz\"\n\nval authorsdf = spark.read          \n        .option(\"pathGlobFilter\", \"*.gz\") \n        .schema(worksdf.schema)\n        .json(s\"$OA_HOME$AUTHORS_PATH\")\n   \nprintln(\"authorsdf  cnt:\"+authorsdf.count())\nauthorsdf.printSchema()\nauthorsdf.show(10)\n\n\n//authorsdf.write.mode(\"overwrite\").parquet(s\"$OA_HOME/parquet/works\")\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-28T19:04:15+0200",
+   "progress": 95.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "authorsdf  cnt:208251763\nroot\n |-- alternate_host_venues: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- display_name: string (nullable = true)\n |    |    |-- id: string (nullable = true)\n |    |    |-- is_oa: boolean (nullable = true)\n |    |    |-- license: string (nullable = true)\n |    |    |-- type: string (nullable = true)\n |    |    |-- url: string (nullable = true)\n |    |    |-- version: string (nullable = true)\n |-- authorships: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- author: struct (nullable = true)\n |    |    |    |-- display_name: string (nullable = true)\n |    |    |    |-- id: string (nullable = true)\n |    |    |    |-- orcid: string (nullable = true)\n |    |    |-- author_position: string (nullable = true)\n |    |    |-- institutions: array (nullable = true)\n |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |-- country_code: string (nullable = true)\n |    |    |    |    |-- display_name: string (nullable = true)\n |    |    |    |    |-- id: string (nullable = true)\n |    |    |    |    |-- ror: string (nullable = true)\n |    |    |    |    |-- type: string (nullable = true)\n |    |    |-- raw_affiliation_string: string (nullable = true)\n |-- biblio: struct (nullable = true)\n |    |-- first_page: string (nullable = true)\n |    |-- issue: string (nullable = true)\n |    |-- last_page: string (nullable = true)\n |    |-- volume: string (nullable = true)\n |-- cited_by_api_url: string (nullable = true)\n |-- cited_by_count: long (nullable = true)\n |-- concepts: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- display_name: string (nullable = true)\n |    |    |-- id: string (nullable = true)\n |    |    |-- level: long (nullable = true)\n |    |    |-- score: double (nullable = true)\n |    |    |-- wikidata: string (nullable = true)\n |-- counts_by_year: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- cited_by_count: long (nullable = true)\n |    |    |-- year: long (nullable = true)\n |-- display_name: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- host_venue: struct (nullable = true)\n |    |-- display_name: string (nullable = true)\n |    |-- id: string (nullable = true)\n |    |-- is_oa: boolean (nullable = true)\n |    |-- issn: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- issn_l: string (nullable = true)\n |    |-- license: string (nullable = true)\n |    |-- publisher: string (nullable = true)\n |    |-- type: string (nullable = true)\n |    |-- url: string (nullable = true)\n |    |-- version: string (nullable = true)\n |-- id: string (nullable = true)\n |-- ids: struct (nullable = true)\n |    |-- doi: string (nullable = true)\n |    |-- mag: long (nullable = true)\n |    |-- openalex: string (nullable = true)\n |-- is_paratext: boolean (nullable = true)\n |-- is_retracted: boolean (nullable = true)\n |-- mesh: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- open_access: struct (nullable = true)\n |    |-- is_oa: boolean (nullable = true)\n |    |-- oa_status: string (nullable = true)\n |    |-- oa_url: string (nullable = true)\n |-- publication_date: string (nullable = true)\n |-- publication_year: long (nullable = true)\n |-- referenced_works: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- related_works: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- type: string (nullable = true)\n |-- updated_date: string (nullable = true)\n\n+---------------------+-----------+------+----------------+--------------+--------+--------------------+--------------------+----+----------+--------------------+--------------------+-----------+------------+----+-----------+----------------+----------------+----------------+-------------+-----+----+------------+\n|alternate_host_venues|authorships|biblio|cited_by_api_url|cited_by_count|concepts|      counts_by_year|        display_name| doi|host_venue|                  id|                 ids|is_paratext|is_retracted|mesh|open_access|publication_date|publication_year|referenced_works|related_works|title|type|updated_date|\n+---------------------+-----------+------+----------------+--------------+--------+--------------------+--------------------+----+----------+--------------------+--------------------+-----------+------------+----+-----------+----------------+----------------+----------------+-------------+-----+----+------------+\n|                 null|       null|  null|            null|             6|    null|[{3, 2021}, {1, 2...|   João Girardi Neto|null|      null|https://openalex....|{null, 2160227219...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             0|    null|         [{0, 2012}]|   Hailu Araya Tedla|null|      null|https://openalex....|{null, 2187178324...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             8|    null|[{1, 2020}, {1, 2...|      Yong-Kyun Jeon|null|      null|https://openalex....|{null, 2276775321...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             1|    null|[{1, 2021}, {0, 2...|           Mofed Aql|null|      null|https://openalex....|{null, 2954940515...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             0|    null|[{0, 2021}, {0, 2...|          I.M. Hölge|null|      null|https://openalex....|{null, 2971885910...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             0|    null|                  []|       S. Takayanagi|null|      null|https://openalex....|{null, 2515525654...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             0|    null|                  []|     S. P. Srivastav|null|      null|https://openalex....|{null, 2160227389...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|            13|    null|[{1, 2019}, {2, 2...|          Hugh Cross|null|      null|https://openalex....|{null, 2187178510...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             0|    null|                  []|         A. D. Silin|null|      null|https://openalex....|{null, 2276776070...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n|                 null|       null|  null|            null|             0|    null|[{0, 2019}, {0, 2...|Dídac Florensa Ca...|null|      null|https://openalex....|{null, 2954940940...|       null|        null|null|       null|            null|            null|            null|         null| null|null|  2022-01-19|\n+---------------------+-----------+------+----------------+--------------+--------+--------------------+--------------------+----+----------+--------------------+--------------------+-----------+------------+----+-----------+----------------+----------------+----------------+-------------+-----+----+------------+\nonly showing top 10 rows\n\n\u001b[1m\u001b[34mAUTHORS_PATH\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /authors\n\u001b[1m\u001b[34mauthorsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [alternate_host_venues: array<struct<display_name:string,id:string,is_oa:boolean,license:string,type:string,url:string,version:string>>, authorships: array<struct<author:struct<display_name:string,id:string,orcid:string>,author_position:string,institutions:array<struct<country_code:string,display_name:string,id:string,ror:string,type:string>>,raw_affiliation_string:string>> ... 21 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=81"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=82"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643389455817_1457432878",
+   "id": "paragraph_1643389455817_1457432878",
+   "dateCreated": "2022-01-28T19:04:15+0200",
+   "dateStarted": "2022-01-28T19:04:15+0200",
+   "dateFinished": "2022-01-28T19:08:01+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval INSTITUTIONS_PATH = \"/institutions\"\n//val AUTHORS_PATH = \"/authors/updated_date=2022-01-20/0000_part_00.gz\"\n\nval institutionsdf = spark.read          \n        .option(\"pathGlobFilter\", \"*.gz\") \n        .schema(worksdf.schema)\n        .json(s\"$OA_HOME$INSTITUTIONS_PATH\")\n\n   \nprintln(\"institutionsdf  cnt:\"+institutionsdf.count())\ninstitutionsdf.printSchema()\ninstitutionsdf.show(10)",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-28T19:37:02+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "institutionsdf  cnt:27077\nroot\n |-- alternate_host_venues: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- display_name: string (nullable = true)\n |    |    |-- id: string (nullable = true)\n |    |    |-- is_oa: boolean (nullable = true)\n |    |    |-- license: string (nullable = true)\n |    |    |-- type: string (nullable = true)\n |    |    |-- url: string (nullable = true)\n |    |    |-- version: string (nullable = true)\n |-- authorships: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- author: struct (nullable = true)\n |    |    |    |-- display_name: string (nullable = true)\n |    |    |    |-- id: string (nullable = true)\n |    |    |    |-- orcid: string (nullable = true)\n |    |    |-- author_position: string (nullable = true)\n |    |    |-- institutions: array (nullable = true)\n |    |    |    |-- element: struct (containsNull = true)\n |    |    |    |    |-- country_code: string (nullable = true)\n |    |    |    |    |-- display_name: string (nullable = true)\n |    |    |    |    |-- id: string (nullable = true)\n |    |    |    |    |-- ror: string (nullable = true)\n |    |    |    |    |-- type: string (nullable = true)\n |    |    |-- raw_affiliation_string: string (nullable = true)\n |-- biblio: struct (nullable = true)\n |    |-- first_page: string (nullable = true)\n |    |-- issue: string (nullable = true)\n |    |-- last_page: string (nullable = true)\n |    |-- volume: string (nullable = true)\n |-- cited_by_api_url: string (nullable = true)\n |-- cited_by_count: long (nullable = true)\n |-- concepts: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- display_name: string (nullable = true)\n |    |    |-- id: string (nullable = true)\n |    |    |-- level: long (nullable = true)\n |    |    |-- score: double (nullable = true)\n |    |    |-- wikidata: string (nullable = true)\n |-- counts_by_year: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- cited_by_count: long (nullable = true)\n |    |    |-- year: long (nullable = true)\n |-- display_name: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- host_venue: struct (nullable = true)\n |    |-- display_name: string (nullable = true)\n |    |-- id: string (nullable = true)\n |    |-- is_oa: boolean (nullable = true)\n |    |-- issn: array (nullable = true)\n |    |    |-- element: string (containsNull = true)\n |    |-- issn_l: string (nullable = true)\n |    |-- license: string (nullable = true)\n |    |-- publisher: string (nullable = true)\n |    |-- type: string (nullable = true)\n |    |-- url: string (nullable = true)\n |    |-- version: string (nullable = true)\n |-- id: string (nullable = true)\n |-- ids: struct (nullable = true)\n |    |-- doi: string (nullable = true)\n |    |-- mag: long (nullable = true)\n |    |-- openalex: string (nullable = true)\n |-- is_paratext: boolean (nullable = true)\n |-- is_retracted: boolean (nullable = true)\n |-- mesh: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- open_access: struct (nullable = true)\n |    |-- is_oa: boolean (nullable = true)\n |    |-- oa_status: string (nullable = true)\n |    |-- oa_url: string (nullable = true)\n |-- publication_date: string (nullable = true)\n |-- publication_year: long (nullable = true)\n |-- referenced_works: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- related_works: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- type: string (nullable = true)\n |-- updated_date: string (nullable = true)\n\n+---------------------+-----------+------+----------------+--------------+--------+--------------------+--------------------+----+----------+--------------------+--------------------+-----------+------------+----+-----------+----------------+----------------+----------------+-------------+-----+---------+------------+\n|alternate_host_venues|authorships|biblio|cited_by_api_url|cited_by_count|concepts|      counts_by_year|        display_name| doi|host_venue|                  id|                 ids|is_paratext|is_retracted|mesh|open_access|publication_date|publication_year|referenced_works|related_works|title|     type|updated_date|\n+---------------------+-----------+------+----------------+--------------+--------+--------------------+--------------------+----+----------+--------------------+--------------------+-----------+------------+----+-----------+----------------+----------------+----------------+-------------+-----+---------+------------+\n|                 null|       null|  null|            null|         13804|    null|[{10, 2022}, {191...|Livestock Improve...|null|      null|https://openalex....|{null, 1613860, h...|       null|        null|null|       null|            null|            null|            null|         null| null|    other|  2022-01-20|\n|                 null|       null|  null|            null|          1865|    null|[{14, 2022}, {268...|    Lessius Mechelen|null|      null|https://openalex....|{null, 2419132, h...|       null|        null|null|       null|            null|            null|            null|         null| null|     null|  2022-01-20|\n|                 null|       null|  null|            null|           485|    null|[{3, 2022}, {120,...|   Taisho University|null|      null|https://openalex....|{null, 2971882, h...|       null|        null|null|       null|            null|            null|            null|         null| null|education|  2022-01-20|\n|                 null|       null|  null|            null|        124117|    null|[{568, 2022}, {11...|Norwegian College...|null|      null|https://openalex....|{null, 2987914, h...|       null|        null|null|       null|            null|            null|            null|         null| null|     null|  2022-01-20|\n|                 null|       null|  null|            null|        211017|    null|[{380, 2022}, {28...|Bayer HealthCare ...|null|      null|https://openalex....|{null, 4010417, h...|       null|        null|null|       null|            null|            null|            null|         null| null|     null|  2022-01-20|\n|                 null|       null|  null|            null|         58040|    null|[{186, 2022}, {12...|A.T. Still Univer...|null|      null|https://openalex....|{null, 4584351, h...|       null|        null|null|       null|            null|            null|            null|         null| null|education|  2022-01-20|\n|                 null|       null|  null|            null|          2783|    null|[{1, 2023}, {52, ...|     Koya University|null|      null|https://openalex....|{null, 4896460, h...|       null|        null|null|       null|            null|            null|            null|         null| null|education|  2022-01-20|\n|                 null|       null|  null|            null|          2735|    null|[{6, 2022}, {421,...|Sir Salimullah Me...|null|      null|https://openalex....|{null, 8086503, h...|       null|        null|null|       null|            null|            null|            null|         null| null|     null|  2022-01-20|\n|                 null|       null|  null|            null|          1349|    null|[{20, 2022}, {331...|        Buzzi Unicem|null|      null|https://openalex....|{null, 8199991, h...|       null|        null|null|       null|            null|            null|            null|         null| null|     null|  2022-01-20|\n|                 null|       null|  null|            null|         91925|    null|[{315, 2022}, {11...|Chiba Institute o...|null|      null|https://openalex....|{null, 8488066, h...|       null|        null|null|       null|            null|            null|            null|         null| null|education|  2022-01-20|\n+---------------------+-----------+------+----------------+--------------+--------+--------------------+--------------------+----+----------+--------------------+--------------------+-----------+------------+----+-----------+----------------+----------------+----------------+-------------+-----+---------+------------+\nonly showing top 10 rows\n\n\u001b[1m\u001b[34mINSTITUTIONS_PATH\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /institutions\n\u001b[1m\u001b[34minstitutionsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [alternate_host_venues: array<struct<display_name:string,id:string,is_oa:boolean,license:string,type:string,url:string,version:string>>, authorships: array<struct<author:struct<display_name:string,id:string,orcid:string>,author_position:string,institutions:array<struct<country_code:string,display_name:string,id:string,ror:string,type:string>>,raw_affiliation_string:string>> ... 21 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=83"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=84"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643391422093_998372986",
+   "id": "paragraph_1643391422093_998372986",
+   "dateCreated": "2022-01-28T19:37:02+0200",
+   "dateStarted": "2022-01-28T19:37:02+0200",
+   "dateFinished": "2022-01-28T19:37:02+0200",
+   "status": "FINISHED"
+  }
+ ],
+ "name": "Zeppelin Notebook",
+ "id": "",
+ "noteParams": {},
+ "noteForms": {},
+ "angularObjects": {},
+ "config": {
+  "isZeppelinNotebookCronEnable": false,
+  "looknfeel": "default",
+  "personalizedMode": "false"
+ },
+ "info": {}
+}

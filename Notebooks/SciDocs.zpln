@@ -16,7 +16,8 @@
     "editorMode": "ace/mode/scala",
     "fontSize": 9.0,
     "results": {},
-    "enabled": true
+    "enabled": true,
+    "editorHide": false
    },
    "settings": {
     "params": {},
@@ -39,14 +40,107 @@
   {
    "text": "%spark\nimport org.apache.spark.ml.linalg.{Matrix, Vectors}\nimport org.apache.spark.ml.stat.Correlation\nimport org.apache.spark.ml.functions.array_to_vector\nimport org.apache.spark.ml.stat.Summarizer\n\n\n\nval MVmodels_HOME = \"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\"\nval docTopicsdf= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        .option(\"delimiter\", \"\\t\")\n        .option(\"header\", \"true\")        \n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")        \n        .csv(s\"file://$MVmodels_HOME/DocTopics.csv\").cache()\n\ndocTopicsdf.printSchema()\ndocTopicsdf.show(5)\nprintln(docTopicsdf.count())\n\n\n\nval vectorsdf= spark.read        \n        .json(s\"file://$MVmodels_HOME/vectors.json.gz\").cache()\n\nvectorsdf.printSchema()\nvectorsdf.show(5)\nprintln(vectorsdf.count())\n\n//vectorsdf.select($\"entityType\").distinct().show()\n\n//vectorsdf.groupBy($\"entityType\")\n//        .count().show()\n\n//vectorsdf.filter($\"entityType\"===\"-1\").show(5)\n\n//docTopicsdf.filter($\"docId\"===\"12213334\").select($\"docId\", $\"topicId\")\n\nval docTopicVectors = docTopicsdf.join(vectorsdf, $\"topicId\"=== vectorsdf(\"entityId\") && vectorsdf(\"entitytype\")===\"-1\", \"inner\")\n                .select($\"docSeqId\", $\"docId\", $\"topicId\", $\"weight\", $\"vector\" ).cache()\n\ndocTopicVectors.printSchema()\ndocTopicVectors.show(5)\nprintln(docTopicVectors.count())\n\n//val  docVectors =  docTopicVectors.select($\"docId\", Vectors.dense($\"vector\"))\nval docTopicDenseVectors = docTopicVectors.select($\"docId\", $\"weight\", array_to_vector($\"vector\").alias(\"denseVec\")).orderBy($\"docId\")\ndocTopicDenseVectors.show(5)\n\nval  docVectors =  docTopicDenseVectors.groupBy($\"docId\").agg(Summarizer.mean($\"denseVec\",$\"weight\").alias(\"docVector\"))\ndocVectors.show(5)\n        //.select(exprs:_*)\n//val  docVectors =  docTopicVectors.groupBy($\"docId\").agg(Summarizer.sum(Vectors.dense($\"vector\")).alias(\"vector\"))\n\n                \n",
    "user": "anonymous",
-   "dateUpdated": "2021-11-15T11:44:31+0200",
+   "dateUpdated": "2022-02-06T16:05:07+0200",
+   "progress": 96.0,
+   "config": {
+    "editorHide": false,
+    "tableHide": true,
+    "results": [
+     {
+      "mode": "table"
+     }
+    ]
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "collapsed": true
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- docSeqId: string (nullable = true)\n |-- docId: string (nullable = true)\n |-- topicId: string (nullable = true)\n |-- weight: string (nullable = true)\n\n+--------+----------+-------+--------------------+\n|docSeqId|     docId|topicId|              weight|\n+--------+----------+-------+--------------------+\n|       0|1000018889|     13|  0.5665244618687141|\n|       0|1000018889|      0| 0.15894237333180466|\n|       0|1000018889|     19| 0.14404119013589237|\n|       0|1000018889|      1|0.006059101300276444|\n|       0|1000018889|     26|0.004774454918387954|\n+--------+----------+-------+--------------------+\nonly showing top 5 rows\n\n450494\nroot\n |-- entityId: string (nullable = true)\n |-- entityType: long (nullable = true)\n |-- experimentId: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+-----------+----------+--------------------+--------------------+\n|   entityId|entityType|        experimentId|              vector|\n+-----------+----------+--------------------+--------------------+\n|     remote|         0|DBLP_50T_200IT_30...|[0.17318167609938...|\n|     policy|         0|DBLP_50T_200IT_30...|[0.43328312516169...|\n|enforcement|         0|DBLP_50T_200IT_30...|[0.05590983118677...|\n|    trusted|         0|DBLP_50T_200IT_30...|[0.35548645420007...|\n|application|         0|DBLP_50T_200IT_30...|[0.23833517195278...|\n+-----------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n175904\nroot\n |-- docSeqId: string (nullable = true)\n |-- docId: string (nullable = true)\n |-- topicId: string (nullable = true)\n |-- weight: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+--------+----------+-------+--------------------+--------------------+\n|docSeqId|     docId|topicId|              weight|              vector|\n+--------+----------+-------+--------------------+--------------------+\n|       0|1000018889|      7|0.004050016975697347|[-0.2589543349645...|\n|       1|1000022707|      7|0.004783263769533...|[-0.2589543349645...|\n|       2| 100004108|      7|0.004043272995837892|[-0.2589543349645...|\n|       3|  10000571|      7|0.003538711056204...|[-0.2589543349645...|\n|       4| 100007563|      7|0.004194201255395283|[-0.2589543349645...|\n+--------+----------+-------+--------------------+--------------------+\nonly showing top 5 rows\n\n450494\n+----------+--------------------+--------------------+\n|     docId|              weight|            denseVec|\n+----------+--------------------+--------------------+\n|1000018889|0.001888994909542...|[-0.7472654686023...|\n|1000018889|0.003241292301004356|[0.06945938803571...|\n|1000018889|0.003064549400843...|[0.79496633856182...|\n|1000018889|0.004007257398576211|[0.55449434908141...|\n|1000018889|0.001980433244085...|[0.01913626683527...|\n+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n+----------+--------------------+\n|     docId|           docVector|\n+----------+--------------------+\n|1000018889|[0.53314287958508...|\n|1000022707|[0.86185012086709...|\n| 100004108|[0.46367639318144...|\n|  10000571|[0.31969423648267...|\n| 100007563|[0.79780411438636...|\n+----------+--------------------+\nonly showing top 5 rows\n\nimport org.apache.spark.ml.linalg.{Matrix, Vectors}\nimport org.apache.spark.ml.stat.Correlation\nimport org.apache.spark.ml.functions.array_to_vector\nimport org.apache.spark.ml.stat.Summarizer\n\u001b[1m\u001b[34mMVmodels_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\n\u001b[1m\u001b[34mdocTopicsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docSeqId: string, docId: string ... 2 more fields]\n\u001b[1m\u001b[34mvectorsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [entityId: string, entityType: bigint ... 2 more fields]\n\u001b[1m\u001b[34mdocTopicVectors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docSeqId: string, docId: string ... 3 more fields]\n\u001b...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=24"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=25"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=26"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=27"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=28"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=29"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=30"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=31"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=32"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=33"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=34"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=35"
+      },
+      {
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=36"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1644156307841_151931121",
+   "id": "paragraph_1644156307841_151931121",
+   "dateCreated": "2022-02-06T16:05:07+0200",
+   "dateStarted": "2022-02-06T16:05:07+0200",
+   "dateFinished": "2022-02-06T16:05:56+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval MVmodels_HOME = \"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\"\nval vectorsFiles= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$MVmodels_HOME/vectors.json.gz\").cache()\n\nvectorsFiles.printSchema()\nvectorsFiles.show(5)\nprintln(vectorsFiles.count())\n\nvectorsFiles.select($\"entityType\").distinct().show()\n\nvectorsFiles.filter($\"entityType\"===\"-1\").show(5)\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-02-06T16:04:38+0200",
    "progress": 0.0,
    "config": {
     "results": [
      {
       "mode": "table"
      }
-    ]
+    ],
+    "editorHide": false
    },
    "settings": {
     "params": {
@@ -65,7 +159,7 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "root\n |-- docSeqId: string (nullable = true)\n |-- docId: string (nullable = true)\n |-- topicId: string (nullable = true)\n |-- weight: string (nullable = true)\n\n+--------+----------+-------+------------------+\n|docSeqId|     docId|topicId|            weight|\n+--------+----------+-------+------------------+\n|       0|1000018889|     18|0.9943981984216769|\n|       1|1000018889|     18|0.9943981984216769|\n|       2|1000018889|     18|0.9943981984216769|\n|       3|1000018889|     18|0.8058733967034263|\n|       3|1000018889|      0|0.0899619885276034|\n+--------+----------+-------+------------------+\nonly showing top 5 rows\n\n117298\nroot\n |-- entityId: string (nullable = true)\n |-- entityType: long (nullable = true)\n |-- experimentId: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+-----------+----------+--------------------+--------------------+\n|   entityId|entityType|        experimentId|              vector|\n+-----------+----------+--------------------+--------------------+\n|     remote|         0|DBLP_50T_200IT_30...|[-0.2437071749846...|\n|     policy|         0|DBLP_50T_200IT_30...|[0.07419541452294...|\n|enforcement|         0|DBLP_50T_200IT_30...|[-0.1230889415135...|\n|    trusted|         0|DBLP_50T_200IT_30...|[-0.2582554993445...|\n|application|         0|DBLP_50T_200IT_30...|[-0.4815302768437...|\n+-----------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n175904\n+----------+------+\n|entityType| count|\n+----------+------+\n|         0|  9879|\n|         1| 13709|\n|         3|  1497|\n|         2| 21259|\n|         4|129510|\n|        -1|    50|\n+----------+------+\n\n\u001b[1m\u001b[34mMVmodels_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\n\u001b[1m\u001b[34mdocTopicsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docSeqId: string, docId: string ... 2 more fields]\n\u001b[1m\u001b[34mvectorsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [entityId: string, entityType: bigint ... 2 more fields]\n"
+      "data": "root\n |-- entityId: string (nullable = true)\n |-- entityType: long (nullable = true)\n |-- experimentId: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+-----------+----------+--------------------+--------------------+\n|   entityId|entityType|        experimentId|              vector|\n+-----------+----------+--------------------+--------------------+\n|     remote|         0|DBLP_50T_200IT_30...|[0.17318167609938...|\n|     policy|         0|DBLP_50T_200IT_30...|[0.43328312516169...|\n|enforcement|         0|DBLP_50T_200IT_30...|[0.05590983118677...|\n|    trusted|         0|DBLP_50T_200IT_30...|[0.35548645420007...|\n|application|         0|DBLP_50T_200IT_30...|[0.23833517195278...|\n+-----------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n175904\n+----------+\n|entityType|\n+----------+\n|         0|\n|         1|\n|         3|\n|         2|\n|         4|\n|        -1|\n+----------+\n\n+--------+----------+--------------------+--------------------+\n|entityId|entityType|        experimentId|              vector|\n+--------+----------+--------------------+--------------------+\n|       0|        -1|DBLP_50T_200IT_30...|[0.89397605011521...|\n|       1|        -1|DBLP_50T_200IT_30...|[1.33675180494674...|\n|       2|        -1|DBLP_50T_200IT_30...|[0.95930837640739...|\n|       3|        -1|DBLP_50T_200IT_30...|[0.01913626683527...|\n|       4|        -1|DBLP_50T_200IT_30...|[0.24612931305555...|\n+--------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mMVmodels_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\n\u001b[1m\u001b[34mvectorsFiles\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [entityId: string, entityType: bigint ... 2 more fields]\n"
      }
     ]
    },
@@ -78,180 +172,42 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=38"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=15"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=39"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=16"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=40"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=17"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=41"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=18"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=42"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=19"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=43"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=20"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=44"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=21"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=45"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=22"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=46"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=47"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=48"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=23"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1636969471164_2038452314",
-   "id": "paragraph_1636969471164_2038452314",
-   "dateCreated": "2021-11-15T11:44:31+0200",
-   "dateStarted": "2021-11-15T11:44:31+0200",
-   "dateFinished": "2021-11-15T11:44:53+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "%spark\n\n",
-   "user": "anonymous",
-   "dateUpdated": "2021-11-14T11:38:24+0200",
-   "progress": 50.0,
-   "config": {
-    "results": [
-     {
-      "mode": "table"
-     }
-    ]
-   },
-   "settings": {
-    "params": {
-     "bdtMeta": {
-      "inlay": {
-       "state": {
-        "currentPage": "Table"
-       }
-      }
-     }
-    },
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "+----------+--------------------+--------------------+\n|     docId|              weight|            denseVec|\n+----------+--------------------+--------------------+\n|1000018889|0.001896889839165...|[-0.6226222268956...|\n|1000018889|0.003147957409319...|[-0.6852935816660...|\n|1000018889|0.002491502286649...|[-0.2099309498109...|\n|1000018889|0.002487684073934882|[0.01841416205496...|\n|1000018889|0.001886040947510...|[0.33497859089585...|\n+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n+----------+--------------------+\n|     docId|           docVector|\n+----------+--------------------+\n|1000018889|[-0.5948551241858...|\n|1000022707|[-0.2830117295230...|\n| 100004108|[-0.8562249499437...|\n|  10000571|[-0.4645717424428...|\n| 100007563|[-0.1588477776000...|\n+----------+--------------------+\nonly showing top 5 rows\n\nimport org.apache.spark.ml.linalg.{Matrix, Vectors}\nimport org.apache.spark.ml.stat.Correlation\nimport org.apache.spark.ml.functions.array_to_vector\nimport org.apache.spark.ml.stat.Summarizer\n\u001b[1m\u001b[34mdocTopicDenseVectors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docId: string, weight: string ... 1 more field]\n\u001b[1m\u001b[34mdocVectors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [docId: string, docVector: vector]\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=20"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=21"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=22"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1636882704797_176458427",
-   "id": "paragraph_1636882704797_176458427",
-   "dateCreated": "2021-11-14T11:38:24+0200",
-   "dateStarted": "2021-11-14T11:38:24+0200",
-   "dateFinished": "2021-11-14T11:38:28+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "%spark\nval MVmodels_HOME = \"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\"\nval vectorsFiles= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$MVmodels_HOME/vectors.json.gz\").cache()\n\nvectorsFiles.printSchema()\nvectorsFiles.show(5)\nprintln(vectorsFiles.count())\n\nvectorsFiles.select($\"entityType\").distinct().show()\n\nvectorsFiles.filter($\"entityType\"===\"-1\").show(5)\n",
-   "user": "anonymous",
-   "dateUpdated": "2021-10-29T12:21:19+0300",
-   "config": {
-    "results": [
-     {
-      "mode": "table"
-     }
-    ]
-   },
-   "settings": {
-    "params": {
-     "bdtMeta": {
-      "inlay": {
-       "state": {
-        "currentPage": "Table"
-       }
-      }
-     }
-    },
-    "forms": {}
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=29"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=30"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=31"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=32"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=33"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=34"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=35"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=36"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=37"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1635499279587_1420931080",
-   "id": "paragraph_1635499279587_1420931080",
-   "dateCreated": "2021-10-29T12:21:19+0300",
-   "dateStarted": "2021-10-29T12:21:19+0300",
-   "dateFinished": "2021-10-29T12:22:06+0300",
+   "jobName": "paragraph_1644156278558_958632712",
+   "id": "paragraph_1644156278558_958632712",
+   "dateCreated": "2022-02-06T16:04:38+0200",
+   "dateStarted": "2022-02-06T16:04:38+0200",
+   "dateFinished": "2022-02-06T16:05:25+0200",
    "status": "FINISHED"
   },
   {
@@ -281,7 +237,8 @@
       },
       "mode": "lineChart"
      }
-    ]
+    ],
+    "editorHide": false
    },
    "settings": {
     "params": {
@@ -346,7 +303,8 @@
    "title": "Preprocess S2 data",
    "text": "%spark\nval S2_HOME = \"/media/datadisk/Datasets/SemanticScholar/01092021\"\nval S2_sample = \"/media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\"\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\nimport  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\n\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n//Get Semantic Scholar articles \nval S2articlesdf = spark.read.json(s\"file://$S2_HOME\")\n//val S2articlesdf = spark.read.json(s\"file://$S2_sample\")\nS2articlesdf.printSchema\n//S2articlesdf.show(5) \n\nval S2subsetdf = S2articlesdf\n             //.join(broadcast(doisdf), lower(S2articlesdf(\"doi\"))===doisdf(\"doi\"), \"inner\")\n             //.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull))\n             .select($\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n//$\"authors.ids\", $\"authors.name\",\n                 $\"authors\", $\"journalName\", $\"venue\", $\"year\", $\"paperAbstract\")\n\n//S2subsetdf.printSchema\n//S2subsetdf.show(10,false)\nS2subsetdf.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/Scidocs/S2.parquet\")\n\n/*\n//Create pub - author rows\nval S2flatdf = S2subsetdf.select($\"title\", $\"id\", $\"doi\", $\"magId\", $\"pmId\", $\"S2fos\", explode($\"authors\").as(\"authorsflat\"))\n\nval S2_Pub_Authors = S2flatdf.select($\"title\".as(\"S2title\"), $\"id\".as(\"S2paperId\"), lower($\"doi\").as(\"S2doi\"), $\"S2fos\", $\"magId\", $\"pmId\", $\"authorsflat.name\".as(\"S2name\"),concat_ws(\"\",$\"authorsflat.ids\").as(\"S2authorId\"),\n                                    shorNormName($\"authorsflat.name\").as(\"S2shortNormName\"),normName( $\"authorsflat.name\").as(\"S2normName\"))\n//.persist(StorageLevel.DISK_ONLY)\n//.cache()\n\n//S2_Pub_Authors.printSchema\n//S2_Pub_Authors.show(5)\n\n//println(\"S2_Author_Pub_Cnt:\" + S2_Pub_Authors.count())\nS2_Pub_Authors.write.mode(\"overwrite\").parquet(\"/media/datadisk/Datasets/MAG_S2/S2_Pub_Authors.parquet\")\n*/\n",
    "user": "anonymous",
-   "dateUpdated": "2021-09-23T20:34:53+0300",
+   "dateUpdated": "2022-01-22T14:11:03+0200",
+   "progress": 7.0,
    "config": {
     "title": true,
     "editorHide": true
@@ -354,6 +312,15 @@
    "settings": {
     "params": {},
     "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "org.apache.spark.SparkException: Job 1 cancelled part of cancelled job group zeppelin|anonymous|2GM4YJ5VQ|paragraph_1642853463595_1971138478\n  at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2258)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:2154)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleJobGroupCancelled$4(DAGScheduler.scala:1048)\n  at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.java:23)\n  at scala.collection.mutable.HashSet.foreach(HashSet.scala:79)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:1047)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2407)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2387)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2376)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:868)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2196)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2291)\n  at org.apache.spark.sql.catalyst.json.JsonInferSchema.infer(JsonInferSchema.scala:94)\n  at org.apache.spark.sql.execution.datasources.json.TextInputJsonDataSource$.$anonfun$inferFromDataset$5(JsonDataSource.scala:110)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:163)\n  at org.apache.spark.sql.execution.datasources.json.TextInputJsonDataSource$.inferFromDataset(JsonDataSource.scala:110)\n  at org.apache.spark.sql.execution.datasources.json.TextInputJsonDataSource$.infer(JsonDataSource.scala:99)\n  at org.apache.spark.sql.execution.datasources.json.JsonDataSource.inferSchema(JsonDataSource.scala:65)\n  at org.apache.spark.sql.execution.datasources.json.JsonFileFormat.inferSchema(JsonFileFormat.scala:58)\n  at org.apache.spark.sql.execution.datasources.DataSource.$anonfun$getOrInferFileFormatSchema$11(DataSource.scala:209)\n  at scala.Option.orElse(Option.scala:447)\n  at org.apache.spark.sql.execution.datasources.DataSource.getOrInferFileFormatSchema(DataSource.scala:206)\n  at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:419)\n  at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:325)\n  at org.apache.spark.sql.DataFrameReader.$anonfun$load$3(DataFrameReader.scala:307)\n  at scala.Option.getOrElse(Option.scala:189)\n  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:307)\n  at org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:519)\n  at org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:428)\n  ... 44 elided\n"
+     }
+    ]
    },
    "apps": [],
    "runtimeInfos": {
@@ -364,25 +331,33 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=33"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=34"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=35"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1632418493622_1725534731",
-   "id": "paragraph_1632418493622_1725534731",
-   "dateCreated": "2021-09-23T20:34:53+0300",
-   "dateStarted": "2021-09-23T20:34:53+0300",
-   "dateFinished": "2021-09-23T23:52:44+0300",
-   "status": "FINISHED"
+   "jobName": "paragraph_1642853463595_1971138478",
+   "id": "paragraph_1642853463595_1971138478",
+   "dateCreated": "2022-01-22T14:11:03+0200",
+   "dateStarted": "2022-01-22T14:11:03+0200",
+   "dateFinished": "2022-01-22T14:19:27+0200",
+   "status": "ABORT"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark\n",
+   "id": "",
+   "config": {}
   },
   {
    "text": "%spark\nval S2subsetdf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/Scidocs/S2.parquet\")\nS2subsetdf.printSchema\nS2subsetdf.show(5)\nprintln(\"S2_Author_Pub_Cnt:\" + S2subsetdf.count())\n\n\n\n",
@@ -489,17 +464,6 @@
    "dateStarted": "2021-09-30T12:45:38+0300",
    "dateFinished": "2021-09-30T13:06:14+0300",
    "status": "FINISHED"
-  },
-  {
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "apps": [],
-   "status": "READY",
-   "text": "%spark\n",
-   "id": "",
-   "config": {}
   },
   {
    "text": "%spark\nval S2df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/Scidocs/S2.parquet\")\n/*\n        .cache()\nS2df.printSchema\nS2df.show(5)\nprintln(\"S2df:\" + S2df.count())\n*/\nval MAG_fosdf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/Scidocs/MAG.parquet\")\n  /*      .cache()\nMAG_fosdf.printSchema\nMAG_fosdf.show(5)\nprintln(\"MAG_fosdf:\" + MAG_fosdf.count())\n   */\n/*\n$\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n//$\"authors.ids\", $\"authors.name\",\n                 $\"authors\", $\"journalName\", $\"venue\"\n                 abstract: string (nullable = true)\n |-- authors: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- cited_by: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- paper_id: string (nullable = true)\n |-- references: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- year: long (nullable = true)\n*/\n\n\n",
@@ -963,6 +927,17 @@
    "dateStarted": "2021-09-24T21:04:58+0300",
    "dateFinished": "2021-09-24T21:05:04+0300",
    "status": "FINISHED"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark\nval scidocsdata_HOME = \"/media/ometaxas/nvme/datasets/Scidocs\"\nval paper_metadata_view_cite= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_view_cite_read.jsonl\").cache()\n\npaper_metadata_view_cite.printSchema()\npaper_metadata_view_cite.show(5)\nprintln(paper_metadata_view_cite.count())\n",
+   "id": "",
+   "config": {}
   }
  ],
  "name": "Zeppelin Notebook",

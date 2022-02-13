@@ -3,7 +3,8 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.3.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.17-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2021-08-11T09:23:52+0300",
+   "dateUpdated": "2022-02-10T12:48:34+0200",
+   "progress": 0.0,
    "config": {
     "editorSetting": {
      "language": "scala",
@@ -22,18 +23,23 @@
     "forms": {}
    },
    "results": {
-    "code": "SUCCESS",
-    "msg": []
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "java.io.IOException: Can not change interpreter properties when interpreter process has already been launched\n\tat org.apache.zeppelin.interpreter.InterpreterSetting.setInterpreterGroupProperties(InterpreterSetting.java:936)\n\tat org.apache.zeppelin.interpreter.ConfInterpreter.interpret(ConfInterpreter.java:72)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:486)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:71)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler.lambda$runJobInScheduler$0(FIFOScheduler.java:42)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n"
+     }
+    ]
    },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1628663032099_342053576",
-   "id": "paragraph_1628663032099_342053576",
-   "dateCreated": "2021-08-11T09:23:52+0300",
-   "dateStarted": "2021-08-11T09:23:52+0300",
-   "dateFinished": "2021-08-11T09:23:52+0300",
-   "status": "FINISHED"
+   "jobName": "paragraph_1644490114015_1475958723",
+   "id": "paragraph_1644490114015_1475958723",
+   "dateCreated": "2022-02-10T12:48:34+0200",
+   "dateStarted": "2022-02-10T12:48:34+0200",
+   "dateFinished": "2022-02-10T12:48:34+0200",
+   "status": "ERROR"
   },
   {
    "text": "%spark\nval normStr = udf[String, String]((e: String) => {\n    if (e != null) {\n        e.toLowerCase()\n                //.replaceAll(\"[ <>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n                .replaceAll(\"\\\"\", \"\")\n                .trim()\n    } else e;\n\n})\n\nspark.udf.register(\"normStr\", normStr)\n\nval normArrStr = udf[Seq[String], Seq[String]]((e: Seq[String]) => {\n    if (e != null) {\n    e.map(_.toLowerCase().replaceAll(\"\\\"\", \"\").trim());\n    /*\n     for ( i <- 0 to (e.length - 1)) {\n         e(i) = e(i);\n      }\n        for ( r <- 0 to (e.length - 1)) {\n            e(r) = e(r).toLowerCase()\n                    //.replaceAll(\"[ <>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n                    .replaceAll(\"\\\"\", \"\")\n                    .trim();\n        }\n*/\n    } else e;\n\n})\n\nspark.udf.register(\"normArrStr\", normArrStr)\n\nval WIKI_HOME = \"/media/ometaxas/nvme/datasets/WikiData/dump.parquet\"\nval WIKI_OUT = \"/media/ometaxas/nvme/datasets/WikiData/out\"",

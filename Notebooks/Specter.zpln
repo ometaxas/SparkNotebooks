@@ -1,0 +1,549 @@
+﻿{
+ "paragraphs": [
+  {
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\nspark.serializer org.apache.spark.serializer.KryoSerializer\n#spark.kryoserializer.buffer.max 1000M\n#spark.driver.memory 95g\n#spark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-22T18:57:05+0200",
+   "progress": 0.0,
+   "config": {
+    "editorSetting": {
+     "language": "scala",
+     "editOnDblClick": false,
+     "completionKey": "TAB",
+     "completionSupport": true
+    },
+    "colWidth": 12.0,
+    "editorMode": "ace/mode/scala",
+    "fontSize": 9.0,
+    "results": {},
+    "enabled": true
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": []
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1642870625741_540493049",
+   "id": "paragraph_1642870625741_540493049",
+   "dateCreated": "2022-01-22T18:57:05+0200",
+   "dateStarted": "2022-01-22T18:57:05+0200",
+   "dateFinished": "2022-01-22T18:57:05+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval S2_HOME = \"/media/datadisk/Datasets/SemanticScholar/01112021\"\nval S2_sample = \"/media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\"\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport  org.apache.spark.sql.functions._\n\n//val logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\n//logger.info(\"Test my logger\");\n\n//Get Semantic Scholar articles \nval S2articlesdf = spark.read.json(s\"file://$S2_HOME\")\n//val S2articlesdf = spark.read.json(s\"file://$S2_sample\")\nS2articlesdf.printSchema\n//S2articlesdf.show(5) \n\n\nval S2subsetdf = S2articlesdf\n             //.join(broadcast(doisdf), lower(S2articlesdf(\"doi\"))===doisdf(\"doi\"), \"inner\")\n             //.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull))\n             .select($\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n                 $\"inCitations\", $\"outCitations\",\n                 $\"authors\", $\"journalName\", $\"venue\", $\"year\", $\"paperAbstract\")\n\n//S2subsetdf.printSchema\n//S2subsetdf.show(10,false)\nS2subsetdf.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-24T14:34:19+0200",
+   "progress": 99.0,
+   "config": {
+    "tableHide": true
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "collapsed": true
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- _corrupt_record: string (nullable = true)\n |-- authors: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- ids: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- name: string (nullable = true)\n |    |    |-- structuredName: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- doiUrl: string (nullable = true)\n |-- entities: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- fieldsOfStudy: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- id: string (nullable = true)\n |-- inCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- journalName: string (nullable = true)\n |-- journalPages: string (nullable = true)\n |-- journalVolume: string (nullable = true)\n |-- magId: string (nullable = true)\n |-- outCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- paperAbstract: string (nullable = true)\n |-- pdfUrls: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- pmid: string (nullable = true)\n |-- s2PdfUrl: string (nullable = true)\n |-- s2Url: string (nullable = true)\n |-- sources: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- venue: string (nullable = true)\n |-- year: long (nullable = true)\n\n\u001b[1m\u001b[34mS2_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/SemanticScholar/01112021\n\u001b[1m\u001b[34mS2_sample\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport org.apache.spark.sql.functions._\n\u001b[1m\u001b[34mS2articlesdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [_corrupt_record: string, authors: array<struct<ids:array<string>,name:string,structuredName:string>> ... 20 more fields]\n\u001b[1m\u001b[34mS2subsetdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 11 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=91"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=92"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=93"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643027659830_1917699466",
+   "id": "paragraph_1643027659830_1917699466",
+   "dateCreated": "2022-01-24T14:34:19+0200",
+   "dateStarted": "2022-01-24T14:34:19+0200",
+   "dateFinished": "2022-01-24T18:07:50+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\nval S2_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\nprintln(\"S2_df  cnt:\"+S2_df.count())\nS2_df.printSchema()\nS2_df.select($\"title\", $\"id\",$\"doi\", $\"magId\",  $\"pmId\",\n    $\"inCitations\", $\"outCitations\", $\"S2fos\",\n                 $\"year\", $\"paperAbstract\"\n).show(5)",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-24T18:45:07+0200",
+   "progress": 96.0,
+   "config": {
+    "tableHide": false
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "S2_df  cnt:198252886\nroot\n |-- title: string (nullable = true)\n |-- id: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- magId: string (nullable = true)\n |-- S2fos: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- pmId: string (nullable = true)\n |-- inCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- outCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- authors: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- ids: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- name: string (nullable = true)\n |    |    |-- structuredName: string (nullable = true)\n |-- journalName: string (nullable = true)\n |-- venue: string (nullable = true)\n |-- year: long (nullable = true)\n |-- paperAbstract: string (nullable = true)\n\n+-----------------------------+--------------------+--------------------+----------+----+--------------------+--------------------+-------------+----+--------------------+\n|                        title|                  id|                 doi|     magId|pmId|         inCitations|        outCitations|        S2fos|year|       paperAbstract|\n+-----------------------------+--------------------+--------------------+----------+----+--------------------+--------------------+-------------+----+--------------------+\n|         Advances in Food ...|42e2a33e8040c51ba...|10.5772/intechope...|3173341475|    |                  []|[a7cb02a48c34f39f...|    [Biology]|2021|Increased awarene...|\n|시멘트 Müller형 인공삽입물...|7c9b9b178106953b3...|                    |2202201208|    |                  []|                  []|[Engineering]|2003|                    |\n|             Rolando fracture|6ded053f2da81d1a1...|  10.53347/rid-56755|          |    |                  []|                  []|           []|2017|                    |\n|         Das Mark des Mitt...|5a587759ea2122bea...|                    | 775896695|    |                  []|                  []|           []|2012|                    |\n|         Intertemporal ass...|e25f1ea73437339db...|10.1016/0014-2921...|2040016257|    |[d4360920af7e0ed1...|[f7ad50732cdc13e3...|  [Economics]|1986|Abstract The prim...|\n+-----------------------------+--------------------+--------------------+----------+----+--------------------+--------------------+-------------+----+--------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mS2_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 11 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=96"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=97"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=98"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643042707005_453246204",
+   "id": "paragraph_1643042707005_453246204",
+   "dateCreated": "2022-01-24T18:45:07+0200",
+   "dateStarted": "2022-01-24T18:45:07+0200",
+   "dateFinished": "2022-01-24T18:45:09+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\nval SPECTER_HOME = \"/media/ometaxas/nvme/datasets/Specter/specter_original_data\"\nval train_ds = \"train_mapping.csv\"\nval val_ds = \"val_mapping.csv\"\n//val out = \"Specter_S2ORC.parquet\"\n\nval source_out = \"Specter_sourceIds_S2ORC.parquet\"\n\n\n\nval specter_train_paperIds= spark.read\n        .option(\"delimiter\", \"|\")        \n        .csv(s\"file://$SPECTER_HOME/$train_ds\").cache() \n//specter_paperIds.printSchema()\n//specter_paperIds.show(5)\n//println(specter_paperIds.count())\nval distinct_train_paperIds =  specter_train_paperIds.select($\"_c0\".as(\"s2Id\")).dropDuplicates().cache()\nprintln(distinct_train_paperIds.count())\n\n\nval specter_val_paperIds= spark.read\n        .option(\"delimiter\", \"|\")        \n        .csv(s\"file://$SPECTER_HOME/$val_ds\").cache() \n\nval distinct_val_paperIds =  specter_val_paperIds.select($\"_c0\".as(\"s2Id\")).dropDuplicates().cache()\nprintln(distinct_val_paperIds.count())\n\nval distinct_paperIds = distinct_train_paperIds.union(distinct_val_paperIds).dropDuplicates()\n//distinct_paperIds.show(20,false)\nprintln(distinct_paperIds.count())\n\nval specter_source_papers_df = S2_df\n                    .join(broadcast(distinct_paperIds), distinct_paperIds(\"s2Id\") === S2_df(\"id\") , \"inner\")        \n        .cache()\n\nprintln(specter_source_papers_df.count())\nspecter_source_papers_df.write.mode(\"overwrite\").parquet(s\"file://$SPECTER_HOME/$source_out\")\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T16:35:45+0200",
+   "progress": 100.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "136820\n29075\n165895\n112516\n\u001b[1m\u001b[34mSPECTER_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/Specter/specter_original_data\n\u001b[1m\u001b[34mtrain_ds\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = train_mapping.csv\n\u001b[1m\u001b[34mval_ds\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = val_mapping.csv\n\u001b[1m\u001b[34msource_out\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = Specter_sourceIds_S2ORC.parquet\n\u001b[1m\u001b[34mspecter_train_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [_c0: string, _c1: string ... 1 more field]\n\u001b[1m\u001b[34mdistinct_train_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [s2Id: string]\n\u001b[1m\u001b[34mspecter_val_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [_c0: string, _c1: string ... 1 more field]\n\u001b[1m\u001b[34mdistinct_val_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sq...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=170"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=171"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=172"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=173"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=174"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=176"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=177"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643121345608_627927267",
+   "id": "paragraph_1643121345608_627927267",
+   "dateCreated": "2022-01-25T16:35:45+0200",
+   "dateStarted": "2022-01-25T16:35:45+0200",
+   "dateFinished": "2022-01-25T16:41:09+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\nval SPECTER_HOME = \"/media/ometaxas/nvme/datasets/Specter/specter_original_data\"\nval train_ds = \"train_mapping.csv\"\nval val_ds = \"val_mapping.csv\"\nval out = \"Specter_S2ORC.parquet\"\n\nval source_out = \"Specter_sourceIds_S2ORC.parquet\"\n\n\n\nval specter_train_paperIds= spark.read\n        .option(\"delimiter\", \"|\")        \n        .csv(s\"file://$SPECTER_HOME/$train_ds\").cache() \n//specter_paperIds.printSchema()\n//specter_paperIds.show(5)\n//println(specter_paperIds.count())\nval distinct_train_paperIds =  (specter_train_paperIds.select($\"_c0\".as(\"s2Id\")).union(specter_train_paperIds.select($\"_c1\".as(\"s2Id\"))).union(specter_train_paperIds.select($\"_c2\".as(\"s2Id\")))).dropDuplicates().cache()\nprintln(distinct_train_paperIds.count())\n\n\nval specter_val_paperIds= spark.read\n        .option(\"delimiter\", \"|\")        \n        .csv(s\"file://$SPECTER_HOME/$val_ds\").cache() \n\nval distinct_val_paperIds =  (specter_val_paperIds.select($\"_c0\".as(\"s2Id\")).union(specter_val_paperIds.select($\"_c1\".as(\"s2Id\"))).union(specter_val_paperIds.select($\"_c2\".as(\"s2Id\")))).dropDuplicates().cache()\nprintln(distinct_val_paperIds.count())\n\nval distinct_paperIds = distinct_train_paperIds.union(distinct_val_paperIds).dropDuplicates()\n//distinct_paperIds.show(20,false)\nprintln(distinct_paperIds.count())\n\nval specter_papers_df = S2_df\n                    .join(broadcast(distinct_paperIds), distinct_paperIds(\"s2Id\") === S2_df(\"id\") , \"inner\")        \n        .cache()\n\nprintln(specter_papers_df.count())\nspecter_papers_df.write.mode(\"overwrite\").parquet(s\"file://$SPECTER_HOME/$out\")\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T15:28:57+0200",
+   "progress": 96.0,
+   "config": {
+    "tableHide": true,
+    "editorHide": true
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "collapsed": true
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "311860\n129289\n326985\n207134\n\u001b[1m\u001b[34mSPECTER_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/Specter/specter_original_data\n\u001b[1m\u001b[34mtrain_ds\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = train_mapping.csv\n\u001b[1m\u001b[34mval_ds\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = val_mapping.csv\n\u001b[1m\u001b[34mout\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = Specter_S2ORC.parquet\n\u001b[1m\u001b[34mspecter_train_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [_c0: string, _c1: string ... 1 more field]\n\u001b[1m\u001b[34mdistinct_train_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [s2Id: string]\n\u001b[1m\u001b[34mspecter_val_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [_c0: string, _c1: string ... 1 more field]\n\u001b[1m\u001b[34mdistinct_val_paperIds\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apa...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=150"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=151"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=152"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=153"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=154"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=156"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=157"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643117337360_1194336203",
+   "id": "paragraph_1643117337360_1194336203",
+   "dateCreated": "2022-01-25T15:28:57+0200",
+   "dateStarted": "2022-01-25T15:28:57+0200",
+   "dateFinished": "2022-01-25T15:34:08+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nprint(specter_papers_df.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull)).count())\nprint(specter_source_papers_df.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull)).count())\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T16:41:20+0200",
+   "progress": 85.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "191310104427"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=178"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=179"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643121680662_1416994426",
+   "id": "paragraph_1643121680662_1416994426",
+   "dateCreated": "2022-01-25T16:41:20+0200",
+   "dateStarted": "2022-01-25T16:41:20+0200",
+   "dateFinished": "2022-01-25T16:41:23+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval ref_cit_cnts = specter_source_papers_df.select($\"id\", size($\"inCitations\").as(\"citCnt\"), size($\"outCitations\").as(\"refCnt\"))\nref_cit_cnts.select( avg($\"citCnt\").as(\"avgCitCnt\"),avg($\"refCnt\").as(\"avgRefCnt\"), min($\"citCnt\").as(\"minCitCnt\"),min($\"refCnt\").as(\"minRefCnt\"), max($\"citCnt\").as(\"maxCitCnt\"),max($\"refCnt\").as(\"maxRefCnt\")).show()\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T16:51:48+0200",
+   "progress": 79.0,
+   "config": {},
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {
+       "size": {
+        "height": 140.0
+       }
+      }
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+------------------+-----------------+---------+---------+---------+---------+\n|         avgCitCnt|        avgRefCnt|minCitCnt|minRefCnt|maxCitCnt|maxRefCnt|\n+------------------+-----------------+---------+---------+---------+---------+\n|103.12655977816489|33.63213231895908|        0|        0|    59420|     2638|\n+------------------+-----------------+---------+---------+---------+---------+\n\n\u001b[1m\u001b[34mref_cit_cnts\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, citCnt: int ... 1 more field]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=182"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643122308320_84563136",
+   "id": "paragraph_1643122308320_84563136",
+   "dateCreated": "2022-01-25T16:51:48+0200",
+   "dateStarted": "2022-01-25T16:51:48+0200",
+   "dateFinished": "2022-01-25T16:51:49+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n\nspecter_source_papers_df.groupBy($\"year\").count.show()\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T19:04:55+0200",
+   "progress": 3.0,
+   "config": {
+    "tableHide": false
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+----+-----+\n|year|count|\n+----+-----+\n|1983|   12|\n|2007| 2387|\n|1979|    1|\n|2014| 9168|\n|1988|   30|\n|1986|   13|\n|2021|   89|\n|2012| 6027|\n|1991|   49|\n|1975|    1|\n|2022|    1|\n|2016|15341|\n|null|  214|\n|1994|   87|\n|1987|   20|\n|2018|14272|\n|1999|  323|\n|1997|  187|\n|1963|    1|\n|2009| 3425|\n+----+-----+\nonly showing top 20 rows\n\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=189"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=190"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=191"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=192"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643130295466_2111382506",
+   "id": "paragraph_1643130295466_2111382506",
+   "dateCreated": "2022-01-25T19:04:55+0200",
+   "dateStarted": "2022-01-25T19:04:55+0200",
+   "dateFinished": "2022-01-25T19:04:58+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\n//specter_papers_df.select($\"title\", $\"id\",$\"S2fos\").show(20,false)\n//specter_papers_df.printSchema()\n\n//specter_papers_df.size($\"friends\").as(\"no_of_friends\")\n\n//specter_source_papers_df.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull)).filter($\"magId\")\n\nval specter_papers_df_explode = specter_source_papers_df.select($\"title\", $\"id\",explode($\"S2fos\").as(\"fos\"))\n        \nspecter_papers_df_explode.groupBy(\"fos\")\n        .agg(count(\"id\").alias(\"cnt\")) \n        .sort(desc(\"cnt\")).show(50)        \n        \n        \n\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T16:42:57+0200",
+   "progress": 97.0,
+   "config": {
+    "tableHide": false
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+--------------------+-----+\n|                 fos|  cnt|\n+--------------------+-----+\n|    Computer Science|84567|\n|         Engineering|12518|\n|            Medicine|12201|\n|         Mathematics| 8088|\n|          Psychology| 6874|\n|             Physics| 2469|\n|   Materials Science| 2213|\n|            Business| 2017|\n|             Biology| 1072|\n|           Sociology|  685|\n|           Economics|  520|\n|           Geography|  424|\n|   Political Science|  292|\n|Environmental Sci...|  178|\n|           Chemistry|  155|\n|             Geology|  149|\n|                 Art|   61|\n|             History|   27|\n|          Philosophy|   25|\n+--------------------+-----+\n\n\u001b[1m\u001b[34mspecter_papers_df_explode\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 1 more field]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=180"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643121777824_58882518",
+   "id": "paragraph_1643121777824_58882518",
+   "dateCreated": "2022-01-25T16:42:57+0200",
+   "dateStarted": "2022-01-25T16:42:57+0200",
+   "dateFinished": "2022-01-25T16:43:01+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval trainout = \"trainS2ORC.json\"\nval specter_papers_train_df = spark.read.parquet(s\"file://$SPECTER_HOME/$trainout\")\nprintln(specter_papers_train_df.count())\nspecter_papers_train_df.select($\"title\", $\"id\",$\"S2fos\").show(20,false)\n\n//val specter_papers_val_df = spark.read.parquet(s\"file://$SPECTER_HOME/$val_ds\")\n//val specter_papers_train_df = S2_MAG_Orciddf.filter($\"orcId\"=!=\"\"  && $\"orcId\".isNotNull)\n//.cache()\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-01-25T15:20:13+0200",
+   "progress": 38.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "307713\n+--------------------------------------------------------------------------------------------------+----------------------------------------+-------------------------------------+\n|title                                                                                             |id                                      |S2fos                                |\n+--------------------------------------------------------------------------------------------------+----------------------------------------+-------------------------------------+\n|Vision-based global localization for mobile robots with hybrid maps of objects and spatial layouts|1b17a1350a4dddf238dee2a1f8f2c6fd4504ed61|[Computer Science]                   |\n|Microfluidics and Nanotechnology for Detection of Global Infectious Diseases                      |26c0fbb1e5995869b55ea7b75a0e93a9575eb148|[Medicine, Computer Science]         |\n|Artificial Intelligence in XPRIZE DeepQ Tricorder                                                 |4833cd7039b84045ec175b80db09f941df2bef87|[Computer Science, Engineering]      |\n|Artificial Intelligence in XPRIZE DeepQ Tricorder                                                 |4833cd7039b84045ec175b80db09f941df2bef87|[Computer Science, Engineering]      |\n|Artificial Intelligence in XPRIZE DeepQ Tricorder                                                 |4833cd7039b84045ec175b80db09f941df2bef87|[Computer Science, Engineering]      |\n|Cluster-based Web Summarization                                                                   |52c9eb70c55685b349126ed907e037f383673cf3|[Computer Science]                   |\n|Cluster-based Web Summarization                                                                   |52c9eb70c55685b349126ed907e037f383673cf3|[Computer Science]                   |\n|Text mining and sentiment extraction in central bank documents                                    |13faefe64ea4087ed710d53aadacbca6d8c8e527|[Computer Science]                   |\n|Text mining and sentiment extraction in central bank documents                                    |13faefe64ea4087ed710d53aadacbca6d8c8e527|[Computer Science]                   |\n|Location optimization for data concentrator unit in IEEE 802.15.4 smart grid networks             |c2c3c7a7d4fb551497f855aedfaa58fd5a7d793d|[Computer Science]                   |\n|Location optimization for data concentrator unit in IEEE 802.15.4 smart grid networks             |c2c3c7a7d4fb551497f855aedfaa58fd5a7d793d|[Computer Science]                   |\n|Structural Brain MRI Segmentation Using Machine Learning Technique                                |cb59428871e9d6b68e753366107938ed662dd769|[Computer Science]                   |\n|Reference table based k-anonymous private blocking                                                |74bcf18831294adb82c1ba8028ef314db1327549|[Computer Science]                   |\n|Reference table based k-anonymous private blocking                                                |74bcf18831294adb82c1ba8028ef314db1327549|[Computer Science]                   |\n|Statement Types in Legal Argument                                                                 |0b2892dcacffeabaec791506f0f46e7de4247d32|[Political Science, Computer Science]|\n|Assuring safety in air traffic control systems with argumentation and model checking              |8b46aced01b483e20f83179dd6705f05aca379cf|[Computer Science]                   |\n|Ridge Leverage Scores for Low-Rank Approximation                                                  |36c1dea92707b2e977930054059b01b4d9a388e9|[Mathematics, Computer Science]      |\n|Large-scale vehicle re-identification in urban surveillance videos                                |abc8638968909ab0fdfbf1049009082df554a49e|[Computer Science]                   |\n|Large-scale vehicle re-identification in urban surveillance videos                                |abc8638968909ab0fdfbf1049009082df554a49e|[Computer Science]                   |\n|Parallel matrix factorization for recommender systems                                             |44df77b146468e4a7c132eb3e90ae26e9afd06b9|[Computer Science]                   |\n+--------------------------------------------------------------------------------------------------+----------------------------------------+-------------------------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mtrainout\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = trainS2ORC.json\n\u001b[1m\u001b[34mspecter_papers_train_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 12 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=141"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=142"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=143"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1643116813274_281664598",
+   "id": "paragraph_1643116813274_281664598",
+   "dateCreated": "2022-01-25T15:20:13+0200",
+   "dateStarted": "2022-01-25T15:20:13+0200",
+   "dateFinished": "2022-01-25T15:20:14+0200",
+   "status": "FINISHED"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark\nval S2_MAG_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_MAG_Orcid_all_2021.parquet\").filter($\"s2PaperId\"=!=\"\"  && $\"s2PaperId\".isNotNull)\n\nprintln(\"MAG_pub_authorsdf  cnt:\"+S2_MAG_Orcid_df.count())\nS2_MAG_df.printSchema()\nS2_MAG_df.show(10)\n\nS2_MAG_Orcid_Hind_df = S2_MAG_df\n                    .join(broadcast(hind_author_pub_df), lower(S2_MAG_df(\"magDoi\")) === lower(hind_author_pub_df(\"doi\")) , \"inner\")\n        .filter( S2_MAG_df(\"s2AuthorShorNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  S2_MAG_df(\"magShortNormName\")===hind_author_pub_df(\"hind_shortNormName\") ||  \n                    ( jaro_winkler($\"magNormName\", hind_author_pub_df(\"hind_normName\")) > 0.82 && levenshtein($\"magNormName\", hind_author_pub_df(\"hind_normName\"))<3 && soundex($\"magNormName\") === soundex(hind_author_pub_df(\"hind_normName\")) ))\n        .cache()",
+   "id": "",
+   "config": {}
+  }
+ ],
+ "name": "Zeppelin Notebook",
+ "id": "",
+ "noteParams": {},
+ "noteForms": {},
+ "angularObjects": {},
+ "config": {
+  "isZeppelinNotebookCronEnable": false,
+  "looknfeel": "default",
+  "personalizedMode": "false"
+ },
+ "info": {}
+}
