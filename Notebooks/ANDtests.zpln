@@ -25,7 +25,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "\nimport org.apache.spark.sql.functions._\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\"\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"paperVector\")\n        .withColumn(\"id\",monotonicallyIncreasingId)\n        .cache()\n        //.withColumn(\"vector\", convertArrayToVector($\"paperVector\"))\n        //.drop(\"paperVector\")\n        //.cache() \n\n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\")\nval dfj = (0 until count).toDF(\"id_\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n       // .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \n//println(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n//signdistdf.cache()\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n         .withColumn(\"jaccard_aff\", size(array_intersect($\"affiliationIds\", $\"affiliationIds_\")) / size(array_union($\"affiliationIds\", $\"affiliationIds_\")) )\n        .withColumn(\"jaccard_fos_0\", size(array_intersect($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) / size(array_union($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) )\n        .withColumn(\"jaccard_fos_1\", size(array_intersect($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) / size(array_union($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) )\n        .withColumn(\"author_names\", size(array_intersect($\"authorNormNames\", $\"authorNormNames_\")) / size(array_union($\"authorNormNames\", $\"authorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\")) \n        //.withColumn(\"emb_sim2\", cosineSimilarityUdf($\"paperVector\",$\"paperVector_\"))        \n        .cache()\n      \n  \n//distdf.show(10)\nprintln(\"distdf  cnt:\"+distdf.count())\ndistdf.select($\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)\n\n\n",
+   "text": "\nimport org.apache.spark.sql.functions._\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\"\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"paperVector\")\n        .withColumn(\"id\",monotonicallyIncreasingId)\n        .cache()\n        //.withColumn(\"vector\", convertArrayToVector($\"paperVector\"))\n        //.drop(\"paperVector\")\n        //.cache() \n\n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\")\nval dfj = (0 until count).toDF(\"id_\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n       // .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \n//println(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n//signdistdf.cache()\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n         .withColumn(\"jaccard_aff\", size(array_intersect($\"affiliationIds\", $\"affiliationIds_\")) / size(array_union($\"affiliationIds\", $\"affiliationIds_\")) )\n        .withColumn(\"jaccard_fos_0\", size(array_intersect($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) / size(array_union($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) )\n        .withColumn(\"jaccard_fos_1\", size(array_intersect($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) / size(array_union($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) )\n        .withColumn(\"author_names\", size(array_intersect($\"authorNormNames\", $\"authorNormNames_\")) / size(array_union($\"authorNormNames\", $\"authorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\")) \n        //.withColumn(\"emb_sim2\", cosineSimilarityUdf($\"paperVector\",$\"paperVector_\"))        \n        .cache()\n      \n  \n//distdf.show(10)\nprintln(\"distdf  cnt:\"+distdf.count())\ndistdf.select($\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)\n\n/*\ndistdf.filter(size($\"paperVector_\")>0 && size($\"paperVector\")>0).select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"affiliationIds_\", $\"fosIdsLevel0_\",$\"fosIdsLevel1_\", $\"authorNormNames_\", $\"magAuthorId_\", $\"orcId_\", $\"s2AuthorId_\",\n    //$\"paperVector_\", $\"paperVector\",\n$\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\")\n        //.show(100)\n        .limit(1000).coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/features.json\")\n */\n",
    "user": "anonymous",
    "dateUpdated": "2022-02-12T22:58:21+0200",
    "progress": 88.0,
@@ -83,7 +83,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval count = 40000\nval ind = for(i <- 0 until count; j <- 0 until count; if i > j) yield (i, j)\n\nprintln(\"indices  cnt:\"+ ind.size)\n\n\n        \nval indices =\n    //spark.createDataFrame(ind)    \n    //ind.toDF()\n      sc.parallelize(ind,10000)\n              .toDF()\n        .cache()\n        //.select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\")).cache()\n       \n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices.parquet\")\nprintln(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\n//GPU GC_1 5m6s 90.7GB \n//CPU GC_1  5m 8s 91GB\n//CPU GC_1 10000 3m 19s 98GB\n",
+   "text": "%spark\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval count = 40000\nval ind = for(i <- 0 until count; j <- 0 until count; if i > j) yield (i, j)\n\nprintln(\"indices  cnt:\"+ ind.size)\n\n\n        \nval indices =\n    //spark.createDataFrame(ind)    \n    //ind.toDF()\n      sc.parallelize(ind,10000)\n              .toDF()\n        .cache()\n        //.select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\")).cache()\n       \n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices.parquet\")\nprintln(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices40K.parquet\")\n\n//GPU GC_1 5m6s 90.7GB \n//CPU GC_1  5m 8s 91GB\n//CPU GC_1 10000 3m 19s 98GB\n",
    "user": "anonymous",
    "dateUpdated": "2022-02-12T17:55:05+0200",
    "progress": 99.0,
@@ -125,44 +125,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nindices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices40K.parquet\")",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-12T18:02:03+0200",
-   "progress": 100.0,
-   "config": {},
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": []
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644681723965_1310901902",
-   "id": "paragraph_1644681723965_1310901902",
-   "dateCreated": "2022-02-12T18:02:03+0200",
-   "dateStarted": "2022-02-12T18:02:03+0200",
-   "dateFinished": "2022-02-12T18:03:42+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "%spark\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval count = 40000\n\nval dfi = (0 until count).toDF(\"i\")\nval dfj = (0 until count).toDF(\"j\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"i\") > dfj(\"j\"))\n        .cache()\n\n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices.parquet\")\nprintln(\"indices  cnt:\"+indices.count())\n",
+   "text": "%spark\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval count = 40000\n\nval dfi = (0 until count).toDF(\"i\")\nval dfj = (0 until count).toDF(\"j\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"i\") > dfj(\"j\"))\n        .cache()\n\n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices.parquet\")\nprintln(\"indices  cnt:\"+indices.count())\n//indices.show(5)\n",
    "user": "anonymous",
    "dateUpdated": "2022-02-12T18:05:48+0200",
    "progress": 88.0,
@@ -204,96 +167,6 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nindices.show(5)",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-12T18:12:38+0200",
-   "progress": 0.0,
-   "config": {},
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "+---+---+\n|  i|  j|\n+---+---+\n|  1|  0|\n|  2|  0|\n|  2|  1|\n|  3|  0|\n|  3|  1|\n+---+---+\nonly showing top 5 rows\n\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=2"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644682358505_1178659723",
-   "id": "paragraph_1644682358505_1178659723",
-   "dateCreated": "2022-02-12T18:12:38+0200",
-   "dateStarted": "2022-02-12T18:12:38+0200",
-   "dateFinished": "2022-02-12T18:12:38+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "%spark\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval indices = spark.read.parquet(s\"$OA_HOME/indices.parquet\").cache()\nprintln(\"indices  cnt:\"+indices.count())\nindices.printSchema()\nindices.show(5)\n\n",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-11T22:18:43+0200",
-   "progress": 100.0,
-   "config": {},
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "indices  cnt:199990000\nroot\n |-- _1: integer (nullable = true)\n |-- _2: integer (nullable = true)\n\n+-----+----+\n|   _1|  _2|\n+-----+----+\n|11237|7377|\n|11237|7378|\n|11237|7379|\n|11237|7380|\n|11237|7381|\n+-----+----+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds\n\u001b[1m\u001b[34mindices\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [_1: int, _2: int]\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644610723545_834627180",
-   "id": "paragraph_1644610723545_834627180",
-   "dateCreated": "2022-02-11T22:18:43+0200",
-   "dateStarted": "2022-02-11T22:18:43+0200",
-   "dateFinished": "2022-02-11T22:18:57+0200",
-   "status": "FINISHED"
-  },
-  {
    "text": "import org.apache.spark.ml.linalg.Vectors._\nimport org.apache.spark.ml.linalg.Vectors\n\n//def convertArrayToVector = udf((features:Array[Double]) => Vectors.dense(features))\n//spark.udf.register(\"convertArrayToVector\", convertArrayToVector)\n\n// Cosine similarity between Vectors.\n  def cosine_similarity(arrayX:Array[Double], arrayY:Array[Double]):Double =\n  {\n   if (arrayX == null || arrayY == null)\n       { 0 }\n   else {\n\n       val X = Vectors.dense(arrayX)\n       val Y = Vectors.dense(arrayY)\n\n       val denom = norm(X, 2) * norm(Y, 2)\n\n       //Computing the dot product between\n\n       val x = X.toSparse // spark ml.linalg.Vector is an instance of SparseVector, hence converting to Sparse representation\n       val y = Y.toSparse\n\n       val xValues = x.values\n       val xIndices = x.indices\n       val yValues = y.values\n       val yIndices = y.indices\n       val nnzx = xIndices.length\n       val nnzy = yIndices.length\n\n       var kx = 0\n       var ky = 0\n       var sum = 0.0\n       // y catching x\n       while (kx < nnzx && ky < nnzy) {\n           val ix = xIndices(kx)\n           while (ky < nnzy && yIndices(ky) < ix) {\n               ky += 1\n           }\n           if (ky < nnzy && yIndices(ky) == ix) {\n               sum += xValues(kx) * yValues(ky)\n               ky += 1\n           }\n           kx += 1\n       }\n\n       if (denom == 0.0) -1.0 else sum / denom.toDouble\n   }\n  }\n\nval cosineSimilarityUdf = udf(cosine_similarity _)\n\nspark.udf.register(\"cosineSimilarityUdf\", cosineSimilarityUdf)\n\n",
    "user": "anonymous",
    "dateUpdated": "2022-02-12T22:58:06+0200",
@@ -328,120 +201,6 @@
    "dateCreated": "2022-02-12T22:58:05+0200",
    "dateStarted": "2022-02-12T22:58:06+0200",
    "dateFinished": "2022-02-12T22:58:16+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "distdf.select($\"jaccard_aff\", $\"emb_sim\",$\"emb_sim2\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-13T11:51:01+0200",
-   "progress": 0.0,
-   "config": {},
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "results": {
-    "code": "ERROR",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "org.apache.zeppelin.interpreter.InterpreterException: java.io.IOException: Interpreter Process creation is time out in 60 seconds\nYou can increase timeout threshold via setting zeppelin.interpreter.connect.timeout of this interpreter.\nInterpreter download command: /home/ometaxas/apps64/java/bin/java -Dfile.encoding=UTF-8 -Dlog4j.configuration=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j.properties -Dlog4j.configurationFile=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j2.properties -Dzeppelin.log.file=/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/logs/zeppelin-interpreter-spark-shared_process-ometaxas-omiros.atypon.com.log -cp :/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/*:::/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/zeppelin-interpreter-shaded-0.10.0.jar:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar org.apache.zeppelin.interpreter.remote.RemoteInterpreterDownloader 172.19.0.1 43281 spark /home/ometaxas/Programs/zeppelin-0.10.0-bin-all/local-repo/spark\n[INFO] Interpreter launch command: /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/bin/spark-submit --class org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer --driver-class-path :/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/local-repo/spark/*:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/*:::/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/zeppelin-interpreter-shaded-0.10.0.jar:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar --driver-java-options  -Dfile.encoding=UTF-8 -Dlog4j.configuration=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j.properties -Dlog4j.configurationFile=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j2.properties -Dzeppelin.log.file=/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/logs/zeppelin-interpreter-spark-shared_process-ometaxas-omiros.atypon.com.log --conf spark.executor.memory=64g --conf spark.master=local[*] --conf spark.driver.memory=64g --conf spark.driver.cores=1 --conf spark.jars.packages=com.microsoft.azure:synapseml_2.12:0.9.5 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.executor.cores=1 --conf spark.app.name=spark-shared_process --conf spark.executor.instances=2 --conf spark.jars=/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar, /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar --conf spark.webui.yarn.useProxy=false /home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar 172.19.0.1 43281 spark-shared_process :\nSLF4J: Class path contains multiple SLF4J bindings.\nSLF4J: Found binding in [jar:file:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J: Found binding in [jar:file:/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/jars/slf4j-log4j12-1.7.30.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.\nSLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]\nWARNING: An illegal reflective access operation has occurred\nWARNING: Illegal reflective access by org.apache.spark.unsafe.Platform (file:/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/jars/spark-unsafe_2.12-3.1.2.jar) to constructor java.nio.DirectByteBuffer(long,int)\nWARNING: Please consider reporting this to the maintainers of org.apache.spark.unsafe.Platform\nWARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations\nWARNING: All illegal access operations will be denied in a future release\n:: loading settings :: url = jar:file:/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivysettings.xml\nIvy Default Cache set to: /home/ometaxas/.ivy2/cache\nThe jars for the packages stored in: /home/ometaxas/.ivy2/jars\ncom.microsoft.azure#synapseml_2.12 added as a dependency\n:: resolving dependencies :: org.apache.spark#spark-submit-parent-e9175d5e-dd90-405c-9bec-0f6170649b06;1.0\n\tconfs: [default]\n\tfound com.microsoft.azure#synapseml_2.12;0.9.5 in central\n\tfound com.microsoft.azure#synapseml-core_2.12;0.9.5 in central\n\tfound org.scalactic#scalactic_2.12;3.0.5 in central\n\tfound org.scala-lang#scala-reflect;2.12.4 in central\n\tfound io.spray#spray-json_2.12;1.3.2 in central\n\tfound com.jcraft#jsch;0.1.54 in spark-list\n\tfound org.apache.httpcomponents#httpclient;4.5.6 in local-m2-cache\n\tfound org.apache.httpcomponents#httpcore;4.4.10 in local-m2-cache\n\tfound commons-logging#commons-logging;1.2 in local-m2-cache\n\tfound commons-codec#commons-codec;1.10 in local-m2-cache\n\tfound org.apache.httpcomponents#httpmime;4.5.6 in central\n\tfound com.linkedin.isolation-forest#isolation-forest_3.2.0_2.12;2.0.8 in central\n\tfound com.chuusai#shapeless_2.12;2.3.2 in central\n\tfound org.typelevel#macro-compat_2.12;1.1.1 in local-m2-cache\n\tfound org.apache.spark#spark-avro_2.12;3.2.0 in central\n\tfound org.tukaani#xz;1.8 in local-m2-cache\n\tfound org.spark-project.spark#unused;1.0.0 in local-m2-cache\n\tfound org.testng#testng;6.8.8 in central\n\tfound org.beanshell#bsh;2.0b4 in local-m2-cache\n\tfound com.beust#jcommander;1.27 in central\n\tfound com.microsoft.azure#synapseml-deep-learning_2.12;0.9.5 in central\n\tfound com.microsoft.azure#synapseml-opencv_2.12;0.9.5 in central\n\tfound org.openpnp#opencv;3.2.0-1 in central\n\tfound com.microsoft.cntk#cntk;2.4 in central\n\tfound com.microsoft.onnxruntime#onnxruntime_gpu;1.8.1 in central\n\tfound com.microsoft.azure#synapseml-cognitive_2.12;0.9.5 in central\n\tfound com.microsoft.cognitiveservices.speech#client-jar-sdk;1.14.0 in central\n\tfound com.azure#azure-storage-blob;12.14.2 in central\n\tfound com.azure#azure-core;1.22.0 in central\n\tfound com.fasterxml.jackson.core#jackson-annotations;2.12.5 in central\n\tfound com.fasterxml.jackson.core#jackson-core;2.12.5 in central\n\tfound com.fasterxml.jackson.core#jackson-databind;2.12.5 in central\n\tfound com.fasterxml.jackson.datatype#jackson-datatype-jsr310;2.12.5 in central\n\tfound com.fasterxml.jackson.dataformat#jackson-dataformat-xml;2.12.5 in central\n\tfound com.fasterxml.jackson.module#jackson-module-jaxb-annotations;2.12.5 in central\n\tfound jakarta.xml.bind#jakarta.xml.bind-api;2.3.2 in local-m2-cache\n\tfound jakarta.activation#jakarta.activation-api;1.2.1 in local-m2-cache\n\tfound org.codehaus.woodstox#stax2-api;4.2.1 in central\n\tfound com.fasterxml.woodstox#woodstox-core;6.2.4 in central\n\tfound org.slf4j#slf4j-api;1.7.32 in central\n\tfound io.projectreactor#reactor-core;3.4.10 in central\n\tfound org.reactivestreams#reactive-streams;1.0.3 in local-m2-cache\n\tfound io.netty#netty-tcnative-boringssl-static;2.0.43.Final in central\n\tfound com.azure#azure-core-http-netty;1.11.2 in central\n\tfound io.netty#netty-handler;4.1.68.Final in central\n\tfound io.netty#netty-common;4.1.68.Final in central\n\tfound io.netty#netty-resolver;4.1.68.Final in central\n\tfound io.netty#netty-buffer;4.1.68.Final in central\n\tfound io.netty#netty-transport;4.1.68.Final in central\n\tfound io.netty#netty-codec;4.1.68.Final in central\n\tfound io.netty#netty-handler-proxy;4.1.68.Final in central\n\tfound io.netty#netty-codec-socks;4.1.68.Final in central\n\tfound io.netty#netty-codec-http;4.1.68.Final in central\n\tfound io.netty#netty-codec-http2;4.1.68.Final in central\n\tfound io.netty#netty-transport-native-unix-common;4.1.68.Final in central\n\tfound io.netty#netty-transport-native-epoll;4.1.68.Final in central\n\tfound io.netty#netty-transport-native-kqueue;4.1.68.Final in central\n\tfound io.projectreactor.netty#reactor-netty-http;1.0.11 in central\n\tfound io.netty#netty-resolver-dns;4.1.68.Final in central\n\tfound io.netty#netty-codec-dns;4.1.68.Final in central\n\tfound io.netty#netty-resolver-dns-native-macos;4.1.68.Final in central\n\tfound io.projectreactor.netty#reactor-netty-core;1.0.11 in central\n\tfound com.azure#azure-storage-common;12.14.1 in central\n\tfound com.azure#azure-storage-internal-avro;12.1.2 in central\n\tfound com.azure#azure-ai-textanalytics;5.1.4 in central\n\tfound com.microsoft.azure#synapseml-vw_2.12;0.9.5 in central\n\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.open(RemoteInterpreter.java:129)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getFormType(RemoteInterpreter.java:271)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:440)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:71)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:182)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: java.io.IOException: Interpreter Process creation is time out in 60 seconds\nYou can increase timeout threshold via setting zeppelin.interpreter.connect.timeout of this interpreter.\nInterpreter download command: /home/ometaxas/apps64/java/bin/java -Dfile.encoding=UTF-8 -Dlog4j.configuration=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j.properties -Dlog4j.configurationFile=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j2.properties -Dzeppelin.log.file=/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/logs/zeppelin-interpreter-spark-shared_process-ometaxas-omiros.atypon.com.log -cp :/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/*:::/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/zeppelin-interpreter-shaded-0.10.0.jar:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar org.apache.zeppelin.interpreter.remote.RemoteInterpreterDownloader 172.19.0.1 43281 spark /home/ometaxas/Programs/zeppelin-0.10.0-bin-all/local-repo/spark\n[INFO] Interpreter launch command: /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/bin/spark-submit --class org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer --driver-class-path :/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/local-repo/spark/*:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/*:::/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/zeppelin-interpreter-shaded-0.10.0.jar:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar --driver-java-options  -Dfile.encoding=UTF-8 -Dlog4j.configuration=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j.properties -Dlog4j.configurationFile=file:///home/ometaxas/Programs/zeppelin-0.10.0-bin-all/conf/log4j2.properties -Dzeppelin.log.file=/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/logs/zeppelin-interpreter-spark-shared_process-ometaxas-omiros.atypon.com.log --conf spark.executor.memory=64g --conf spark.master=local[*] --conf spark.driver.memory=64g --conf spark.driver.cores=1 --conf spark.jars.packages=com.microsoft.azure:synapseml_2.12:0.9.5 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.executor.cores=1 --conf spark.app.name=spark-shared_process --conf spark.executor.instances=2 --conf spark.jars=/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar, /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar --conf spark.webui.yarn.useProxy=false /home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar 172.19.0.1 43281 spark-shared_process :\nSLF4J: Class path contains multiple SLF4J bindings.\nSLF4J: Found binding in [jar:file:/home/ometaxas/Programs/zeppelin-0.10.0-bin-all/interpreter/spark/spark-interpreter-0.10.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J: Found binding in [jar:file:/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/jars/slf4j-log4j12-1.7.30.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.\nSLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]\nWARNING: An illegal reflective access operation has occurred\nWARNING: Illegal reflective access by org.apache.spark.unsafe.Platform (file:/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/jars/spark-unsafe_2.12-3.1.2.jar) to constructor java.nio.DirectByteBuffer(long,int)\nWARNING: Please consider reporting this to the maintainers of org.apache.spark.unsafe.Platform\nWARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations\nWARNING: All illegal access operations will be denied in a future release\n:: loading settings :: url = jar:file:/home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivysettings.xml\nIvy Default Cache set to: /home/ometaxas/.ivy2/cache\nThe jars for the packages stored in: /home/ometaxas/.ivy2/jars\ncom.microsoft.azure#synapseml_2.12 added as a dependency\n:: resolving dependencies :: org.apache.spark#spark-submit-parent-e9175d5e-dd90-405c-9bec-0f6170649b06;1.0\n\tconfs: [default]\n\tfound com.microsoft.azure#synapseml_2.12;0.9.5 in central\n\tfound com.microsoft.azure#synapseml-core_2.12;0.9.5 in central\n\tfound org.scalactic#scalactic_2.12;3.0.5 in central\n\tfound org.scala-lang#scala-reflect;2.12.4 in central\n\tfound io.spray#spray-json_2.12;1.3.2 in central\n\tfound com.jcraft#jsch;0.1.54 in spark-list\n\tfound org.apache.httpcomponents#httpclient;4.5.6 in local-m2-cache\n\tfound org.apache.httpcomponents#httpcore;4.4.10 in local-m2-cache\n\tfound commons-logging#commons-logging;1.2 in local-m2-cache\n\tfound commons-codec#commons-codec;1.10 in local-m2-cache\n\tfound org.apache.httpcomponents#httpmime;4.5.6 in central\n\tfound com.linkedin.isolation-forest#isolation-forest_3.2.0_2.12;2.0.8 in central\n\tfound com.chuusai#shapeless_2.12;2.3.2 in central\n\tfound org.typelevel#macro-compat_2.12;1.1.1 in local-m2-cache\n\tfound org.apache.spark#spark-avro_2.12;3.2.0 in central\n\tfound org.tukaani#xz;1.8 in local-m2-cache\n\tfound org.spark-project.spark#unused;1.0.0 in local-m2-cache\n\tfound org.testng#testng;6.8.8 in central\n\tfound org.beanshell#bsh;2.0b4 in local-m2-cache\n\tfound com.beust#jcommander;1.27 in central\n\tfound com.microsoft.azure#synapseml-deep-learning_2.12;0.9.5 in central\n\tfound com.microsoft.azure#synapseml-opencv_2.12;0.9.5 in central\n\tfound org.openpnp#opencv;3.2.0-1 in central\n\tfound com.microsoft.cntk#cntk;2.4 in central\n\tfound com.microsoft.onnxruntime#onnxruntime_gpu;1.8.1 in central\n\tfound com.microsoft.azure#synapseml-cognitive_2.12;0.9.5 in central\n\tfound com.microsoft.cognitiveservices.speech#client-jar-sdk;1.14.0 in central\n\tfound com.azure#azure-storage-blob;12.14.2 in central\n\tfound com.azure#azure-core;1.22.0 in central\n\tfound com.fasterxml.jackson.core#jackson-annotations;2.12.5 in central\n\tfound com.fasterxml.jackson.core#jackson-core;2.12.5 in central\n\tfound com.fasterxml.jackson.core#jackson-databind;2.12.5 in central\n\tfound com.fasterxml.jackson.datatype#jackson-datatype-jsr310;2.12.5 in central\n\tfound com.fasterxml.jackson.dataformat#jackson-dataformat-xml;2.12.5 in central\n\tfound com.fasterxml.jackson.module#jackson-module-jaxb-annotations;2.12.5 in central\n\tfound jakarta.xml.bind#jakarta.xml.bind-api;2.3.2 in local-m2-cache\n\tfound jakarta.activation#jakarta.activation-api;1.2.1 in local-m2-cache\n\tfound org.codehaus.woodstox#stax2-api;4.2.1 in central\n\tfound com.fasterxml.woodstox#woodstox-core;6.2.4 in central\n\tfound org.slf4j#slf4j-api;1.7.32 in central\n\tfound io.projectreactor#reactor-core;3.4.10 in central\n\tfound org.reactivestreams#reactive-streams;1.0.3 in local-m2-cache\n\tfound io.netty#netty-tcnative-boringssl-static;2.0.43.Final in central\n\tfound com.azure#azure-core-http-netty;1.11.2 in central\n\tfound io.netty#netty-handler;4.1.68.Final in central\n\tfound io.netty#netty-common;4.1.68.Final in central\n\tfound io.netty#netty-resolver;4.1.68.Final in central\n\tfound io.netty#netty-buffer;4.1.68.Final in central\n\tfound io.netty#netty-transport;4.1.68.Final in central\n\tfound io.netty#netty-codec;4.1.68.Final in central\n\tfound io.netty#netty-handler-proxy;4.1.68.Final in central\n\tfound io.netty#netty-codec-socks;4.1.68.Final in central\n\tfound io.netty#netty-codec-http;4.1.68.Final in central\n\tfound io.netty#netty-codec-http2;4.1.68.Final in central\n\tfound io.netty#netty-transport-native-unix-common;4.1.68.Final in central\n\tfound io.netty#netty-transport-native-epoll;4.1.68.Final in central\n\tfound io.netty#netty-transport-native-kqueue;4.1.68.Final in central\n\tfound io.projectreactor.netty#reactor-netty-http;1.0.11 in central\n\tfound io.netty#netty-resolver-dns;4.1.68.Final in central\n\tfound io.netty#netty-codec-dns;4.1.68.Final in central\n\tfound io.netty#netty-resolver-dns-native-macos;4.1.68.Final in central\n\tfound io.projectreactor.netty#reactor-netty-core;1.0.11 in central\n\tfound com.azure#azure-storage-common;12.14.1 in central\n\tfound com.azure#azure-storage-internal-avro;12.1.2 in central\n\tfound com.azure#azure-ai-textanalytics;5.1.4 in central\n\tfound com.microsoft.azure#synapseml-vw_2.12;0.9.5 in central\n\n\tat org.apache.zeppelin.interpreter.remote.ExecRemoteInterpreterProcess.start(ExecRemoteInterpreterProcess.java:93)\n\tat org.apache.zeppelin.interpreter.ManagedInterpreterGroup.getOrCreateInterpreterProcess(ManagedInterpreterGroup.java:68)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getOrCreateInterpreterProcess(RemoteInterpreter.java:104)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.internal_create(RemoteInterpreter.java:154)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.open(RemoteInterpreter.java:126)\n\t... 12 more\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {},
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644745861249_1577141119",
-   "id": "paragraph_1644745861249_1577141119",
-   "dateCreated": "2022-02-13T11:51:01+0200",
-   "dateStarted": "2022-02-13T11:51:01+0200",
-   "dateFinished": "2022-02-13T11:52:01+0200",
-   "status": "ERROR"
-  },
-  {
-   "text": "\ndistdf.filter(size($\"paperVector_\")>0 && size($\"paperVector\")>0).select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"affiliationIds_\", $\"fosIdsLevel0_\",$\"fosIdsLevel1_\", $\"authorNormNames_\", $\"magAuthorId_\", $\"orcId_\", $\"s2AuthorId_\",\n    //$\"paperVector_\", $\"paperVector\",\n$\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\")\n        //.show(100)\n        .limit(1000).coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/features.json\")",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-11T12:58:26+0200",
-   "progress": 29.0,
-   "config": {},
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": []
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=10"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644577106030_1193062220",
-   "id": "paragraph_1644577106030_1193062220",
-   "dateCreated": "2022-02-11T12:58:26+0200",
-   "dateStarted": "2022-02-11T12:58:26+0200",
-   "dateFinished": "2022-02-11T12:58:29+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "val OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\"\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"paperVector\")\n        .withColumn(\"id\",monotonicallyIncreasingId)\n        .withColumn(\"paperVector2\",$\"paperVector\")\n        .withColumn(\"test\", cosineSimilarityUdf($\"paperVector\",$\"paperVector2\"))\n        .cache()\n\nsigndf.printSchema()\nsigndf.show(10)\n",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-11T11:19:57+0200",
-   "progress": 100.0,
-   "config": {},
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "\u001b[33mwarning: \u001b[0mthere was one deprecation warning (since 2.0.0); for details, enable `:setting -deprecation' or `:replay -deprecation'\nroot\n |-- affiliationIds: array (nullable = true)\n |    |-- element: long (containsNull = true)\n |-- fosIdsLevel0: array (nullable = true)\n |    |-- element: long (containsNull = true)\n |-- fosIdsLevel1: array (nullable = true)\n |    |-- element: long (containsNull = true)\n |-- authorNormNames: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- magAuthorId: long (nullable = true)\n |-- orcId: string (nullable = true)\n |-- s2AuthorId: long (nullable = true)\n |-- paperVector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n |-- id: long (nullable = false)\n |-- paperVector2: array (nullable = true)\n |    |-- element: double (containsNull = true)\n |-- test: double (nullable = false)\n\n+--------------+------------+--------------------+--------------------+-----------+-------------------+----------+--------------------+---+--------------------+------------------+\n|affiliationIds|fosIdsLevel0|        fosIdsLevel1|     authorNormNames|magAuthorId|              orcId|s2AuthorId|         paperVector| id|        paperVector2|              test|\n+--------------+------------+--------------------+--------------------+-----------+-------------------+----------+--------------------+---+--------------------+------------------+\n|            []|  [71924100]|         [141071460]|[angiy michael, j...| 2985141204|               null|      null|[-0.0406022369861...|  0|[-0.0406022369861...|               1.0|\n|            []|        null|                null|[otis smith, ed w...| 2907581329|               null|      null|[0.03469777852296...|  1|[0.03469777852296...|               1.0|\n|   [102322142]|  [86803240]|[15708023, 95444343]|[regis delagemour...| 2125158145|0000-0003-2961-3065|  40434438|[-0.0646590143442...|  2|[-0.0646590143442...|               1.0|\n|            []| [185592680]|         [155647269]|[emil h white, ku...| 2162363185|               null|2053441854|[-0.0787530392408...|  3|[-0.0787530392408...|0.9999999999999998|\n|   [102322142]|  [86803240]|          [95444343]|[eileen white, al...| 2125158145|0000-0003-2961-3065|  40434438|[-0.1140812337398...|  4|[-0.1140812337398...|1.0000000000000002|\n|            []|  [71924100]|         [142724271]|[edward william w...| 2318288591|               null|  49100275|[-0.0732589960098...|  5|[-0.0732589960098...|               1.0|\n|            []| [192562407]|         [159985019]|[robert nark, tak...| 2592836032|               null|      null|[-0.1207891851663...|  6|[-0.1207891851663...|               1.0|\n|   [102322142]|  [86803240]|[70721500, 42407357]|[simone nardin we...| 2125158145|0000-0003-2961-3065|      null|[-0.0675885975360...|  7|[-0.0675885975360...|               1.0|\n|            []|          []|         [539667460]|   [elisabeth white]| 3176110464|               null|      null|[0.00432336842641...|  8|[0.00432336842641...|1.0000000000000002|\n|            []|  [86803240]|          [70721500]|[regis delagemour...| 2125158145|               null|      null|[-0.0894180685281...|  9|[-0.0894180685281...|               1.0|\n+--------------+------------+--------------------+--------------------+-----------+-------------------+----------+--------------------+---+--------------------+------------------+\nonly showing top 10 rows\n\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\n\u001b[1m\u001b[34msigndf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [affiliationIds: array<bigint>, fosIdsLevel0: array<bigint> ... 9 more fields]\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=18"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=19"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=20"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644571197235_140558246",
-   "id": "paragraph_1644571197235_140558246",
-   "dateCreated": "2022-02-11T11:19:57+0200",
-   "dateStarted": "2022-02-11T11:19:57+0200",
-   "dateFinished": "2022-02-11T11:20:01+0200",
    "status": "FINISHED"
   }
  ],
