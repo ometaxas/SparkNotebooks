@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sbt: com.microsoft.cognitiveservices.speech:client-sdk:1.14.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.cache/coursier/v1/https/mmlspark.azureedge.net/maven/com/microsoft/cognitiveservices/speech/client-sdk/1.14.0/client-sdk-1.14.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

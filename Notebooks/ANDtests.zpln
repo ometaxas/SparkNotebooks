@@ -1,9 +1,9 @@
 ﻿{
  "paragraphs": [
   {
-   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n#SPARK_HOME /home/ometaxas/Programs/spark-3.2.0-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 110g\nspark.driver.maxResultSize 5g \n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.plugins com.nvidia.spark.SQLPlugin\n#spark.rapids.memory.pinnedPool.size 2G \n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\nspark.executor.defaultJavaOptions -XX:+UseG1GC \n#-XX:G1HeapRegionSize=32 -XX:ConcGCThreads=16 -XX:InitiatingHeapOccupancyPercent=70\n#spark.executor.defaultJavaOptions -XX:+UseParallelGC \n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n#SPARK_HOME /home/ometaxas/Programs/spark-3.2.0-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 100g\nspark.driver.maxResultSize 5g \n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.plugins com.nvidia.spark.SQLPlugin\n#spark.rapids.memory.pinnedPool.size 2G \n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\nspark.executor.defaultJavaOptions -XX:+UseG1GC \n#-XX:G1HeapRegionSize=32 -XX:ConcGCThreads=16 -XX:InitiatingHeapOccupancyPercent=70\n#spark.executor.defaultJavaOptions -XX:+UseParallelGC \n\n#spark.jars.packages com.microsoft.onnxruntime:onnxruntime:1.10.0 \n#com.microsoft.onnxruntime com.microsoft.azure:synapseml_2.12:0.9.4\n#spark.jars.repositories https://mmlspark.azureedge.net/maven\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2022-02-12T22:57:57+0200",
+   "dateUpdated": "2022-02-14T11:06:18+0200",
    "progress": 0.0,
    "config": {},
    "settings": {
@@ -17,18 +17,18 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644699477119_588683603",
-   "id": "paragraph_1644699477119_588683603",
-   "dateCreated": "2022-02-12T22:57:57+0200",
-   "dateStarted": "2022-02-12T22:57:57+0200",
-   "dateFinished": "2022-02-12T22:57:57+0200",
+   "jobName": "paragraph_1644829578714_536183695",
+   "id": "paragraph_1644829578714_536183695",
+   "dateCreated": "2022-02-14T11:06:18+0200",
+   "dateStarted": "2022-02-14T11:06:18+0200",
+   "dateFinished": "2022-02-14T11:06:18+0200",
    "status": "FINISHED"
   },
   {
-   "text": "\nimport org.apache.spark.sql.functions._\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\"\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"paperVector\")\n        .withColumn(\"id\",monotonicallyIncreasingId)\n        .cache()\n        //.withColumn(\"vector\", convertArrayToVector($\"paperVector\"))\n        //.drop(\"paperVector\")\n        //.cache() \n\n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\")\nval dfj = (0 until count).toDF(\"id_\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n       // .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \n//println(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n//signdistdf.cache()\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n         .withColumn(\"jaccard_aff\", size(array_intersect($\"affiliationIds\", $\"affiliationIds_\")) / size(array_union($\"affiliationIds\", $\"affiliationIds_\")) )\n        .withColumn(\"jaccard_fos_0\", size(array_intersect($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) / size(array_union($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) )\n        .withColumn(\"jaccard_fos_1\", size(array_intersect($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) / size(array_union($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) )\n        .withColumn(\"author_names\", size(array_intersect($\"authorNormNames\", $\"authorNormNames_\")) / size(array_union($\"authorNormNames\", $\"authorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\")) \n        //.withColumn(\"emb_sim2\", cosineSimilarityUdf($\"paperVector\",$\"paperVector_\"))        \n        .cache()\n      \n  \n//distdf.show(10)\nprintln(\"distdf  cnt:\"+distdf.count())\ndistdf.select($\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)\n\n/*\ndistdf.filter(size($\"paperVector_\")>0 && size($\"paperVector\")>0).select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"affiliationIds_\", $\"fosIdsLevel0_\",$\"fosIdsLevel1_\", $\"authorNormNames_\", $\"magAuthorId_\", $\"orcId_\", $\"s2AuthorId_\",\n    //$\"paperVector_\", $\"paperVector\",\n$\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\")\n        //.show(100)\n        .limit(1000).coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/features.json\")\n */\n",
+   "text": "\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\n//33sec with broadcast / renamed datasets / selecting only features 26.8GB !!\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature1\"\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"paperVector\")\n        .withColumn(\"id\",monotonically_increasing_id())\n        //.cache()\n        //.withColumn(\"vector\", convertArrayToVector($\"paperVector\"))\n        //.drop(\"paperVector\")\n        //.cache() \n\n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\")\nval dfj = (0 until count).toDF(\"id_\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n       // .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \n//println(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n        .drop(signdf(\"id\"))\n    \nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n    .drop(signdf2(\"id_\"))\n\n/*  // this leads to broadcastnestedloop join in the second join --> 11min for 10K \n        .select(signdistdf2(\"affiliationIds\"), signdistdf2(\"fosIdsLevel0\"),signdistdf2(\"fosIdsLevel1\"), signdistdf2(\"authorNormNames\"), signdistdf(\"magAuthorId\"), signdistdf2(\"orcId\"), signdistdf2(\"s2AuthorId\"),signdistdf2(\"paperVector\"),\n        signdf(\"affiliationIds\").as(\"affiliationIds_\"), signdf(\"fosIdsLevel0\").as(\"fosIdsLevel0_\"),signdf(\"fosIdsLevel1\").as(\"fosIdsLevel1_\"), signdf(\"authorNormNames\").as(\"authorNormNames_\"), signdf(\"magAuthorId\").as(\"magAuthorId_\"), signdf(\"orcId\").as(\"orcId_\"), signdf(\"s2AuthorId\").as(\"s2AuthorId_\"),signdf(\"paperVector\").as(\"paperVector_\"))\n//val signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n\n */\n//val signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n\n//signdistdf.cache()\n\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n        \n         .withColumn(\"jaccard_aff\", size(array_intersect($\"affiliationIds\", $\"affiliationIds_\")) / size(array_union($\"affiliationIds\", $\"affiliationIds_\")) )\n        .withColumn(\"jaccard_fos_0\", size(array_intersect($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) / size(array_union($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) )\n        .withColumn(\"jaccard_fos_1\", size(array_intersect($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) / size(array_union($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) )\n        .withColumn(\"author_names\", size(array_intersect($\"authorNormNames\", $\"authorNormNames_\")) / size(array_union($\"authorNormNames\", $\"authorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\"))\n        .select($\"id\",$\"id_\",$\"jaccard_aff\",$\"jaccard_fos_0\",$\"jaccard_fos_1\",$\"author_names\",$\"emb_sim\")\n        //.cache()\n        //.withColumn(\"emb_sim2\", cosineSimilarityUdf($\"paperVector\",$\"paperVector_\"))\n        //.persist(StorageLevel.DISK_ONLY)        \n        .write.mode(\"overwrite\").parquet(s\"$OA_HOME/distdf.parquet\")\n      \n  //distdf.printSchema()\n//distdf.show(10)\n//println(\"distdf  cnt:\"+distdf.count())\n//distdf.select($\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)\n\n/*\ndistdf.filter(size($\"paperVector_\")>0 && size($\"paperVector\")>0).select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"affiliationIds_\", $\"fosIdsLevel0_\",$\"fosIdsLevel1_\", $\"authorNormNames_\", $\"magAuthorId_\", $\"orcId_\", $\"s2AuthorId_\",\n    //$\"paperVector_\", $\"paperVector\",\n$\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\")\n        //.show(100)\n        .limit(1000).coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/features.json\")\n */\n",
    "user": "anonymous",
-   "dateUpdated": "2022-02-12T22:58:21+0200",
-   "progress": 88.0,
+   "dateUpdated": "2022-02-14T11:06:45+0200",
+   "progress": 93.0,
    "config": {},
    "settings": {
     "params": {
@@ -43,7 +43,7 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "\u001b[33mwarning: \u001b[0mthere was one deprecation warning (since 2.0.0); for details, enable `:setting -deprecation' or `:replay -deprecation'\ndistdf  cnt:53081056\n+-----------+-------------------+-------------+-------------+--------------------+\n|jaccard_aff|            emb_sim|jaccard_fos_0|jaccard_fos_1|        author_names|\n+-----------+-------------------+-------------+-------------+--------------------+\n|       null|0.17632486497967315|          1.0|          1.0|                 0.0|\n|        0.0| 0.2074495720220728|          0.0|          0.0|1.867413632119514...|\n|        0.0|0.46461096676648966|          1.0|          1.0|                 0.0|\n|       null|0.24595252278589852|          0.0|          0.0|                 0.0|\n|       null|0.34169354130039986|          1.0|          1.0|                 0.0|\n|        0.0|0.48112645399429865|          0.0|          0.0|                 0.0|\n|        0.0|0.09075869416548334|          0.0|          0.0|                 0.0|\n|        0.0|0.21219016455197173|          1.0|          1.0|                 0.0|\n|        1.0|0.45386891067086627|          1.0|          0.5|8.126777732629012E-4|\n|        0.0| 0.3228824117420134|          0.0|          0.0|                 0.0|\n|       null| 0.3601591463196412|          1.0|          0.0|                 0.0|\n|       null|0.33673474484772686|          1.0|          1.0|                 0.0|\n|        0.0|0.41911391771565326|          0.0|          0.0|                 0.0|\n|       null|0.43269478638297953|          0.0|          0.0|                 0.0|\n|        0.0| 0.3599905696761628|          0.0|          0.0|                 0.0|\n|       null| 0.1801931263146668|          0.0|          0.0|                 0.0|\n|       null|0.23871468372510357|          1.0|          1.0|                 0.0|\n|        0.0|0.24880588431045939|          0.0|          0.0|                 0.0|\n|       null|0.38486911914089733|          0.0|          0.0|                 0.0|\n|        0.0| 0.2338312840040981|          0.0|          0.0|                 0.0|\n|       null| 0.2503521946542804|          0.0|          0.0|                 0.0|\n|        0.0|0.07756550805587982|          0.0|          0.0|1.867413632119514...|\n|        0.0| 0.1968875429932219|          1.0|          1.0|                 0.0|\n|        1.0| 0.4042785516178447|          1.0|          0.0|  0.9943273905996759|\n|        0.0|  0.252398444834381|          0.0|          0.0|                 0.0|\n|        1.0| 0.5455313950023667|          1.0|          0.0|8.126777732629012E-4|\n|        0.0|0.22003015412407181|          0.0|          0.0|                 0.0|\n|        0.0|0.20497601131405857|          0.0|          0.0|                 0.0|\n|       null| 0.3066642018175171|          0.0|          0.0|                 0.0|\n|       null|0.49071493197499105|          1.0|          1.0|                 0.0|\n|        0.0|0.48332073666798114|          0.0|          0.0|                 0.0|\n|       null| 0.5527218853497166|          0.0|          0.0|                 0.0|\n|        0.0| 0.3982406295390436|          0.0|          0.0|                 0.0|\n|       null|0.46056008767944984|          0.0|          0.0|                 0.0|\n|       null| 0.2965451962518556|          0.0|          0.0|                 0.0|\n|        0.0| 0.3133847092592586|          0.0|          0.0|                 0.0|\n|       null|0.23411659257579262|          0.0|          0.0|                 0.0|\n|       null|  0.472580035883371|          1.0|          1.0|                 0.0|\n|        0.0| 0.6344036061718926|          1.0|          0.0|  0.9473684210526315|\n|       null| 0.5159387122883581|          0.0|          0.0|                 0.0|\n+-----------+-------------------+-------------+-------------+--------------------+\nonly showing top 40 rows\n\nimport org.apache.spark.sql.functions._\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\n\u001b[1m\u001b[34msigndf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [affiliationIds: array<bigint>, fosIdsLevel0: array<bigint> ... 7 more fields]\n\u001b[1m\u001b[34mcount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 10304\n\u001b[1m\u001b[34mdfi\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: int]\n\u001b[1m\u001b[34mdfj\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id_: int]\n\u001b[1m\u001b[34mindices\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: int, id_: int]\n\u001b[1m\u001b[34msigndf2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [affiliationIds_: array<bigint>, fosIdsLevel0_: array<bigint> ... 7 more fields]\n\u001b[1m...\n"
+      "data": "import org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature1\n\u001b[1m\u001b[34msigndf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [affiliationIds: array<bigint>, fosIdsLevel0: array<bigint> ... 7 more fields]\n\u001b[1m\u001b[34mcount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 116910\n\u001b[1m\u001b[34mdfi\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: int]\n\u001b[1m\u001b[34mdfj\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id_: int]\n\u001b[1m\u001b[34mindices\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: int, id_: int]\n\u001b[1m\u001b[34msigndf2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [affiliationIds_: array<bigint>, fosIdsLevel0_: array<bigint> ... 7 more fields]\n\u001b[1m\u001b[3...\n"
      }
     ]
    },
@@ -56,73 +56,58 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=2"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=6"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
+       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=6"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644699501554_1905509434",
-   "id": "paragraph_1644699501554_1905509434",
-   "dateCreated": "2022-02-12T22:58:21+0200",
-   "dateStarted": "2022-02-12T22:58:21+0200",
-   "dateFinished": "2022-02-12T22:59:00+0200",
+   "jobName": "paragraph_1644829605980_857425638",
+   "id": "paragraph_1644829605980_857425638",
+   "dateCreated": "2022-02-14T11:06:45+0200",
+   "dateStarted": "2022-02-14T11:06:45+0200",
+   "dateFinished": "2022-02-14T11:22:12+0200",
    "status": "FINISHED"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "import ai.onnxruntime._\nimport collection.JavaConverters._\n\n\n  val pathToOnnxFile: String = \"data/onnx/ensemble.onnx\"\n  val env = OrtEnvironment.getEnvironment()\n  val options = new OrtSession.SessionOptions()  //runtime options => PkgConfig\n  val session = env.createSession(pathToOnnxFile, options)\n\n  def forwardDistance(features: List[Double]): Double =\n    forwardForList(List(features)).head\n\n  def close(): Unit = env.close()\n\n  def forwardForList(featuresList: List[List[Double]]): List[Double]  = {\n    try {\n      val featuresArray: Array[Array[Float]] = featuresList.map(_.map(_.toFloat).toArray).toArray\n      val inputsTensor: OnnxTensor = OnnxTensor.createTensor(env, featuresArray)\n      val inputMap: Map[String, OnnxTensor] = Map(\"input\" -> inputsTensor)\n      val inputs: java.util.Map[String, OnnxTensor] = inputMap.asJava\n      val onnxResult:OrtSession.Result = session.run(inputs)\n      val tensorOutput: OnnxTensor = onnxResult.get(0).asInstanceOf[OnnxTensor]\n      val array = tensorOutput.getValue.asInstanceOf[Array[Array[Float]]]\n      val result = array map (_.head)\n      result.toList.map(_.toDouble)\n    }\n    catch {\n      case e:Exception => throw new RuntimeException(e)\n    }\n \n ",
+   "id": "",
+   "config": {}
   },
   {
    "text": "%spark\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval count = 40000\nval ind = for(i <- 0 until count; j <- 0 until count; if i > j) yield (i, j)\n\nprintln(\"indices  cnt:\"+ ind.size)\n\n\n        \nval indices =\n    //spark.createDataFrame(ind)    \n    //ind.toDF()\n      sc.parallelize(ind,10000)\n              .toDF()\n        .cache()\n        //.select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\")).cache()\n       \n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices.parquet\")\nprintln(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices40K.parquet\")\n\n//GPU GC_1 5m6s 90.7GB \n//CPU GC_1  5m 8s 91GB\n//CPU GC_1 10000 3m 19s 98GB\n",
    "user": "anonymous",
-   "dateUpdated": "2022-02-12T17:55:05+0200",
-   "progress": 99.0,
+   "dateUpdated": "2022-02-13T17:28:24+0200",
+   "progress": 0.0,
    "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "indices  cnt:799980000\nindices  cnt:799980000\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds\n\u001b[1m\u001b[34mcount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 40000\n\u001b[1m\u001b[34mind\u001b[0m: \u001b[1m\u001b[32mscala.collection.immutable.IndexedSeq[(Int, Int)]\u001b[0m = Vector((1,0), (2,0), (2,1), (3,0), (3,1), (3,2), (4,0), (4,1), (4,2), (4,3), (5,0), (5,1), (5,2), (5,3), (5,4), (6,0), (6,1), (6,2), (6,3), (6,4), (6,5), (7,0), (7,1), (7,2), (7,3), (7,4), (7,5), (7,6), (8,0), (8,1), (8,2), (8,3), (8,4), (8,5), (8,6), (8,7), (9,0), (9,1), (9,2), (9,3), (9,4), (9,5), (9,6), (9,7), (9,8), (10,0), (10,1), (10,2), (10,3), (10,4), (10,5), (10,6), (10,7), (10,8), (10,9), (11,0), (11,1), (11,2), (11,3), (11,4), (11,5), (11,6), (11,7), (11,8), (11,9), (11,10), (12,0), (12,1), (12,2), (12,3), (12,4), (12,5), (12,6), (12,7), (12,8), (12,9), (12,10), (...\n"
-     }
-    ]
-   },
    "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
+   "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644681305196_37033629",
-   "id": "paragraph_1644681305196_37033629",
-   "dateCreated": "2022-02-12T17:55:05+0200",
-   "dateStarted": "2022-02-12T17:55:05+0200",
-   "dateFinished": "2022-02-12T17:58:24+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1644766104044_1025498527",
+   "id": "paragraph_1644766104044_1025498527",
+   "dateCreated": "2022-02-13T17:28:24+0200",
+   "dateStarted": "2022-02-13T17:28:24+0200",
+   "status": "ABORT"
   },
   {
    "text": "%spark\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\nval count = 40000\n\nval dfi = (0 until count).toDF(\"i\")\nval dfj = (0 until count).toDF(\"j\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"i\") > dfj(\"j\"))\n        .cache()\n\n//indices.write.mode(\"overwrite\").parquet(s\"$OA_HOME/indices.parquet\")\nprintln(\"indices  cnt:\"+indices.count())\n//indices.show(5)\n",
