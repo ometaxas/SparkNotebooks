@@ -7,5 +7,16 @@
       <jdbc-url>Zeppelin connection@ZeppelinConnections@-6434748062234921618</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Zeppelin connection" read-only="true" uuid="258e5b33-c537-4312-b442-23193e1977fa">
+      <driver-ref>17258b16-3059-42fb-b259-fb286c0e3cf7</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>Wrapper For Zeppelin Spark from Big Data Tools plugin</remarks>
+      <jdbc-driver>com.dbschema.ZeppelinSparkJdbcDriver</jdbc-driver>
+      <jdbc-url>Zeppelin connection@ZeppelinConnections@-6434748062234921618</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="connectionId" value="Zeppelin connection@ZeppelinConnections@-6434748062234921618" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
