@@ -37,7 +37,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\nval S2_HOME = \"/media/datadisk/Datasets/SemanticScholar/01112021\"\nval S2_sample = \"/media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\"\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport  org.apache.spark.sql.functions._\n\n//val logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\n//logger.info(\"Test my logger\");\n\n//Get Semantic Scholar articles \nval S2articlesdf = spark.read.json(s\"file://$S2_HOME\")\n//val S2articlesdf = spark.read.json(s\"file://$S2_sample\")\nS2articlesdf.printSchema\n//S2articlesdf.show(5) \n\n\nval S2subsetdf = S2articlesdf\n             //.join(broadcast(doisdf), lower(S2articlesdf(\"doi\"))===doisdf(\"doi\"), \"inner\")\n             //.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull))\n             .select($\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n                 $\"inCitations\", $\"outCitations\",\n                 $\"authors\", $\"journalName\", $\"venue\", $\"year\", $\"paperAbstract\")\n\n//S2subsetdf.printSchema\n//S2subsetdf.show(10,false)\nS2subsetdf.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\n\n\n",
+   "text": "%spark\nval S2_HOME = \"/media/datadisk/Datasets/SemanticScholar/01052022/destinationPath\"\nval S2_sample = \"/media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\"\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport  org.apache.spark.sql.functions._\n\n//val logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\n//logger.info(\"Test my logger\");\n\n//Get Semantic Scholar articles \nval S2articlesdf = spark.read.json(s\"file://$S2_HOME\")\n//val S2articlesdf = spark.read.json(s\"file://$S2_sample\")\nS2articlesdf.printSchema\n//S2articlesdf.show(5) \n\n\nval S2subsetdf = S2articlesdf\n             //.join(broadcast(doisdf), lower(S2articlesdf(\"doi\"))===doisdf(\"doi\"), \"inner\")\n             //.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull))\n             .select($\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n                 $\"inCitations\", $\"outCitations\",\n                 $\"authors\", $\"journalName\", $\"venue\", $\"year\", $\"paperAbstract\")\n\n//S2subsetdf.printSchema\n//S2subsetdf.show(10,false)\nS2subsetdf.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\n\n\n",
    "user": "anonymous",
    "dateUpdated": "2022-01-24T14:34:19+0200",
    "progress": 99.0,
@@ -93,10 +93,10 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\n\nval S2_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\nprintln(\"S2_df  cnt:\"+S2_df.count())\nS2_df.printSchema()\nS2_df.select($\"title\", $\"id\",$\"doi\", $\"magId\",  $\"pmId\",\n    $\"inCitations\", $\"outCitations\", $\"S2fos\",\n                 $\"year\", $\"paperAbstract\"\n).show(5)",
+   "text": "%spark\nimport org.apache.spark.sql.functions.countDistinct;\nval S2_df = spark.read.parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\n//println(\"S2_df  cnt:\"+S2_df.count())\n//S2_df.printSchema()\n\nval stmp = S2_df.select($\"id\", explode($\"authors.ids\").as(\"authorId\"))\n        //.show(10)\n\nstmp.select(countDistinct(array_max($\"authorId\"))).show(10)\n\n\n/*\nS2_df.select($\"title\", $\"id\",$\"doi\", $\"magId\",  $\"pmId\",\n    $\"inCitations\", $\"outCitations\", $\"S2fos\",\n                 $\"year\", $\"paperAbstract\"\n).show(5)*/",
    "user": "anonymous",
-   "dateUpdated": "2022-01-24T18:45:07+0200",
-   "progress": 96.0,
+   "dateUpdated": "2022-05-08T13:11:00+0300",
+   "progress": 99.0,
    "config": {
     "tableHide": false
    },
@@ -113,7 +113,7 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "S2_df  cnt:198252886\nroot\n |-- title: string (nullable = true)\n |-- id: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- magId: string (nullable = true)\n |-- S2fos: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- pmId: string (nullable = true)\n |-- inCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- outCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- authors: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- ids: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- name: string (nullable = true)\n |    |    |-- structuredName: string (nullable = true)\n |-- journalName: string (nullable = true)\n |-- venue: string (nullable = true)\n |-- year: long (nullable = true)\n |-- paperAbstract: string (nullable = true)\n\n+-----------------------------+--------------------+--------------------+----------+----+--------------------+--------------------+-------------+----+--------------------+\n|                        title|                  id|                 doi|     magId|pmId|         inCitations|        outCitations|        S2fos|year|       paperAbstract|\n+-----------------------------+--------------------+--------------------+----------+----+--------------------+--------------------+-------------+----+--------------------+\n|         Advances in Food ...|42e2a33e8040c51ba...|10.5772/intechope...|3173341475|    |                  []|[a7cb02a48c34f39f...|    [Biology]|2021|Increased awarene...|\n|시멘트 Müller형 인공삽입물...|7c9b9b178106953b3...|                    |2202201208|    |                  []|                  []|[Engineering]|2003|                    |\n|             Rolando fracture|6ded053f2da81d1a1...|  10.53347/rid-56755|          |    |                  []|                  []|           []|2017|                    |\n|         Das Mark des Mitt...|5a587759ea2122bea...|                    | 775896695|    |                  []|                  []|           []|2012|                    |\n|         Intertemporal ass...|e25f1ea73437339db...|10.1016/0014-2921...|2040016257|    |[d4360920af7e0ed1...|[f7ad50732cdc13e3...|  [Economics]|1986|Abstract The prim...|\n+-----------------------------+--------------------+--------------------+----------+----+--------------------+--------------------+-------------+----+--------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mS2_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 11 more fields]\n"
+      "data": "+-----------------------------------+\n|count(DISTINCT array_max(authorId))|\n+-----------------------------------+\n|                           75043062|\n+-----------------------------------+\n\nimport org.apache.spark.sql.functions.countDistinct\n\u001b[1m\u001b[34mS2_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 11 more fields]\n\u001b[1m\u001b[34mstmp\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: string, authorId: array<string>]\n"
      }
     ]
    },
@@ -126,24 +126,21 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=96"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=63"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=97"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=98"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=64"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1643042707005_453246204",
-   "id": "paragraph_1643042707005_453246204",
-   "dateCreated": "2022-01-24T18:45:07+0200",
-   "dateStarted": "2022-01-24T18:45:07+0200",
-   "dateFinished": "2022-01-24T18:45:09+0200",
+   "jobName": "paragraph_1652004660283_1616650222",
+   "id": "paragraph_1652004660283_1616650222",
+   "dateCreated": "2022-05-08T13:11:00+0300",
+   "dateStarted": "2022-05-08T13:11:00+0300",
+   "dateFinished": "2022-05-08T13:12:35+0300",
    "status": "FINISHED"
   },
   {

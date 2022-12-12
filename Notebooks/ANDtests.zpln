@@ -1,9 +1,9 @@
 ﻿{
  "paragraphs": [
   {
-   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n#SPARK_HOME /home/ometaxas/Programs/spark-3.2.0-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 100g\nspark.driver.maxResultSize 5g \n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.plugins com.nvidia.spark.SQLPlugin\n#spark.rapids.memory.pinnedPool.size 2G \n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\nspark.executor.defaultJavaOptions -XX:+UseG1GC \n#-XX:G1HeapRegionSize=32 -XX:ConcGCThreads=16 -XX:InitiatingHeapOccupancyPercent=70\n#spark.executor.defaultJavaOptions -XX:+UseParallelGC \n\n#spark.jars.packages com.microsoft.onnxruntime:onnxruntime:1.10.0 \n#com.microsoft.onnxruntime com.microsoft.azure:synapseml_2.12:0.9.4\n#spark.jars.repositories https://mmlspark.azureedge.net/maven\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
+   "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\n#SPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\nSPARK_HOME /home/ometaxas/Programs/spark-3.2.0-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 64g\nspark.driver.maxResultSize 5g \n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.plugins com.nvidia.spark.SQLPlugin\n#spark.rapids.memory.pinnedPool.size 2G \n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\nspark.executor.defaultJavaOptions -XX:+UseG1GC \n#-XX:G1HeapRegionSize=32 -XX:ConcGCThreads=16 -XX:InitiatingHeapOccupancyPercent=70\n#spark.executor.defaultJavaOptions -XX:+UseParallelGC \n\n#spark.jars.packages com.microsoft.onnxruntime:onnxruntime:1.10.0 \n#com.microsoft.onnxruntime com.microsoft.azure:synapseml_2.12:0.9.4\n#spark.jars.repositories https://mmlspark.azureedge.net/maven\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2022-02-14T11:06:18+0200",
+   "dateUpdated": "2022-12-05T15:49:54+0200",
    "progress": 0.0,
    "config": {},
    "settings": {
@@ -17,19 +17,72 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644829578714_536183695",
-   "id": "paragraph_1644829578714_536183695",
-   "dateCreated": "2022-02-14T11:06:18+0200",
-   "dateStarted": "2022-02-14T11:06:18+0200",
-   "dateFinished": "2022-02-14T11:06:18+0200",
+   "jobName": "paragraph_1670248194343_1547369724",
+   "id": "paragraph_1670248194343_1547369724",
+   "dateCreated": "2022-12-05T15:49:54+0200",
+   "dateStarted": "2022-12-05T15:49:54+0200",
+   "dateFinished": "2022-12-05T15:49:54+0200",
    "status": "FINISHED"
   },
   {
-   "text": "\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\n//33sec with broadcast / renamed datasets / selecting only features 26.8GB !!\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature1\"\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"paperVector\")\n        .withColumn(\"id\",monotonically_increasing_id())\n        //.cache()\n        //.withColumn(\"vector\", convertArrayToVector($\"paperVector\"))\n        //.drop(\"paperVector\")\n        //.cache() \n\n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\")\nval dfj = (0 until count).toDF(\"id_\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n       // .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \n//println(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n        .drop(signdf(\"id\"))\n    \nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n    .drop(signdf2(\"id_\"))\n\n/*  // this leads to broadcastnestedloop join in the second join --> 11min for 10K \n        .select(signdistdf2(\"affiliationIds\"), signdistdf2(\"fosIdsLevel0\"),signdistdf2(\"fosIdsLevel1\"), signdistdf2(\"authorNormNames\"), signdistdf(\"magAuthorId\"), signdistdf2(\"orcId\"), signdistdf2(\"s2AuthorId\"),signdistdf2(\"paperVector\"),\n        signdf(\"affiliationIds\").as(\"affiliationIds_\"), signdf(\"fosIdsLevel0\").as(\"fosIdsLevel0_\"),signdf(\"fosIdsLevel1\").as(\"fosIdsLevel1_\"), signdf(\"authorNormNames\").as(\"authorNormNames_\"), signdf(\"magAuthorId\").as(\"magAuthorId_\"), signdf(\"orcId\").as(\"orcId_\"), signdf(\"s2AuthorId\").as(\"s2AuthorId_\"),signdf(\"paperVector\").as(\"paperVector_\"))\n//val signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n\n */\n//val signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n\n//signdistdf.cache()\n\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n        \n         .withColumn(\"jaccard_aff\", size(array_intersect($\"affiliationIds\", $\"affiliationIds_\")) / size(array_union($\"affiliationIds\", $\"affiliationIds_\")) )\n        .withColumn(\"jaccard_fos_0\", size(array_intersect($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) / size(array_union($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) )\n        .withColumn(\"jaccard_fos_1\", size(array_intersect($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) / size(array_union($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) )\n        .withColumn(\"author_names\", size(array_intersect($\"authorNormNames\", $\"authorNormNames_\")) / size(array_union($\"authorNormNames\", $\"authorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\"))\n        .select($\"id\",$\"id_\",$\"jaccard_aff\",$\"jaccard_fos_0\",$\"jaccard_fos_1\",$\"author_names\",$\"emb_sim\")\n        //.cache()\n        //.withColumn(\"emb_sim2\", cosineSimilarityUdf($\"paperVector\",$\"paperVector_\"))\n        //.persist(StorageLevel.DISK_ONLY)        \n        .write.mode(\"overwrite\").parquet(s\"$OA_HOME/distdf.parquet\")\n      \n  //distdf.printSchema()\n//distdf.show(10)\n//println(\"distdf  cnt:\"+distdf.count())\n//distdf.select($\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)\n\n/*\ndistdf.filter(size($\"paperVector_\")>0 && size($\"paperVector\")>0).select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"affiliationIds_\", $\"fosIdsLevel0_\",$\"fosIdsLevel1_\", $\"authorNormNames_\", $\"magAuthorId_\", $\"orcId_\", $\"s2AuthorId_\",\n    //$\"paperVector_\", $\"paperVector\",\n$\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\")\n        //.show(100)\n        .limit(1000).coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/features.json\")\n */\n",
+   "text": "%spark\nimport org.apache.spark.sql.functions._\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature1\"\nval signdf_all = spark.read        \n        .json(s\"file://$OA_HOME\")\n        .select(concat($\"magPaperId\",lit(\"_\"), $\"magAuthorId\").as(\"paper_author_id\"), array_union( $\"fosIdsLevel0\",$\"fosIdsLevel1\").as(\"fosIds\"), $\"authorNormNames\".as(\"coAuthorNormNames\"), $\"paperVector\")\n        \n        signdf_all.printSchema()\n        //signdf_all.show(20, false)\n        println(\"signdf  cnt:\"+signdf_all.count())\n      signdf_all.write.mode(\"overwrite\").json(s\"$OA_HOME/author_publication.json\")\n\n",
    "user": "anonymous",
-   "dateUpdated": "2022-02-14T11:06:45+0200",
-   "progress": 93.0,
+   "dateUpdated": "2022-11-18T19:01:32+0200",
+   "progress": 56.0,
    "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- paper_author_id: string (nullable = true)\n |-- fosIds: array (nullable = true)\n |    |-- element: long (containsNull = true)\n |-- coAuthorNormNames: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- paperVector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\nsigndf  cnt:116910\nimport org.apache.spark.sql.functions._\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature1\n\u001b[1m\u001b[34msigndf_all\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [paper_author_id: string, fosIds: array<bigint> ... 2 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=16"
+      },
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=17"
+      },
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=18"
+      },
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=19"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1668790892370_245773169",
+   "id": "paragraph_1668790892370_245773169",
+   "dateCreated": "2022-11-18T19:01:32+0200",
+   "dateStarted": "2022-11-18T19:01:32+0200",
+   "dateFinished": "2022-11-18T19:01:42+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\n//33sec with broadcast / renamed datasets / selecting only features 26.8GB !!\n\n//30K\n//3m 40s\n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds\"\n\n\nval signdf = spark.read\n        .json(s\"file://$OA_HOME/author_publication_30K.json\")         //30K\n        .withColumn(\"id\",monotonically_increasing_id())\n        \n        //.cache()\n        \n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\").repartition(8)\nval dfj = (0 until count).toDF(\"id_\").repartition(8)\n\nprintln(\"dfi  partitions:\"+dfi.rdd.partitions.size)\nprintln(\"dfj  partitions:\"+dfj.rdd.partitions.size)\n\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n\n        .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \nprintln(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\nindices.show(5)\n\n/*\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n        .drop(signdf(\"id\"))\n    \nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n    .drop(signdf2(\"id_\"))\n\n/*  // this leads to broadcastnestedloop join in the second join --> 11min for 10K \n        .select(signdistdf2(\"affiliationIds\"), signdistdf2(\"fosIdsLevel0\"),signdistdf2(\"fosIdsLevel1\"), signdistdf2(\"authorNormNames\"), signdistdf(\"magAuthorId\"), signdistdf2(\"orcId\"), signdistdf2(\"s2AuthorId\"),signdistdf2(\"paperVector\"),\n        signdf(\"affiliationIds\").as(\"affiliationIds_\"), signdf(\"fosIdsLevel0\").as(\"fosIdsLevel0_\"),signdf(\"fosIdsLevel1\").as(\"fosIdsLevel1_\"), signdf(\"authorNormNames\").as(\"authorNormNames_\"), signdf(\"magAuthorId\").as(\"magAuthorId_\"), signdf(\"orcId\").as(\"orcId_\"), signdf(\"s2AuthorId\").as(\"s2AuthorId_\"),signdf(\"paperVector\").as(\"paperVector_\"))\n//val signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n\n */\n\n//val signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n//signdistdf.cache()\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n        \n        \n        .withColumn(\"jaccard_fos\", size(array_intersect($\"fosIds\", $\"fosIds_\")) / size(array_union($\"fosIds\", $\"fosIds_\")) )        \n        .withColumn(\"jaccard_author_names\", size(array_intersect($\"coAuthorNormNames\", $\"coAuthorNormNames_\")) / size(array_union($\"coAuthorNormNames\", $\"coAuthorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\"))\n        //.withColumn(\"similarity\", expr(\"(1+ emb_sim+ jaccard_author_names + jaccard_fos)/4\"))\n        //.select($\"id\",$\"id_\", $\"paper_author_id\",  $\"paper_author_id_\", $\"similarity\")\n        .select($\"id\",$\"id_\",$\"jaccard_fos\",$\"jaccard_author_names\",$\"emb_sim\")\n            //,  $\"jaccard_fos\",$\"jaccard_author_names\",$\"emb_sim\", $\"similarity\", $\"coAuthorNormNames\", $\"coAuthorNormNames_\", $\"fosIds\", $\"fosIds_\")\n        //.cache()\n        .write.mode(\"overwrite\").parquet(s\"$OA_HOME/distdf.parquet\")\n      \n//distdf.printSchema()\n//distdf.show(10)\n//println(\"distdf  cnt:\"+distdf.count())\n\n\n \n */\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-11-28T13:12:32+0200",
+   "progress": 92.0,
+   "config": {
+    "editorHide": false
+   },
    "settings": {
     "params": {
      "bdtMeta": {
@@ -43,7 +96,7 @@
     "msg": [
      {
       "type": "TEXT",
-      "data": "import org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature1\n\u001b[1m\u001b[34msigndf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [affiliationIds: array<bigint>, fosIdsLevel0: array<bigint> ... 7 more fields]\n\u001b[1m\u001b[34mcount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 116910\n\u001b[1m\u001b[34mdfi\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: int]\n\u001b[1m\u001b[34mdfj\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id_: int]\n\u001b[1m\u001b[34mindices\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: int, id_: int]\n\u001b[1m\u001b[34msigndf2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [affiliationIds_: array<bigint>, fosIdsLevel0_: array<bigint> ... 7 more fields]\n\u001b[1m\u001b[3...\n"
+      "data": "dfi  partitions:8\ndfj  partitions:8\nindices  cnt:441089551\n+----+---+\n|  id|id_|\n+----+---+\n|1019|470|\n|1019|962|\n|1019|452|\n|1019|961|\n|1019|875|\n+----+---+\nonly showing top 5 rows\n\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds\n\u001b[1m\u001b[34msigndf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [coAuthorNormNames: array<string>, fosIds: array<bigint> ... 3 more fields]\n\u001b[1m\u001b[34mcount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 29702\n\u001b[1m\u001b[34mdfi\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: int]\n\u001b[1m\u001b[34mdfj\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id_: int]\n\u001b[1m\u001b[34mindices\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: int, id_: int]\n"
      }
     ]
    },
@@ -56,27 +109,126 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=0"
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=0"
       },
       {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=1"
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=1"
       },
       {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=2"
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=3"
       },
       {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=6"
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=4"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644829605980_857425638",
-   "id": "paragraph_1644829605980_857425638",
-   "dateCreated": "2022-02-14T11:06:45+0200",
-   "dateStarted": "2022-02-14T11:06:45+0200",
-   "dateFinished": "2022-02-14T11:22:12+0200",
+   "jobName": "paragraph_1669633952932_1210178009",
+   "id": "paragraph_1669633952932_1210178009",
+   "dateCreated": "2022-11-28T13:12:32+0200",
+   "dateStarted": "2022-11-28T13:12:32+0200",
+   "dateFinished": "2022-11-28T13:13:18+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "distdf.show(20,false)",
+   "user": "anonymous",
+   "dateUpdated": "2022-11-18T18:46:08+0200",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+---+---+-----------+--------------------+-------------------+-------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+\n|id |id_|jaccard_fos|jaccard_author_names|emb_sim            |similarity         |coAuthorNormNames                                                                                           |coAuthorNormNames_                                                                                          |fosIds                                                                                     |fosIds_                                                                                    |\n+---+---+-----------+--------------------+-------------------+-------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+\n|1  |0  |0.0        |0.09090909090909091 |0.2867042124614083 |0.3444033258426248 |[qingsong feng, song liao, xumin wan, xiaoyan lei, mingxin zheng, chengzhong yang, wei wang, shanshou li]   |[yuansheng shen, yue wen liu, ruixing yuan, wei wang]                                                       |[9417928, 122792734, 42781572, 50644808, 41242791, 130614165, 2987632653]                  |[4679612, 53477387, 132493445, 168056786, 104779481, 181748761]                            |\n|2  |0  |0.0        |0.125               |0.350645993276719  |0.36891149831917974|[ping ma, lei wang, wei wang, jianming kang, binghai yan]                                                   |[yuansheng shen, yue wen liu, ruixing yuan, wei wang]                                                       |[2780427559, 2780646005, 2781323245, 2780061701, 129727815, 512993513, 94870803, 47136581] |[4679612, 53477387, 132493445, 168056786, 104779481, 181748761]                            |\n|2  |1  |0.0        |0.08333333333333333 |0.3564337899087896 |0.3599417808105307 |[ping ma, lei wang, wei wang, jianming kang, binghai yan]                                                   |[qingsong feng, song liao, xumin wan, xiaoyan lei, mingxin zheng, chengzhong yang, wei wang, shanshou li]   |[2780427559, 2780646005, 2781323245, 2780061701, 129727815, 512993513, 94870803, 47136581] |[9417928, 122792734, 42781572, 50644808, 41242791, 130614165, 2987632653]                  |\n|3  |0  |0.0        |0.1111111111111111  |0.23127386368556835|0.33559624369916985|[yingying zheng, kai kang, wei wang, tao huang, jun wei, lijie xu]                                          |[yuansheng shen, yue wen liu, ruixing yuan, wei wang]                                                       |[2984431290, 55439883, 2988035903, 167946809, 193702766, 84172371, 136134403]              |[4679612, 53477387, 132493445, 168056786, 104779481, 181748761]                            |\n|3  |1  |0.0        |0.07692307692307693 |0.3988937721166971 |0.36895421225994346|[yingying zheng, kai kang, wei wang, tao huang, jun wei, lijie xu]                                          |[qingsong feng, song liao, xumin wan, xiaoyan lei, mingxin zheng, chengzhong yang, wei wang, shanshou li]   |[2984431290, 55439883, 2988035903, 167946809, 193702766, 84172371, 136134403]              |[9417928, 122792734, 42781572, 50644808, 41242791, 130614165, 2987632653]                  |\n|3  |2  |0.0        |0.1                 |0.24204220657329617|0.33551055164332405|[yingying zheng, kai kang, wei wang, tao huang, jun wei, lijie xu]                                          |[ping ma, lei wang, wei wang, jianming kang, binghai yan]                                                   |[2984431290, 55439883, 2988035903, 167946809, 193702766, 84172371, 136134403]              |[2780427559, 2780646005, 2781323245, 2780061701, 129727815, 512993513, 94870803, 47136581] |\n|4  |0  |0.0        |0.08333333333333333 |0.3498103572520891 |0.35828592264635556|[li zhao, bingliang yang, shasha que, yi zhou, zhanqi li, haosheng li, chunxiao huang, wei wang, huina feng]|[yuansheng shen, yue wen liu, ruixing yuan, wei wang]                                                       |[181268634, 206139338, 2776096895, 2779640714, 2992979196, 2993766728, 200806820, 36248471]|[4679612, 53477387, 132493445, 168056786, 104779481, 181748761]                            |\n|4  |1  |0.0        |0.0625              |0.1943052811536995 |0.31420132028842485|[li zhao, bingliang yang, shasha que, yi zhou, zhanqi li, haosheng li, chunxiao huang, wei wang, huina feng]|[qingsong feng, song liao, xumin wan, xiaoyan lei, mingxin zheng, chengzhong yang, wei wang, shanshou li]   |[181268634, 206139338, 2776096895, 2779640714, 2992979196, 2993766728, 200806820, 36248471]|[9417928, 122792734, 42781572, 50644808, 41242791, 130614165, 2987632653]                  |\n|4  |2  |0.0        |0.07692307692307693 |0.26422911035089863|0.3352880468184939 |[li zhao, bingliang yang, shasha que, yi zhou, zhanqi li, haosheng li, chunxiao huang, wei wang, huina feng]|[ping ma, lei wang, wei wang, jianming kang, binghai yan]                                                   |[181268634, 206139338, 2776096895, 2779640714, 2992979196, 2993766728, 200806820, 36248471]|[2780427559, 2780646005, 2781323245, 2780061701, 129727815, 512993513, 94870803, 47136581] |\n|4  |3  |0.0        |0.07142857142857142 |0.22180654539760747|0.3233087792065447 |[li zhao, bingliang yang, shasha que, yi zhou, zhanqi li, haosheng li, chunxiao huang, wei wang, huina feng]|[yingying zheng, kai kang, wei wang, tao huang, jun wei, lijie xu]                                          |[181268634, 206139338, 2776096895, 2779640714, 2992979196, 2993766728, 200806820, 36248471]|[2984431290, 55439883, 2988035903, 167946809, 193702766, 84172371, 136134403]              |\n|5  |0  |0.0        |0.125               |0.5569215415416218 |0.42048038538540544|[wei wang, lingyun hao, xinyao zhang, guowei zhi, cuihua shi]                                               |[yuansheng shen, yue wen liu, ruixing yuan, wei wang]                                                       |[2780357685, 184651966, 2781448156, 525849907, 129955480, 55766333, 155672457, 75669611]   |[4679612, 53477387, 132493445, 168056786, 104779481, 181748761]                            |\n|5  |1  |0.0        |0.08333333333333333 |0.32144775602244435|0.3511952723389444 |[wei wang, lingyun hao, xinyao zhang, guowei zhi, cuihua shi]                                               |[qingsong feng, song liao, xumin wan, xiaoyan lei, mingxin zheng, chengzhong yang, wei wang, shanshou li]   |[2780357685, 184651966, 2781448156, 525849907, 129955480, 55766333, 155672457, 75669611]   |[9417928, 122792734, 42781572, 50644808, 41242791, 130614165, 2987632653]                  |\n|5  |2  |0.0        |0.1111111111111111  |0.2851022250020825 |0.3490533340282984 |[wei wang, lingyun hao, xinyao zhang, guowei zhi, cuihua shi]                                               |[ping ma, lei wang, wei wang, jianming kang, binghai yan]                                                   |[2780357685, 184651966, 2781448156, 525849907, 129955480, 55766333, 155672457, 75669611]   |[2780427559, 2780646005, 2781323245, 2780061701, 129727815, 512993513, 94870803, 47136581] |\n|5  |3  |0.0        |0.1                 |0.2807277259875981 |0.3451819314968996 |[wei wang, lingyun hao, xinyao zhang, guowei zhi, cuihua shi]                                               |[yingying zheng, kai kang, wei wang, tao huang, jun wei, lijie xu]                                          |[2780357685, 184651966, 2781448156, 525849907, 129955480, 55766333, 155672457, 75669611]   |[2984431290, 55439883, 2988035903, 167946809, 193702766, 84172371, 136134403]              |\n|5  |4  |0.0        |0.07692307692307693 |0.39352725659034393|0.3676125833783552 |[wei wang, lingyun hao, xinyao zhang, guowei zhi, cuihua shi]                                               |[li zhao, bingliang yang, shasha que, yi zhou, zhanqi li, haosheng li, chunxiao huang, wei wang, huina feng]|[2780357685, 184651966, 2781448156, 525849907, 129955480, 55766333, 155672457, 75669611]   |[181268634, 206139338, 2776096895, 2779640714, 2992979196, 2993766728, 200806820, 36248471]|\n|6  |0  |0.0        |0.125               |0.21498401835608485|0.33499600458902123|[danni guo, wei wang, qi chen, zhaoyang zhang, nan zhao]                                                    |[yuansheng shen, yue wen liu, ruixing yuan, wei wang]                                                       |[101403955, 78548338, 160403385, 557945733, 150178126, 761482, 162478608, 157764524]       |[4679612, 53477387, 132493445, 168056786, 104779481, 181748761]                            |\n|6  |1  |0.0        |0.08333333333333333 |0.37124236624059037|0.3636439248934809 |[danni guo, wei wang, qi chen, zhaoyang zhang, nan zhao]                                                    |[qingsong feng, song liao, xumin wan, xiaoyan lei, mingxin zheng, chengzhong yang, wei wang, shanshou li]   |[101403955, 78548338, 160403385, 557945733, 150178126, 761482, 162478608, 157764524]       |[9417928, 122792734, 42781572, 50644808, 41242791, 130614165, 2987632653]                  |\n|6  |2  |0.0        |0.1111111111111111  |0.2972364457728532 |0.3520868892209911 |[danni guo, wei wang, qi chen, zhaoyang zhang, nan zhao]                                                    |[ping ma, lei wang, wei wang, jianming kang, binghai yan]                                                   |[101403955, 78548338, 160403385, 557945733, 150178126, 761482, 162478608, 157764524]       |[2780427559, 2780646005, 2781323245, 2780061701, 129727815, 512993513, 94870803, 47136581] |\n|6  |3  |0.0        |0.1                 |0.5368038432075665 |0.4092009608018916 |[danni guo, wei wang, qi chen, zhaoyang zhang, nan zhao]                                                    |[yingying zheng, kai kang, wei wang, tao huang, jun wei, lijie xu]                                          |[101403955, 78548338, 160403385, 557945733, 150178126, 761482, 162478608, 157764524]       |[2984431290, 55439883, 2988035903, 167946809, 193702766, 84172371, 136134403]              |\n|6  |4  |0.0        |0.07692307692307693 |0.14222095006857696|0.30478600674791345|[danni guo, wei wang, qi chen, zhaoyang zhang, nan zhao]                                                    |[li zhao, bingliang yang, shasha que, yi zhou, zhanqi li, haosheng li, chunxiao huang, wei wang, huina feng]|[101403955, 78548338, 160403385, 557945733, 150178126, 761482, 162478608, 157764524]       |[181268634, 206139338, 2776096895, 2779640714, 2992979196, 2993766728, 200806820, 36248471]|\n+---+---+-----------+--------------------+-------------------+-------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------+\nonly showing top 20 rows\n\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=73"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1668789968496_45073911",
+   "id": "paragraph_1668789968496_45073911",
+   "dateCreated": "2022-11-18T18:46:08+0200",
+   "dateStarted": "2022-11-18T18:46:08+0200",
+   "dateFinished": "2022-11-18T18:46:17+0200",
+   "status": "FINISHED"
+  },
+  {
+   "text": "\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n// cartesian 5m.44\n// broadcastJoin / array 1.04\n// sortMerge / array 1.14\n// 48sec using cartesian on DF i,j indices  63.5GB\n// 38sec broadcast cartesian on DF i,j indices 49GB\n\n//30sec with broadcast / renamed datasets / selecting only features 26.8GB !!\n//12m 19sec for 116K signatures \n\nval OA_HOME = \"/media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\"\n\n\nval signdf = spark.read\n        .json(s\"file://$OA_HOME\")\n        .select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"paperVector\")\n        .withColumn(\"id\",monotonically_increasing_id())\n        //.cache()\n        //.withColumn(\"vector\", convertArrayToVector($\"paperVector\"))\n        //.drop(\"paperVector\")\n        //.cache() \n\n//println(\"signdf  cnt:\"+signdf.count())\n//signdf.printSchema()\n//signdf.show(10)\n//signdf.coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/author_publication.json\")\n//Create pairwise signature records (diagonal matrix)\n\n// dummy approach --> cartesian and then filtering upper diagonal matrix --> ~ 6min for 10K signatures\n//val signdistdf = signdf.crossJoin(signdf2)\n//              .filter(signdf(\"id\") > signdf2(\"id_\"))\n\n\n// more efficient approach --> create matrix coordinate i,j of the diagonal matrix and then two left outer joins to populate signature records  \n\n// prepare indices\nval count = signdf.count().toInt\n\nval dfi = (0 until count).toDF(\"id\")\nval dfj = (0 until count).toDF(\"id_\")\n\nval indices = dfi.crossJoin(dfj)\n                .filter(dfi(\"id\") > dfj(\"id_\"))\n       // .cache()\n\n// the following approach is significantly slower and needs more memory  \n//val indices = sc.parallelize(for(i <- 0L until count; j <- 0L until count; if i > j) yield (i, j)).toDF()\n//        .select($\"_1\".as(\"id\"),$\"_2\".as(\"id_\"))\n     \n//println(\"indices  cnt:\"+indices.count())\n//indices.printSchema()\n//indices.show(5)\n\nvar signdf2 = signdf\n  for(col <- signdf.columns){\n    signdf2 = signdf2.withColumnRenamed(col,col.concat(\"_\"))\n  }\n\nval signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n        .drop(signdf(\"id\"))\n    \nval signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n    .drop(signdf2(\"id_\"))\n\n/*  // this leads to broadcastnestedloop join in the second join --> 11min for 10K \n        .select(signdistdf2(\"affiliationIds\"), signdistdf2(\"fosIdsLevel0\"),signdistdf2(\"fosIdsLevel1\"), signdistdf2(\"authorNormNames\"), signdistdf(\"magAuthorId\"), signdistdf2(\"orcId\"), signdistdf2(\"s2AuthorId\"),signdistdf2(\"paperVector\"),\n        signdf(\"affiliationIds\").as(\"affiliationIds_\"), signdf(\"fosIdsLevel0\").as(\"fosIdsLevel0_\"),signdf(\"fosIdsLevel1\").as(\"fosIdsLevel1_\"), signdf(\"authorNormNames\").as(\"authorNormNames_\"), signdf(\"magAuthorId\").as(\"magAuthorId_\"), signdf(\"orcId\").as(\"orcId_\"), signdf(\"s2AuthorId\").as(\"s2AuthorId_\"),signdf(\"paperVector\").as(\"paperVector_\"))\n//val signdistdf2 = indices.join(broadcast(signdf),signdf(\"id\")===indices(\"id\"),\"left_outer\")\n\n */\n//val signdistdf = signdistdf2.join(broadcast(signdf2),signdf2(\"id_\")===signdistdf2(\"id_\"),\"left_outer\")\n\n//signdistdf.cache()\n\n//println(\"signdistdf  cnt:\"+signdistdf.count())\n//signdistdf.printSchema()\n\n\n//Compute features Jaccard, cosine etc\nval distdf= signdistdf\n        \n         .withColumn(\"jaccard_aff\", size(array_intersect($\"affiliationIds\", $\"affiliationIds_\")) / size(array_union($\"affiliationIds\", $\"affiliationIds_\")) )\n        .withColumn(\"jaccard_fos_0\", size(array_intersect($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) / size(array_union($\"fosIdsLevel0\", $\"fosIdsLevel0_\")) )\n        .withColumn(\"jaccard_fos_1\", size(array_intersect($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) / size(array_union($\"fosIdsLevel1\", $\"fosIdsLevel1_\")) )\n        .withColumn(\"author_names\", size(array_intersect($\"authorNormNames\", $\"authorNormNames_\")) / size(array_union($\"authorNormNames\", $\"authorNormNames_\")) )\n        .withColumn(\"dot\",  expr(\"aggregate(arrays_zip(paperVector, paperVector_), 0D, (acc, x) -> acc + (x.paperVector * x.paperVector_))\")) \n        .withColumn(\"norm1\", expr(\"sqrt(aggregate(paperVector, 0D, (acc, x) -> acc + (x * x)))\")) \n        .withColumn(\"norm2\", expr(\"sqrt(aggregate(paperVector_, 0D, (acc, x) -> acc + (x * x)))\"))\n        .withColumn(\"emb_sim\", expr(\"dot / (norm1 * norm2)\"))\n        .select($\"id\",$\"id_\",$\"jaccard_aff\",$\"jaccard_fos_0\",$\"jaccard_fos_1\",$\"author_names\",$\"emb_sim\")\n        //.cache()\n        //.withColumn(\"emb_sim2\", cosineSimilarityUdf($\"paperVector\",$\"paperVector_\"))\n        //.persist(StorageLevel.DISK_ONLY)        \n        .write.mode(\"overwrite\").parquet(s\"$OA_HOME/distdf.parquet\")\n      \n//distdf.printSchema()\n//distdf.show(10)\n//println(\"distdf  cnt:\"+distdf.count())\n//distdf.select($\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\").show(40)\n\n/*\ndistdf.filter(size($\"paperVector_\")>0 && size($\"paperVector\")>0).select($\"affiliationIds\", $\"fosIdsLevel0\",$\"fosIdsLevel1\", $\"authorNormNames\", $\"magAuthorId\", $\"orcId\", $\"s2AuthorId\",$\"affiliationIds_\", $\"fosIdsLevel0_\",$\"fosIdsLevel1_\", $\"authorNormNames_\", $\"magAuthorId_\", $\"orcId_\", $\"s2AuthorId_\",\n    //$\"paperVector_\", $\"paperVector\",\n$\"jaccard_aff\", $\"emb_sim\", $\"jaccard_fos_0\", $\"jaccard_fos_1\", $\"author_names\")\n        //.show(100)\n        .limit(1000).coalesce(1).write.mode(\"overwrite\").json(s\"$OA_HOME/features.json\")\n */\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-11-20T13:46:06+0200",
+   "progress": 81.0,
+   "config": {
+    "editorHide": false
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "import org.apache.spark.sql.functions._\nimport org.apache.spark.storage.StorageLevel\n\u001b[1m\u001b[34mOA_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/AND_sample_ds/baseSignature10\n\u001b[1m\u001b[34msigndf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [affiliationIds: array<bigint>, fosIdsLevel0: array<bigint> ... 4 more fields]\n\u001b[1m\u001b[34mcount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 10304\n\u001b[1m\u001b[34mdfi\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: int]\n\u001b[1m\u001b[34mdfj\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id_: int]\n\u001b[1m\u001b[34mindices\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: int, id_: int]\n\u001b[1m\u001b[34msigndf2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [affiliationIds_: array<bigint>, fosIdsLevel0_: array<bigint> ... 4 more fields]\n\u001b[1m\u001b[3...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=0"
+      },
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=1"
+      },
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=2"
+      },
+      {
+       "jobUrl": "http://PC192.168.2.15.station:4040/jobs/job?id=6"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1668944766292_2020218489",
+   "id": "paragraph_1668944766292_2020218489",
+   "dateCreated": "2022-11-20T13:46:06+0200",
+   "dateStarted": "2022-11-20T13:46:06+0200",
+   "dateFinished": "2022-11-20T13:46:36+0200",
    "status": "FINISHED"
   },
   {

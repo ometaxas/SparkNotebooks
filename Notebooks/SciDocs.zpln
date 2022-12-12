@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\nspark.serializer org.apache.spark.serializer.KryoSerializer\n#spark.kryoserializer.buffer.max 1000M\n#spark.driver.memory 95g\n#spark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2021-11-13T12:55:12+0200",
+   "dateUpdated": "2022-09-12T10:42:38+0300",
    "progress": 0.0,
    "config": {
     "editorSetting": {
@@ -15,206 +15,52 @@
     "colWidth": 12.0,
     "editorMode": "ace/mode/scala",
     "fontSize": 9.0,
+    "editorHide": false,
     "results": {},
-    "enabled": true,
-    "editorHide": false
+    "enabled": true
    },
    "settings": {
     "params": {},
     "forms": {}
    },
    "results": {
-    "code": "SUCCESS",
-    "msg": []
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "java.io.IOException: Can not change interpreter properties when interpreter process has already been launched\n\tat org.apache.zeppelin.interpreter.InterpreterSetting.setInterpreterGroupProperties(InterpreterSetting.java:936)\n\tat org.apache.zeppelin.interpreter.ConfInterpreter.interpret(ConfInterpreter.java:72)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:486)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:71)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler.lambda$runJobInScheduler$0(FIFOScheduler.java:42)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n"
+     }
+    ]
    },
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1636800912794_1053120962",
-   "id": "paragraph_1636800912794_1053120962",
-   "dateCreated": "2021-11-13T12:55:12+0200",
-   "dateStarted": "2021-11-13T12:55:12+0200",
-   "dateFinished": "2021-11-13T12:55:12+0200",
-   "status": "FINISHED"
+   "jobName": "paragraph_1662968558227_1231245423",
+   "id": "paragraph_1662968558227_1231245423",
+   "dateCreated": "2022-09-12T10:42:38+0300",
+   "dateStarted": "2022-09-12T10:42:38+0300",
+   "dateFinished": "2022-09-12T10:42:38+0300",
+   "status": "ERROR"
   },
   {
-   "text": "%spark\nimport org.apache.spark.ml.linalg.{Matrix, Vectors}\nimport org.apache.spark.ml.stat.Correlation\nimport org.apache.spark.ml.functions.array_to_vector\nimport org.apache.spark.ml.stat.Summarizer\n\n\n\nval MVmodels_HOME = \"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\"\nval docTopicsdf= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        .option(\"delimiter\", \"\\t\")\n        .option(\"header\", \"true\")        \n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")        \n        .csv(s\"file://$MVmodels_HOME/DocTopics.csv\").cache()\n\ndocTopicsdf.printSchema()\ndocTopicsdf.show(5)\nprintln(docTopicsdf.count())\n\n\n\nval vectorsdf= spark.read        \n        .json(s\"file://$MVmodels_HOME/vectors.json.gz\").cache()\n\nvectorsdf.printSchema()\nvectorsdf.show(5)\nprintln(vectorsdf.count())\n\n//vectorsdf.select($\"entityType\").distinct().show()\n\n//vectorsdf.groupBy($\"entityType\")\n//        .count().show()\n\n//vectorsdf.filter($\"entityType\"===\"-1\").show(5)\n\n//docTopicsdf.filter($\"docId\"===\"12213334\").select($\"docId\", $\"topicId\")\n\nval docTopicVectors = docTopicsdf.join(vectorsdf, $\"topicId\"=== vectorsdf(\"entityId\") && vectorsdf(\"entitytype\")===\"-1\", \"inner\")\n                .select($\"docSeqId\", $\"docId\", $\"topicId\", $\"weight\", $\"vector\" ).cache()\n\ndocTopicVectors.printSchema()\ndocTopicVectors.show(5)\nprintln(docTopicVectors.count())\n\n//val  docVectors =  docTopicVectors.select($\"docId\", Vectors.dense($\"vector\"))\nval docTopicDenseVectors = docTopicVectors.select($\"docId\", $\"weight\", array_to_vector($\"vector\").alias(\"denseVec\")).orderBy($\"docId\")\ndocTopicDenseVectors.show(5)\n\nval  docVectors =  docTopicDenseVectors.groupBy($\"docId\").agg(Summarizer.mean($\"denseVec\",$\"weight\").alias(\"docVector\"))\ndocVectors.show(5)\n        //.select(exprs:_*)\n//val  docVectors =  docTopicVectors.groupBy($\"docId\").agg(Summarizer.sum(Vectors.dense($\"vector\")).alias(\"vector\"))\n\n                \n",
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%spark\nval S2_Pub_Authors1 = spark.read.parquet(\"/media/ometaxas/nvme/datasets/MAG_S2/S2_Pub_Authors.parquet\").withColumn(\"magId\",col(\"magId\").cast(LongType)).withColumnRenamed(\"magId\", \"MAGpaperId\")\n//S2_Pub_Authors1.printSchema()\n\n",
+   "id": "",
+   "config": {}
+  },
+  {
+   "text": "%spark\nval scidocsdata_HOME = \"/home/ometaxas/Projects/SciDocs/scidocs/data\"\n        \nval paper_metadata_view_cite= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_view_cite_read.jsonl.gz\").cache()\n\n\npaper_metadata_view_cite.printSchema()\npaper_metadata_view_cite.show(5)\nprintln(paper_metadata_view_cite.count())\n\nval paper_metadata_recomm= spark.read\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_recomm.jsonl.gz\").cache()\npaper_metadata_recomm.printSchema()\npaper_metadata_recomm.show(5)\nprintln(paper_metadata_recomm.count())\n\nval paper_metadata_mag_mesh= spark.read        \n        .json(s\"file://$scidocsdata_HOME/paper_metadata_mag_mesh.jsonl.gz\").cache()\n\npaper_metadata_mag_mesh.printSchema()\npaper_metadata_mag_mesh.show(5)\nprintln(paper_metadata_mag_mesh.count())\n\nval scidocsdf =  paper_metadata_view_cite.union(paper_metadata_recomm).union(paper_metadata_mag_mesh)\nscidocsdf.select(countDistinct(\"id\")).show(false)\n\n\n",
    "user": "anonymous",
-   "dateUpdated": "2022-02-06T16:05:07+0200",
-   "progress": 96.0,
+   "dateUpdated": "2022-09-08T17:39:47+0300",
+   "progress": 1.0,
    "config": {
     "editorHide": false,
-    "tableHide": true,
-    "results": [
-     {
-      "mode": "table"
-     }
-    ]
-   },
-   "settings": {
-    "params": {
-     "bdtMeta": {
-      "inlay": {
-       "collapsed": true
-      }
-     }
-    },
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "root\n |-- docSeqId: string (nullable = true)\n |-- docId: string (nullable = true)\n |-- topicId: string (nullable = true)\n |-- weight: string (nullable = true)\n\n+--------+----------+-------+--------------------+\n|docSeqId|     docId|topicId|              weight|\n+--------+----------+-------+--------------------+\n|       0|1000018889|     13|  0.5665244618687141|\n|       0|1000018889|      0| 0.15894237333180466|\n|       0|1000018889|     19| 0.14404119013589237|\n|       0|1000018889|      1|0.006059101300276444|\n|       0|1000018889|     26|0.004774454918387954|\n+--------+----------+-------+--------------------+\nonly showing top 5 rows\n\n450494\nroot\n |-- entityId: string (nullable = true)\n |-- entityType: long (nullable = true)\n |-- experimentId: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+-----------+----------+--------------------+--------------------+\n|   entityId|entityType|        experimentId|              vector|\n+-----------+----------+--------------------+--------------------+\n|     remote|         0|DBLP_50T_200IT_30...|[0.17318167609938...|\n|     policy|         0|DBLP_50T_200IT_30...|[0.43328312516169...|\n|enforcement|         0|DBLP_50T_200IT_30...|[0.05590983118677...|\n|    trusted|         0|DBLP_50T_200IT_30...|[0.35548645420007...|\n|application|         0|DBLP_50T_200IT_30...|[0.23833517195278...|\n+-----------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n175904\nroot\n |-- docSeqId: string (nullable = true)\n |-- docId: string (nullable = true)\n |-- topicId: string (nullable = true)\n |-- weight: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+--------+----------+-------+--------------------+--------------------+\n|docSeqId|     docId|topicId|              weight|              vector|\n+--------+----------+-------+--------------------+--------------------+\n|       0|1000018889|      7|0.004050016975697347|[-0.2589543349645...|\n|       1|1000022707|      7|0.004783263769533...|[-0.2589543349645...|\n|       2| 100004108|      7|0.004043272995837892|[-0.2589543349645...|\n|       3|  10000571|      7|0.003538711056204...|[-0.2589543349645...|\n|       4| 100007563|      7|0.004194201255395283|[-0.2589543349645...|\n+--------+----------+-------+--------------------+--------------------+\nonly showing top 5 rows\n\n450494\n+----------+--------------------+--------------------+\n|     docId|              weight|            denseVec|\n+----------+--------------------+--------------------+\n|1000018889|0.001888994909542...|[-0.7472654686023...|\n|1000018889|0.003241292301004356|[0.06945938803571...|\n|1000018889|0.003064549400843...|[0.79496633856182...|\n|1000018889|0.004007257398576211|[0.55449434908141...|\n|1000018889|0.001980433244085...|[0.01913626683527...|\n+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n+----------+--------------------+\n|     docId|           docVector|\n+----------+--------------------+\n|1000018889|[0.53314287958508...|\n|1000022707|[0.86185012086709...|\n| 100004108|[0.46367639318144...|\n|  10000571|[0.31969423648267...|\n| 100007563|[0.79780411438636...|\n+----------+--------------------+\nonly showing top 5 rows\n\nimport org.apache.spark.ml.linalg.{Matrix, Vectors}\nimport org.apache.spark.ml.stat.Correlation\nimport org.apache.spark.ml.functions.array_to_vector\nimport org.apache.spark.ml.stat.Summarizer\n\u001b[1m\u001b[34mMVmodels_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\n\u001b[1m\u001b[34mdocTopicsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docSeqId: string, docId: string ... 2 more fields]\n\u001b[1m\u001b[34mvectorsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [entityId: string, entityType: bigint ... 2 more fields]\n\u001b[1m\u001b[34mdocTopicVectors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [docSeqId: string, docId: string ... 3 more fields]\n\u001b...\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=24"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=25"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=26"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=27"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=28"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=29"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=30"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=31"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=32"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=33"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=34"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=35"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=36"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644156307841_151931121",
-   "id": "paragraph_1644156307841_151931121",
-   "dateCreated": "2022-02-06T16:05:07+0200",
-   "dateStarted": "2022-02-06T16:05:07+0200",
-   "dateFinished": "2022-02-06T16:05:56+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "%spark\nval MVmodels_HOME = \"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\"\nval vectorsFiles= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$MVmodels_HOME/vectors.json.gz\").cache()\n\nvectorsFiles.printSchema()\nvectorsFiles.show(5)\nprintln(vectorsFiles.count())\n\nvectorsFiles.select($\"entityType\").distinct().show()\n\nvectorsFiles.filter($\"entityType\"===\"-1\").show(5)\n",
-   "user": "anonymous",
-   "dateUpdated": "2022-02-06T16:04:38+0200",
-   "progress": 0.0,
-   "config": {
-    "results": [
-     {
-      "mode": "table"
-     }
-    ],
-    "editorHide": false
-   },
-   "settings": {
-    "params": {
-     "bdtMeta": {
-      "inlay": {
-       "state": {
-        "currentPage": "Table"
-       }
-      }
-     }
-    },
-    "forms": {}
-   },
-   "results": {
-    "code": "SUCCESS",
-    "msg": [
-     {
-      "type": "TEXT",
-      "data": "root\n |-- entityId: string (nullable = true)\n |-- entityType: long (nullable = true)\n |-- experimentId: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\n+-----------+----------+--------------------+--------------------+\n|   entityId|entityType|        experimentId|              vector|\n+-----------+----------+--------------------+--------------------+\n|     remote|         0|DBLP_50T_200IT_30...|[0.17318167609938...|\n|     policy|         0|DBLP_50T_200IT_30...|[0.43328312516169...|\n|enforcement|         0|DBLP_50T_200IT_30...|[0.05590983118677...|\n|    trusted|         0|DBLP_50T_200IT_30...|[0.35548645420007...|\n|application|         0|DBLP_50T_200IT_30...|[0.23833517195278...|\n+-----------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n175904\n+----------+\n|entityType|\n+----------+\n|         0|\n|         1|\n|         3|\n|         2|\n|         4|\n|        -1|\n+----------+\n\n+--------+----------+--------------------+--------------------+\n|entityId|entityType|        experimentId|              vector|\n+--------+----------+--------------------+--------------------+\n|       0|        -1|DBLP_50T_200IT_30...|[0.89397605011521...|\n|       1|        -1|DBLP_50T_200IT_30...|[1.33675180494674...|\n|       2|        -1|DBLP_50T_200IT_30...|[0.95930837640739...|\n|       3|        -1|DBLP_50T_200IT_30...|[0.01913626683527...|\n|       4|        -1|DBLP_50T_200IT_30...|[0.24612931305555...|\n+--------+----------+--------------------+--------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mMVmodels_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/DBLP_50T_200IT_3000CHRs_5M_WVLmt_10000TwoWay\n\u001b[1m\u001b[34mvectorsFiles\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [entityId: string, entityType: bigint ... 2 more fields]\n"
-     }
-    ]
-   },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=15"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=16"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=17"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=18"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=19"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=20"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=21"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=22"
-      },
-      {
-       "jobUrl": "http://192.168.2.10:4040/jobs/job?id=23"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1644156278558_958632712",
-   "id": "paragraph_1644156278558_958632712",
-   "dateCreated": "2022-02-06T16:04:38+0200",
-   "dateStarted": "2022-02-06T16:04:38+0200",
-   "dateFinished": "2022-02-06T16:05:25+0200",
-   "status": "FINISHED"
-  },
-  {
-   "text": "%spark\nval scidocsdata_HOME = \"/media/ometaxas/nvme/datasets/Scidocs\"\nval paper_metadata_view_cite= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_view_cite_read.jsonl\").cache()\n\npaper_metadata_view_cite.printSchema()\npaper_metadata_view_cite.show(5)\nprintln(paper_metadata_view_cite.count())\n\nval paper_metadata_recomm= spark.read\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_recomm.jsonl\").cache()\npaper_metadata_recomm.printSchema()\npaper_metadata_recomm.show(5)\nprintln(paper_metadata_recomm.count())\n\nval paper_metadata_mag_mesh= spark.read        \n        .json(s\"file://$scidocsdata_HOME/paper_metadata_mag_mesh.jsonl\").cache()\n\npaper_metadata_mag_mesh.printSchema()\npaper_metadata_mag_mesh.show(5)\nprintln(paper_metadata_mag_mesh.count())\n\n",
-   "user": "anonymous",
-   "dateUpdated": "2021-09-25T21:42:12+0300",
-   "config": {
+    "tableHide": false,
     "results": [
      {
       "keys": [
@@ -237,88 +83,22 @@
       },
       "mode": "lineChart"
      }
-    ],
-    "editorHide": false
+    ]
    },
    "settings": {
     "params": {
      "bdtMeta": {
-      "inlay": {
-       "state": {
-        "currentPage": "Console"
-       }
-      }
+      "inlay": {}
      }
     },
     "forms": {}
    },
-   "apps": [],
-   "runtimeInfos": {
-    "jobUrl": {
-     "propertyName": "jobUrl",
-     "label": "SPARK JOB",
-     "tooltip": "View in Spark web UI",
-     "group": "spark",
-     "values": [
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=2"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=3"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=4"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=5"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=6"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
-      },
-      {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=8"
-      }
-     ],
-     "interpreterSettingId": "spark"
-    }
-   },
-   "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1632595332604_405544603",
-   "id": "paragraph_1632595332604_405544603",
-   "dateCreated": "2021-09-25T21:42:12+0300",
-   "dateStarted": "2021-09-25T21:42:12+0300",
-   "dateFinished": "2021-09-25T21:42:31+0300",
-   "status": "FINISHED"
-  },
-  {
-   "title": "Preprocess S2 data",
-   "text": "%spark\nval S2_HOME = \"/media/datadisk/Datasets/SemanticScholar/01092021\"\nval S2_sample = \"/media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\"\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\nimport  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\n\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n//Get Semantic Scholar articles \nval S2articlesdf = spark.read.json(s\"file://$S2_HOME\")\n//val S2articlesdf = spark.read.json(s\"file://$S2_sample\")\nS2articlesdf.printSchema\n//S2articlesdf.show(5) \n\nval S2subsetdf = S2articlesdf\n             //.join(broadcast(doisdf), lower(S2articlesdf(\"doi\"))===doisdf(\"doi\"), \"inner\")\n             //.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull))\n             .select($\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n//$\"authors.ids\", $\"authors.name\",\n                 $\"authors\", $\"journalName\", $\"venue\", $\"year\", $\"paperAbstract\")\n\n//S2subsetdf.printSchema\n//S2subsetdf.show(10,false)\nS2subsetdf.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/Scidocs/S2.parquet\")\n\n/*\n//Create pub - author rows\nval S2flatdf = S2subsetdf.select($\"title\", $\"id\", $\"doi\", $\"magId\", $\"pmId\", $\"S2fos\", explode($\"authors\").as(\"authorsflat\"))\n\nval S2_Pub_Authors = S2flatdf.select($\"title\".as(\"S2title\"), $\"id\".as(\"S2paperId\"), lower($\"doi\").as(\"S2doi\"), $\"S2fos\", $\"magId\", $\"pmId\", $\"authorsflat.name\".as(\"S2name\"),concat_ws(\"\",$\"authorsflat.ids\").as(\"S2authorId\"),\n                                    shorNormName($\"authorsflat.name\").as(\"S2shortNormName\"),normName( $\"authorsflat.name\").as(\"S2normName\"))\n//.persist(StorageLevel.DISK_ONLY)\n//.cache()\n\n//S2_Pub_Authors.printSchema\n//S2_Pub_Authors.show(5)\n\n//println(\"S2_Author_Pub_Cnt:\" + S2_Pub_Authors.count())\nS2_Pub_Authors.write.mode(\"overwrite\").parquet(\"/media/datadisk/Datasets/MAG_S2/S2_Pub_Authors.parquet\")\n*/\n",
-   "user": "anonymous",
-   "dateUpdated": "2022-01-22T14:11:03+0200",
-   "progress": 7.0,
-   "config": {
-    "title": true,
-    "editorHide": true
-   },
-   "settings": {
-    "params": {},
-    "forms": {}
-   },
    "results": {
-    "code": "ERROR",
+    "code": "SUCCESS",
     "msg": [
      {
       "type": "TEXT",
-      "data": "org.apache.spark.SparkException: Job 1 cancelled part of cancelled job group zeppelin|anonymous|2GM4YJ5VQ|paragraph_1642853463595_1971138478\n  at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2258)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:2154)\n  at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleJobGroupCancelled$4(DAGScheduler.scala:1048)\n  at scala.runtime.java8.JFunction1$mcVI$sp.apply(JFunction1$mcVI$sp.java:23)\n  at scala.collection.mutable.HashSet.foreach(HashSet.scala:79)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:1047)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2407)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2387)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2376)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:868)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2196)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:2291)\n  at org.apache.spark.sql.catalyst.json.JsonInferSchema.infer(JsonInferSchema.scala:94)\n  at org.apache.spark.sql.execution.datasources.json.TextInputJsonDataSource$.$anonfun$inferFromDataset$5(JsonDataSource.scala:110)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:163)\n  at org.apache.spark.sql.execution.datasources.json.TextInputJsonDataSource$.inferFromDataset(JsonDataSource.scala:110)\n  at org.apache.spark.sql.execution.datasources.json.TextInputJsonDataSource$.infer(JsonDataSource.scala:99)\n  at org.apache.spark.sql.execution.datasources.json.JsonDataSource.inferSchema(JsonDataSource.scala:65)\n  at org.apache.spark.sql.execution.datasources.json.JsonFileFormat.inferSchema(JsonFileFormat.scala:58)\n  at org.apache.spark.sql.execution.datasources.DataSource.$anonfun$getOrInferFileFormatSchema$11(DataSource.scala:209)\n  at scala.Option.orElse(Option.scala:447)\n  at org.apache.spark.sql.execution.datasources.DataSource.getOrInferFileFormatSchema(DataSource.scala:206)\n  at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:419)\n  at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:325)\n  at org.apache.spark.sql.DataFrameReader.$anonfun$load$3(DataFrameReader.scala:307)\n  at scala.Option.getOrElse(Option.scala:189)\n  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:307)\n  at org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:519)\n  at org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:428)\n  ... 44 elided\n"
+      "data": "root\n |-- abstr: string (nullable = true)\n |-- authors: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- id: string (nullable = true)\n |-- references: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- year: string (nullable = true)\n\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\n|               abstr|             authors|                  id|          references|               title|year|\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\n|PROBLEM STATEMENT...|[40572137, 367507...|0003aa77bdefc1c75...|[e7e7a7fc07f516fd...|Pelvic Girdle Pai...|2013|\n|Routers must perf...|[23633340, 168802...|0007181efc556fd1f...|[76d64770fc8f032d...|Packet Classifica...|1999|\n|The data of inter...|[1869497, 3143096...|000c009765a276d16...|[f354b0103c4bc8cb...|Bayesian Compress...|2008|\n|Semantic image se...|[3408089, 3666514...|000f90380d768a85e...|[c2c0fda9b4e2a12f...|Full-Resolution R...|2017|\n|We introduce the ...|[1729642, 2610963...|00111610254bfb8ec...|[6618b4dbea9cc0a2...|Learning from Bul...|2012|\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\nonly showing top 5 rows\n\n142010\nroot\n |-- abstr: string (nullable = true)\n |-- authors: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- id: string (nullable = true)\n |-- references: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- year: string (nullable = true)\n\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\n|               abstr|             authors|                  id|          references|               title|year|\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\n|In this paper we ...|[3122778, 3992117...|0002c0f45b3ef0f14...|[16728d6f0a225bb8...|An hp Certified R...|2011|\n|We test whether m...|                  []|0004d38aa501306e2...|[67d88e58812562f0...|Are Momentum Prof...|2003|\n|OBJECTIVES\nThe de...|[4526222, 6110925...|000587e08c6ce8c3d...|[55bac4ab517f5174...|\"I was able to st...|2012|\n|While most revers...|[3243117, 3559349...|0006a1983fc6a346d...|[af36ca9a7710240b...|Block cipher base...|2015|\n|In this paper, we...|[1726249, 1789756...|000823feb2af6580d...|[b3cecbd8e0e0561b...|World-scale minin...|2008|\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\nonly showing top 5 rows\n\n36262\nroot\n |-- abstr: string (nullable = true)\n |-- authors: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- id: string (nullable = true)\n |-- references: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- title: string (nullable = true)\n |-- year: string (nullable = true)\n\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\n|               abstr|             authors|                  id|          references|               title|year|\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\n|                null|         [115471397]|00014a8515491f0b3...|                  []|ON THE CLASSIFICA...|null|\n|Numerous studies ...|[9172542, 1449990...|00021eeee2bf4e06f...|[f365ac8bb12a7e3b...|Opportunities and...|2010|\n|In order to eluci...| [4827261, 91349183]|00027baa2a90e1a3d...|[c67e5ef94ca6ad2d...|Interactions betw...|2006|\n|                null|           [2472363]|00034a5a5bd11b51e...|[6d03233cdda7f878...|Perpetual Peace: ...|1988|\n|List of Illustrat...|         [103794787]|000c8d85037886c86...|                  []|Reimagining Greek...|2012|\n+--------------------+--------------------+--------------------+--------------------+--------------------+----+\nonly showing top 5 rows\n\n48474\n+------------------+\n|count(DISTINCT id)|\n+------------------+\n|223933            |\n+------------------+\n\n\u001b[1m\u001b[34mscidocsdata_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/SciDocs/scidocs/data\n\u001b[1m\u001b[34mpaper_metadata_view_cite\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [abstr: string, authors: array<string> ... 4 more fields]\n\u001b[1m\u001b[34mpaper_metadata_recomm\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [abstr: string, authors: array<string> ... 4 more fields]\n\u001b[1m\u001b[34mpaper_metadata_mag_mesh\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [abstr: string, authors: array<string> ... 4 more fields]\n\u001b[1m\u001b[34mscidocsdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [abstr: string, authors: array<string> ... 4 more fields]\n"
      }
     ]
    },
@@ -331,22 +111,46 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=0"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=6"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=1"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=7"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=8"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=9"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=10"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=11"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=12"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=13"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=14"
+      },
+      {
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=15"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1642853463595_1971138478",
-   "id": "paragraph_1642853463595_1971138478",
-   "dateCreated": "2022-01-22T14:11:03+0200",
-   "dateStarted": "2022-01-22T14:11:03+0200",
-   "dateFinished": "2022-01-22T14:19:27+0200",
-   "status": "ABORT"
+   "jobName": "paragraph_1662647987027_620288508",
+   "id": "paragraph_1662647987027_620288508",
+   "dateCreated": "2022-09-08T17:39:47+0300",
+   "dateStarted": "2022-09-08T17:39:47+0300",
+   "dateFinished": "2022-09-08T17:40:23+0300",
+   "status": "FINISHED"
   },
   {
    "settings": {
@@ -360,16 +164,163 @@
    "config": {}
   },
   {
-   "text": "%spark\nval S2subsetdf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/Scidocs/S2.parquet\")\nS2subsetdf.printSchema\nS2subsetdf.show(5)\nprintln(\"S2_Author_Pub_Cnt:\" + S2subsetdf.count())\n\n\n\n",
+   "text": "%spark\nimport org.apache.spark.ml.linalg.{Vector, Vectors}\n\nval norm2 = udf { (v1: Vector) =>\n    val norm2 = Vectors.norm(v1,2)\n    v1.toArray.map(_ /norm2.toDouble) \n  \n}\n",
    "user": "anonymous",
-   "dateUpdated": "2021-09-24T18:12:29+0300",
+   "dateUpdated": "2022-05-13T12:56:25+0300",
+   "progress": 0.0,
+   "config": {},
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "import org.apache.spark.ml.linalg.{Vector, Vectors}\n\u001b[1m\u001b[34mnorm2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$6248/0x00007f931c2db040@73031769,ArrayType(DoubleType,false),List(Some(class[value[0]: vector])),Some(class[value[0]: array<double>]),None,true,true)\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1652435785264_915102859",
+   "id": "paragraph_1652435785264_915102859",
+   "dateCreated": "2022-05-13T12:56:25+0300",
+   "dateStarted": "2022-05-13T12:56:25+0300",
+   "dateFinished": "2022-05-13T12:56:25+0300",
+   "status": "FINISHED"
+  },
+  {
+   "title": "read scitopic vectors",
+   "text": "%spark\nimport org.apache.spark.ml.functions.{array_to_vector, vector_to_array}\n\nval MVmodels_HOME = \"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/SciDocs_250T_450IT_3000CHRs_2M_WVTwoWay\"\n    //\"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/SciDocs_250T_450IT_3000CHRs_1M_WVNoNet\" \n    //\"/home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/SciDocs_350T_450IT_3000CHRs_2M_WVTwoWay\"\n\n        //,     $\"avgVector\", $\"docVector\",$\"sciTRNDInNTVec\", $\"sciTRNDInVec\",  $\"docDenseTopic\"\nval docVectorsAll = spark.read.parquet(s\"$MVmodels_HOME/docVectorsAll.parquet\")        \n        .filter($\"docDenseTopic\".isNotNull && array_max(vector_to_array($\"docDenseTopic\"))=!=0)        \n        .select($\"entityId\", norm2($\"docDenseTopic\").as(\"embedding\"))\n\nprintln(\"docVectorsAll  cnt:\"+docVectorsAll.count())\n//docVectorsAll.printSchema()\n//docVectorsAll.show(10)\n\nval scidocsdata_HOME = \"/home/ometaxas/Projects/SciDocs/scidocs/data\"\n        \nval paper_metadata_view_cite= spark.read\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_view_cite_read.jsonl.gz\").select($\"id\".as(\"paper_id\")).cache()\n\nval paper_metadata_view_cite_vec = paper_metadata_view_cite\n        .join(docVectorsAll, trim($\"entityId\")===trim($\"paper_id\"),\"inner\")\n        .drop($\"entityId\")       \n        .cache()\n\nprintln(\"paper_metadata_view_cite_vec  cnt:\"+paper_metadata_view_cite_vec.count())\npaper_metadata_view_cite_vec.printSchema()\npaper_metadata_view_cite_vec.show(10)\npaper_metadata_view_cite_vec.coalesce(1).write.mode(\"overwrite\").json(s\"$MVmodels_HOME/paper_metadata_view_cite_vec.json\")\n\n\n//-----------------------------\n\nval paper_metadata_mag_mesh= spark.read\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_mag_mesh.jsonl.gz\").select($\"id\".as(\"paper_id\")).cache()\n\nval paper_metadata_mag_mesh_vec = paper_metadata_mag_mesh\n        .join(docVectorsAll, trim($\"entityId\")===trim($\"paper_id\"),\"inner\")\n        .drop($\"entityId\")       \n        .cache()\n\nprintln(\"paper_metadata_mag_mesh_vec  cnt:\"+paper_metadata_mag_mesh_vec.count())\npaper_metadata_mag_mesh_vec.printSchema()\npaper_metadata_mag_mesh_vec.show(10)\npaper_metadata_mag_mesh_vec.coalesce(1).write.mode(\"overwrite\").json(s\"$MVmodels_HOME/paper_metadata_mag_mesh_vec.json\")\n\n//-----------------------------\n\nval paper_metadata_recomm= spark.read\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_recomm.jsonl.gz\").select($\"id\".as(\"paper_id\")).cache()\n\nval paper_metadata_recomm_vec = paper_metadata_recomm\n        .join(docVectorsAll, trim($\"entityId\")===trim($\"paper_id\"),\"inner\")\n        .drop($\"entityId\")       \n        .cache()\n\nprintln(\"paper_metadata_recomm_vec  cnt:\"+paper_metadata_recomm_vec.count())\npaper_metadata_recomm_vec.printSchema()\npaper_metadata_recomm_vec.show(10)\npaper_metadata_recomm_vec.coalesce(1).write.mode(\"overwrite\").json(s\"$MVmodels_HOME/paper_metadata_recomm_vec.json\")\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-05-13T17:51:59+0300",
+   "progress": 0.0,
+   "config": {
+    "title": true
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "docVectorsAll  cnt:223828\npaper_metadata_view_cite_vec  cnt:141953\nroot\n |-- paper_id: string (nullable = true)\n |-- embedding: array (nullable = true)\n |    |-- element: double (containsNull = false)\n\n+--------------------+--------------------+\n|            paper_id|           embedding|\n+--------------------+--------------------+\n|0106220c414b75512...|[0.0, 0.0, 0.0, 0...|\n|01d96ab81684227b9...|[0.0, 0.0, 0.0, 0...|\n|030024fbe16aa2407...|[0.0, 0.0, 0.0, 0...|\n|031802f4826c6c5c0...|[0.0, 0.0, 0.0, 0...|\n|03412588c9f9cbee9...|[0.0, 0.0, 0.0, 0...|\n|03aa8d6c80e9d1c62...|[0.0, 0.0, 0.0, 0...|\n|03d5fd4c69cf03eff...|[0.0, 0.0, 0.0, 0...|\n|03efbbf1c8fa661f3...|[0.0, 0.0, 0.0, 0...|\n|044ffe12995b065c6...|[0.0, 0.0, 0.0, 0...|\n|048278ae4f4541a79...|[0.0, 0.0, 0.0, 0...|\n+--------------------+--------------------+\nonly showing top 10 rows\n\npaper_metadata_mag_mesh_vec  cnt:48447\nroot\n |-- paper_id: string (nullable = true)\n |-- embedding: array (nullable = true)\n |    |-- element: double (containsNull = false)\n\n+--------------------+--------------------+\n|            paper_id|           embedding|\n+--------------------+--------------------+\n|0021cb36422752216...|[0.0, 0.0, 0.0, 0...|\n|01b0c15169c30517f...|[0.0, 0.0, 0.0, 0...|\n|034a87188419c49f1...|[0.0, 0.0, 0.0, 0...|\n|0463db0580fb4b005...|[0.0, 0.0, 0.0, 0...|\n|0548a2afc15147809...|[0.0, 0.0, 0.0, 0...|\n|05de6bb26d582c010...|[0.0, 0.0, 0.0, 0...|\n|07181f95f781cc179...|[0.0, 0.0, 0.0, 0...|\n|0776edc24e2064cdc...|[0.0, 0.0, 0.0, 0...|\n|089bb3895925dab46...|[0.0, 0.0, 0.0, 0...|\n|08bb0d428902b0f46...|[0.0, 0.0, 0.0, 0...|\n+--------------------+--------------------+\nonly showing top 10 rows\n\npaper_metadata_recomm_vec  cnt:36239\nroot\n |-- paper_id: string (nullable = true)\n |-- embedding: array (nullable = true)\n |    |-- element: double (containsNull = false)\n\n+--------------------+--------------------+\n|            paper_id|           embedding|\n+--------------------+--------------------+\n|040fdae83a418e02d...|[0.0, 0.0, 0.0, 0...|\n|05648aca821593b74...|[0.0, 0.0, 0.0, 0...|\n|066edda1ba9404708...|[0.0, 0.0, 0.0, 0...|\n|068ed913fc3f25699...|[0.0, 0.0, 0.0, 0...|\n|0a21d70edcef8a250...|[0.0, 0.0, 0.0, 0...|\n|0a91b4571fc8faea2...|[0.0, 0.0, 0.0, 0...|\n|0a9591d5e0d730514...|[0.0, 0.0, 0.0, 0...|\n|0b435d41c6886cd2c...|[0.0, 0.0, 0.0, 0...|\n|0c63d939794d58adc...|[0.0, 0.0, 0.0, 0...|\n|0c86c0a3ebd9d6d0c...|[0.0, 0.0, 0.0, 0...|\n+--------------------+--------------------+\nonly showing top 10 rows\n\nimport org.apache.spark.ml.functions.{array_to_vector, vector_to_array}\n\u001b[1m\u001b[34mMVmodels_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/Atypon/MVTopicModel/MVTopicModels/SciDocs_250T_450IT_3000CHRs_2M_WVTwoWay\n\u001b[1m\u001b[34mdocVectorsAll\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [entityId: string, embedding: array<double>]\n\u001b[1m\u001b[34mscidocsdata_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /home/ometaxas/Projects/SciDocs/scidocs/data\n\u001b[1m\u001b[34mpaper_metadata_view_cite\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paper_id: string]\n\u001b[1m\u001b[34mpaper_metadata_view_cite_vec\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [paper_id: string, embedding: array<double>]\n\u001b[1m\u001b[34mpaper_metadata_mag_mesh\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Datase...\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=117"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=118"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=119"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=121"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=122"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=123"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=124"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=126"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=127"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=128"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=129"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=131"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=132"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=133"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1652453519456_108295018",
+   "id": "paragraph_1652453519456_108295018",
+   "dateCreated": "2022-05-13T17:51:59+0300",
+   "dateStarted": "2022-05-13T17:51:59+0300",
+   "dateFinished": "2022-05-13T17:52:20+0300",
+   "status": "FINISHED"
+  },
+  {
+   "title": "Preprocess S2 data",
+   "text": "%spark\nval S2_HOME = \"/media/datadisk/Datasets/SemanticScholar/01092021\"\nval S2_sample = \"/media/datadisk/Datasets/SemanticScholar/sample/s2-corpus-000.gz\"\n//import com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\n//import com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\nimport org.apache.spark.sql.types._\nimport org.apache.commons.lang.StringUtils\nimport java.lang.Integer.parseInt\nimport org.slf4j.Logger;\nimport org.slf4j.LoggerFactory;\nimport org.apache.spark.sql.functions.concat_ws;\nimport org.apache.spark.sql.functions.countDistinct;\nimport  org.apache.spark.sql.functions._\nimport org.apache.commons.lang3.StringUtils\nimport java.text.Normalizer;\nimport java.util.Locale;\nimport org.apache.spark.storage.StorageLevel;\n\nval logger: Logger = LoggerFactory.getLogger(\"MyZeppelinLogger\");\nlogger.info(\"Test my logger\");\n\n//Get Semantic Scholar articles \nval S2articlesdf = spark.read.json(s\"file://$S2_HOME\")\n//val S2articlesdf = spark.read.json(s\"file://$S2_sample\")\nS2articlesdf.printSchema\n//S2articlesdf.show(5) \n\n/*\nval S2subsetdf = S2articlesdf\n             //.join(broadcast(doisdf), lower(S2articlesdf(\"doi\"))===doisdf(\"doi\"), \"inner\")\n             //.filter(($\"magId\" =!= \"\") && ($\"magId\".isNotNull))\n             .select($\"title\", $\"id\",lower(S2articlesdf(\"doi\")).as(\"doi\"), $\"magId\", $\"fieldsOfStudy\".as(\"S2fos\"), $\"pmid\".as(\"pmId\"), \n//$\"authors.ids\", $\"authors.name\",\n                 $\"authors\", $\"journalName\", $\"venue\", $\"year\", $\"paperAbstract\")\n\n//S2subsetdf.printSchema\n//S2subsetdf.show(10,false)\nS2subsetdf.write.mode(\"overwrite\").parquet(\"/media/ometaxas/nvme/datasets/Scidocs/S2.parquet\")\n*/\n/*\n//Create pub - author rows\nval S2flatdf = S2subsetdf.select($\"title\", $\"id\", $\"doi\", $\"magId\", $\"pmId\", $\"S2fos\", explode($\"authors\").as(\"authorsflat\"))\n\nval S2_Pub_Authors = S2flatdf.select($\"title\".as(\"S2title\"), $\"id\".as(\"S2paperId\"), lower($\"doi\").as(\"S2doi\"), $\"S2fos\", $\"magId\", $\"pmId\", $\"authorsflat.name\".as(\"S2name\"),concat_ws(\"\",$\"authorsflat.ids\").as(\"S2authorId\"),\n                                    shorNormName($\"authorsflat.name\").as(\"S2shortNormName\"),normName( $\"authorsflat.name\").as(\"S2normName\"))\n//.persist(StorageLevel.DISK_ONLY)\n//.cache()\n\n//S2_Pub_Authors.printSchema\n//S2_Pub_Authors.show(5)\n\n//println(\"S2_Author_Pub_Cnt:\" + S2_Pub_Authors.count())\nS2_Pub_Authors.write.mode(\"overwrite\").parquet(\"/media/datadisk/Datasets/MAG_S2/S2_Pub_Authors.parquet\")\n*/\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-09-08T17:05:01+0300",
+   "progress": 0.0,
+   "config": {
+    "title": true,
+    "editorHide": false
+   },
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "org.apache.spark.sql.AnalysisException: Path does not exist: file:/media/datadisk/Datasets/SemanticScholar/01092021\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4(DataSource.scala:806)\n  at org.apache.spark.sql.execution.datasources.DataSource$.$anonfun$checkAndGlobPathIfNecessary$4$adapted(DataSource.scala:803)\n  at org.apache.spark.util.ThreadUtils$.$anonfun$parmap$2(ThreadUtils.scala:372)\n  at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)\n  at scala.util.Success.$anonfun$map$1(Try.scala:255)\n  at scala.util.Success.map(Try.scala:213)\n  at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)\n  at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)\n  at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)\n  at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)\n  at java.base/java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1426)\n  at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n  at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n  at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n  at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n  at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {},
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1662645901721_400800643",
+   "id": "paragraph_1662645901721_400800643",
+   "dateCreated": "2022-09-08T17:05:01+0300",
+   "dateStarted": "2022-09-08T17:05:01+0300",
+   "dateFinished": "2022-09-08T17:05:01+0300",
+   "status": "ERROR"
+  },
+  {
+   "text": "%spark\nval S2subsetdf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\nS2subsetdf.printSchema\nS2subsetdf.show(5)\nprintln(\"S2_Author_Pub_Cnt:\" + S2subsetdf.count())\n\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-09-08T17:06:53+0300",
+   "progress": 97.0,
    "config": {
     "results": [
      {
       "keys": [
        {
         "name": "title",
-        "index": 0,
+        "index": 0.0,
         "aggr": "sum"
        }
       ],
@@ -377,7 +328,7 @@
       "values": [
        {
         "name": "year",
-        "index": 9,
+        "index": 9.0,
         "aggr": "avg"
        }
       ],
@@ -400,6 +351,15 @@
     },
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- title: string (nullable = true)\n |-- id: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- doiUrl: string (nullable = true)\n |-- entities: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- magId: string (nullable = true)\n |-- S2fos: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- pmId: string (nullable = true)\n |-- inCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- outCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- authors: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- ids: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- name: string (nullable = true)\n |    |    |-- structuredName: string (nullable = true)\n |-- journalName: string (nullable = true)\n |-- venue: string (nullable = true)\n |-- year: long (nullable = true)\n |-- paperAbstract: string (nullable = true)\n |-- s2PdfUrl: string (nullable = true)\n |-- s2Url: string (nullable = true)\n |-- sources: array (nullable = true)\n |    |-- element: string (containsNull = true)\n\n+--------------------+--------------------+--------------------+--------------------+--------+----------+-------------+----+--------------------+--------------------+--------------------+--------------------+-----+----+--------------------+--------+--------------------+-------+\n|               title|                  id|                 doi|              doiUrl|entities|     magId|        S2fos|pmId|         inCitations|        outCitations|             authors|         journalName|venue|year|       paperAbstract|s2PdfUrl|               s2Url|sources|\n+--------------------+--------------------+--------------------+--------------------+--------+----------+-------------+----+--------------------+--------------------+--------------------+--------------------+-----+----+--------------------+--------+--------------------+-------+\n|Tom Gonzalez oral...|084f848eb637c719a...|                    |                    |      []|1504305701|  [Sociology]|    |                  []|                  []|[{[123767052], To...|                    |     |2005|                    |        |https://semantics...|     []|\n|Vorbeugende Verbr...|21ae2196b8259936f...|10.3790/vjh.78.3.202|https://doi.org/1...|      []|2027566490|  [Economics]|    |                  []|[e705c5156893d5c2...|[{[100671090], Sa...|Vierteljahrshefte...|     |2009|New applications ...|        |https://semantics...|     []|\n|PHYSIOLOGICAL STU...|552d89620f67e24cf...|                    |                    |      []|          |           []|    |                  []|[1e151362eebc6124...|[{[105078273], Ga...|                    |     |2015|& COHF.) SCHROET,...|        |https://semantics...|     []|\n|On a quotient of ...|2d3559c1549581903...|                    |                    |      []| 426044695|[Mathematics]|    |[791595cbf8816e21...|                  []|[{[2765462], Niro...|                    |     |1966|                    |        |https://semantics...|     []|\n|Hydrothermal tole...|b63e389374f0ee00c...|10.1016/j.mcat.20...|https://doi.org/1...|      []|3198693921|  [Chemistry]|    |                  []|[b0761daa2dad47ec...|[{[2152631611], H...| Molecular Catalysis|     |2021|Abstract This res...|        |https://semantics...|     []|\n+--------------------+--------------------+--------------------+--------------------+--------+----------+-------------+----+--------------------+--------------------+--------------------+--------------------+-----+----+--------------------+--------+--------------------+-------+\nonly showing top 5 rows\n\nS2_Author_Pub_Cnt:204940804\n\u001b[1m\u001b[34mS2subsetdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 16 more fields]\n"
+     }
+    ]
+   },
    "apps": [],
    "runtimeInfos": {
     "jobUrl": {
@@ -409,24 +369,24 @@
      "group": "spark",
      "values": [
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=9"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=3"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=10"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=4"
       },
       {
-       "jobUrl": "http://omiros.station:4040/jobs/job?id=11"
+       "jobUrl": "http://omiros.station:4040/jobs/job?id=5"
       }
      ],
      "interpreterSettingId": "spark"
     }
    },
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1632496349644_1915140623",
-   "id": "paragraph_1632496349644_1915140623",
-   "dateCreated": "2021-09-24T18:12:29+0300",
-   "dateStarted": "2021-09-24T18:12:29+0300",
-   "dateFinished": "2021-09-24T18:12:43+0300",
+   "jobName": "paragraph_1662646013696_63918694",
+   "id": "paragraph_1662646013696_63918694",
+   "dateCreated": "2022-09-08T17:06:53+0300",
+   "dateStarted": "2022-09-08T17:06:53+0300",
+   "dateFinished": "2022-09-08T17:07:03+0300",
    "status": "FINISHED"
   },
   {
@@ -577,7 +537,8 @@
       },
       "mode": "lineChart"
      }
-    ]
+    ],
+    "editorHide": false
    },
    "settings": {
     "params": {
@@ -642,7 +603,7 @@
    "status": "FINISHED"
   },
   {
-   "text": "%spark\n\n\n\nprintln(paper_metadata_view_cite_S2_MAGdf.count())\nval paper_metadata_view_cite_S2df_title_fosexplode = paper_metadata_view_cite_S2_MAGdf.select($\"paper_id\",explode($\"fosnames\").as(\"fos\"))\npaper_metadata_view_cite_S2df_title_fosexplode.show()\n        \nval paper_metadata_view_cite_S2df_title_grp = paper_metadata_view_cite_S2df_title_fosexplode.groupBy($\"fos\")\n        .agg( \n                   count(\"paper_id\").alias(\"paper_idcnt\")\n        )\n        .cache() \n\n//println(paper_metadata_view_cite_S2df_title_grp.count())\n//println(paper_metadata_view_cite_S2df_title_grp.filter($\"paper_idcnt\">1).count())\n\npaper_metadata_view_cite_S2df_title_grp.filter($\"paper_idcnt\">1).orderBy($\"paper_idcnt\".desc).show(100)",
+   "text": "%spark\nprintln(paper_metadata_view_cite_S2_MAGdf.count())\nval paper_metadata_view_cite_S2df_title_fosexplode = paper_metadata_view_cite_S2_MAGdf.select($\"paper_id\",explode($\"fosnames\").as(\"fos\"))\npaper_metadata_view_cite_S2df_title_fosexplode.show()\n        \nval paper_metadata_view_cite_S2df_title_grp = paper_metadata_view_cite_S2df_title_fosexplode.groupBy($\"fos\")\n        .agg( \n                   count(\"paper_id\").alias(\"paper_idcnt\")\n        )\n        .cache() \n\n//println(paper_metadata_view_cite_S2df_title_grp.count())\n//println(paper_metadata_view_cite_S2df_title_grp.filter($\"paper_idcnt\">1).count())\n\npaper_metadata_view_cite_S2df_title_grp.filter($\"paper_idcnt\">1).orderBy($\"paper_idcnt\".desc).show(100)",
    "user": "anonymous",
    "dateUpdated": "2021-09-26T15:58:43+0300",
    "config": {
@@ -929,15 +890,115 @@
    "status": "FINISHED"
   },
   {
+   "text": "%spark\nval S2subsetdf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\nS2subsetdf.printSchema\nS2subsetdf.show(5)\nprintln(\"S2_Author_Pub_Cnt:\" + S2subsetdf.count())\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-09-12T10:48:24+0300",
+   "progress": 96.0,
+   "config": {},
    "settings": {
     "params": {},
     "forms": {}
    },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- title: string (nullable = true)\n |-- id: string (nullable = true)\n |-- doi: string (nullable = true)\n |-- doiUrl: string (nullable = true)\n |-- entities: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- magId: string (nullable = true)\n |-- S2fos: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- pmId: string (nullable = true)\n |-- inCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- outCitations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- authors: array (nullable = true)\n |    |-- element: struct (containsNull = true)\n |    |    |-- ids: array (nullable = true)\n |    |    |    |-- element: string (containsNull = true)\n |    |    |-- name: string (nullable = true)\n |    |    |-- structuredName: string (nullable = true)\n |-- journalName: string (nullable = true)\n |-- venue: string (nullable = true)\n |-- year: long (nullable = true)\n |-- paperAbstract: string (nullable = true)\n |-- s2PdfUrl: string (nullable = true)\n |-- s2Url: string (nullable = true)\n |-- sources: array (nullable = true)\n |    |-- element: string (containsNull = true)\n\n+--------------------+--------------------+--------------------+--------------------+--------+----------+-------------+----+--------------------+--------------------+--------------------+--------------------+-----+----+--------------------+--------+--------------------+-------+\n|               title|                  id|                 doi|              doiUrl|entities|     magId|        S2fos|pmId|         inCitations|        outCitations|             authors|         journalName|venue|year|       paperAbstract|s2PdfUrl|               s2Url|sources|\n+--------------------+--------------------+--------------------+--------------------+--------+----------+-------------+----+--------------------+--------------------+--------------------+--------------------+-----+----+--------------------+--------+--------------------+-------+\n|Tom Gonzalez oral...|084f848eb637c719a...|                    |                    |      []|1504305701|  [Sociology]|    |                  []|                  []|[{[123767052], To...|                    |     |2005|                    |        |https://semantics...|     []|\n|Vorbeugende Verbr...|21ae2196b8259936f...|10.3790/vjh.78.3.202|https://doi.org/1...|      []|2027566490|  [Economics]|    |                  []|[e705c5156893d5c2...|[{[100671090], Sa...|Vierteljahrshefte...|     |2009|New applications ...|        |https://semantics...|     []|\n|PHYSIOLOGICAL STU...|552d89620f67e24cf...|                    |                    |      []|          |           []|    |                  []|[1e151362eebc6124...|[{[105078273], Ga...|                    |     |2015|& COHF.) SCHROET,...|        |https://semantics...|     []|\n|On a quotient of ...|2d3559c1549581903...|                    |                    |      []| 426044695|[Mathematics]|    |[791595cbf8816e21...|                  []|[{[2765462], Niro...|                    |     |1966|                    |        |https://semantics...|     []|\n|Hydrothermal tole...|b63e389374f0ee00c...|10.1016/j.mcat.20...|https://doi.org/1...|      []|3198693921|  [Chemistry]|    |                  []|[b0761daa2dad47ec...|[{[2152631611], H...| Molecular Catalysis|     |2021|Abstract This res...|        |https://semantics...|     []|\n+--------------------+--------------------+--------------------+--------------------+--------+----------+-------------+----+--------------------+--------------------+--------------------+--------------------+-----+----+--------------------+--------+--------------------+-------+\nonly showing top 5 rows\n\nS2_Author_Pub_Cnt:204940804\n\u001b[1m\u001b[34mS2subsetdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 16 more fields]\n"
+     }
+    ]
+   },
    "apps": [],
-   "status": "READY",
-   "text": "%spark\nval scidocsdata_HOME = \"/media/ometaxas/nvme/datasets/Scidocs\"\nval paper_metadata_view_cite= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .json(s\"file://$scidocsdata_HOME/paper_metadata_view_cite_read.jsonl\").cache()\n\npaper_metadata_view_cite.printSchema()\npaper_metadata_view_cite.show(5)\nprintln(paper_metadata_view_cite.count())\n",
-   "id": "",
-   "config": {}
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=6"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=7"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=8"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1662968904677_691279593",
+   "id": "paragraph_1662968904677_691279593",
+   "dateCreated": "2022-09-12T10:48:24+0300",
+   "dateStarted": "2022-09-12T10:48:24+0300",
+   "dateFinished": "2022-09-12T10:48:28+0300",
+   "status": "FINISHED"
+  },
+  {
+   "text": "%spark\nval scidocsdata_HOME = \"/media/ometaxas/nvme/datasets/Scidocs\"\nval all_ids_df= spark.read\n        //.option(\"recordDelimiter\", \"line\")\n        //.option(\"recordDelimiter\", \"\")\n        //.option(\"multiLine\", true)\n        //.option(\"mode\", \"PERMISSIVE\")\n        .text(s\"file://$scidocsdata_HOME/all_scidocs_ids.txt\")\n        .select($\"value\".as(\"s2_id\"))\n        .cache()\n\nall_ids_df.printSchema()\nall_ids_df.show(5)\nprintln(all_ids_df.count())\n\nval S2subsetdf = spark.read.parquet(\"/media/ometaxas/nvme/datasets/S2/S2.parquet\")\n\nval paper_metadata_view_cite_links = S2subsetdf.join(broadcast(all_ids_df), $\"s2_id\"===$\"id\" , \"inner\").select($\"id\", $\"title\", $\"paperAbstract\", $\"inCitations\", $\"outCitations\").cache()\npaper_metadata_view_cite_links.show(20)\nprintln(paper_metadata_view_cite_links.count())\npaper_metadata_view_cite_links.coalesce(1).write.mode(\"overwrite\").json(s\"$scidocsdata_HOME/scidocs_ext.json\")\n\n\n",
+   "user": "anonymous",
+   "dateUpdated": "2022-09-15T17:08:26+0300",
+   "progress": 0.0,
+   "config": {
+    "tableHide": false
+   },
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
+    "forms": {}
+   },
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- s2_id: string (nullable = true)\n\n+--------------------+\n|               s2_id|\n+--------------------+\n|00000088bbc15a03a...|\n|000000a23ca53cb3c...|\n|000001da99d7c3e93...|\n|000007656d39cd303...|\n|00000836605de9c8f...|\n+--------------------+\nonly showing top 5 rows\n\n7466491\n+--------------------+--------------------+--------------------+--------------------+--------------------+\n|                  id|               title|       paperAbstract|         inCitations|        outCitations|\n+--------------------+--------------------+--------------------+--------------------+--------------------+\n|d21349fd41a5a7378...|QWEB Specificatio...|Costa, Acácio Rui...|                  []|[91f7b83ed1bbd653...|\n|9270a27ac0fd944af...|On Deep e-Contrac...|This invention di...|[1ab142e01c3f0c5a...|[2a07f19a4063895f...|\n|6dcc10eff683c5470...|Critical Thinker:...|Collaborative lea...|[f181fac640925654...|[f3f0290e6ebe1be0...|\n|e074afff1534847a6...|Chapter 1 Exposur...|                    |                  []|[e6c5d60cbe081daf...|\n|a2bb3724b3d1c7fb3...|Concept Formation...|Most empirical le...|[1537152129ac1e32...|[cee5cf64f15bfdc2...|\n|416be834a202b6c06...|General perceptio...|OBJECTIVE\nTo asse...|[540c59da53a41753...|[9670a3559ae70920...|\n|fe31248e92dc7824b...|Sex difference in...|BackgroundAlbumin...|[bc20cc9053b11a82...|[a734f73e2805e8b7...|\n|80f0d90d64617cacd...|Factors Leading t...|                    |[86e41a94a01f310a...|[4048fc553a12df6a...|\n|8058efcd6888ce6cf...|Renal clearance o...|Aims/hypothesisGl...|[1225871db1248911...|[68f7d7e8c705406b...|\n|3a01f9933066f0950...|Exfiltration of i...|In this paper we ...|[8f4053fd20c2c666...|[400f4afb2a055d95...|\n|8f9b692fe0e0547cd...|Modelling the Mic...|As the electricit...|[bb4568d840823958...|[ced10f3569ceb400...|\n|f96e6b42ca385b52e...|Cognitive Therapy...|Twenty-five (25) ...|[24594346e0b841f6...|[b4208637e9f57d82...|\n|f6dd46c54f2e3d930...|Efficient Level o...|This paper presen...|[c26637fd118b9000...|[f0e6389538cd59bc...|\n|bdb92223f045054b1...|Neuronal Processe...|Subjective feelin...|[44d8906df3f998bb...|[76b02c17dba3b88c...|\n|5e1f7dd47a5abdbc2...|Looking Tasks Onl...|Online experiment...|[6aaccde86ef6917b...|[7e7343a5608fff1c...|\n|d2fa51d7455964aa9...|The mutational la...|Somatic mutations...|[4ab132557ecae8e1...|[9f9b988f5fbb6ff9...|\n|27940f02899f481ec...|Gene and genome d...|Whole genome dupl...|[fa110fb5c1bc7e47...|[be87b1c0db3b601e...|\n|c3b174cbb70bf97e3...|C-reactive protei...|We previously rep...|[6a8d3fe4af4dc02a...|[839680d1726dc63a...|\n|9b807d096f1f6f38d...|The Effect of Stu...|This study was ai...|[fc33e9bbc1dd51af...|[98b9905f213ba8ba...|\n|fff76942227a09e2d...|R EVIEW A RTICLE ...|This paper gives ...|                  []|[6584ee02fabf0ca9...|\n+--------------------+--------------------+--------------------+--------------------+--------------------+\nonly showing top 20 rows\n\n5522162\n\u001b[1m\u001b[34mscidocsdata_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/Scidocs\n\u001b[1m\u001b[34mall_ids_df\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [s2_id: string]\n\u001b[1m\u001b[34mS2subsetdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [title: string, id: string ... 16 more fields]\n\u001b[1m\u001b[34mpaper_metadata_view_cite_links\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [id: string, title: string ... 3 more fields]\n"
+     }
+    ]
+   },
+   "apps": [],
+   "runtimeInfos": {
+    "jobUrl": {
+     "propertyName": "jobUrl",
+     "label": "SPARK JOB",
+     "tooltip": "View in Spark web UI",
+     "group": "spark",
+     "values": [
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=41"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=42"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=43"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=45"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=46"
+      },
+      {
+       "jobUrl": "http://192.168.2.13:4040/jobs/job?id=47"
+      }
+     ],
+     "interpreterSettingId": "spark"
+    }
+   },
+   "progressUpdateIntervalMs": 500.0,
+   "jobName": "paragraph_1663250906489_112652349",
+   "id": "paragraph_1663250906489_112652349",
+   "dateCreated": "2022-09-15T17:08:26+0300",
+   "dateStarted": "2022-09-15T17:08:26+0300",
+   "dateFinished": "2022-09-15T17:14:38+0300",
+   "status": "FINISHED"
   }
  ],
  "name": "Zeppelin Notebook",

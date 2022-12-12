@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\nSPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\n\n#spark.jars /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-0.2.0.jar, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/plugins/cudf-0.15-cuda10-1.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 95g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n#spark.executor.resource.gpu.amount=1\n\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp                                           \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n\n\n",
    "user": "anonymous",
-   "dateUpdated": "2021-11-24T11:59:17+0200",
+   "dateUpdated": "2022-04-18T18:18:37+0300",
    "progress": 0.0,
    "config": {
     "editorSetting": {
@@ -29,11 +29,11 @@
    "apps": [],
    "runtimeInfos": {},
    "progressUpdateIntervalMs": 500.0,
-   "jobName": "paragraph_1637747957401_932451793",
-   "id": "paragraph_1637747957401_932451793",
-   "dateCreated": "2021-11-24T11:59:17+0200",
-   "dateStarted": "2021-11-24T11:59:17+0200",
-   "dateFinished": "2021-11-24T11:59:17+0200",
+   "jobName": "paragraph_1650295117018_971118621",
+   "id": "paragraph_1650295117018_971118621",
+   "dateCreated": "2022-04-18T18:18:37+0300",
+   "dateStarted": "2022-04-18T18:18:37+0300",
+   "dateFinished": "2022-04-18T18:18:37+0300",
    "status": "FINISHED"
   },
   {
