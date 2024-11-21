@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SparkNotebooks.iml" filepath="$PROJECT_DIR$/.idea/modules/SparkNotebooks.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SparkNotebooks-build.iml" filepath="$PROJECT_DIR$/.idea/modules/SparkNotebooks-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SparkNotebooks.SparkNotebooks-build.iml" filepath="$PROJECT_DIR$/.idea/modules/SparkNotebooks.SparkNotebooks-build.iml" />
     </modules>
   </component>
 </project>

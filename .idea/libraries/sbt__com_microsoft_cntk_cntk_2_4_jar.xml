@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="sbt: com.microsoft.cntk:cntk:2.4:jar">
+  <library name="sbt: com.microsoft.cntk:cntk:2.4:jar" external-system-id="SBT">
     <CLASSES>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/repo1.maven.org/maven2/com/microsoft/cntk/cntk/2.4/cntk-2.4.jar!/" />
     </CLASSES>

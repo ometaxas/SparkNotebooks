@@ -3,7 +3,7 @@
   {
    "text": "%spark.conf\n\n# It is strongly recommended to set SPARK_HOME explictly instead of using the embedded spark of Zeppelin. As the function of embedded spark of Zeppelin is limited and can only run in local mode.\n\n#SPARK_HOME /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2\nSPARK_HOME /home/ometaxas/Programs/spark-3.2.0-bin-hadoop3.2\n#SPARK_HOME /home/ometaxas/Programs/spark-3.3.1-bin-hadoop3\n\nSPARK_LOCAL_DIRS /media/ometaxas/nvme/spark\n\n#com.github.haifengl:smile-scala_2.12:2.5.3,com.databricks:spark-xml_2.12:0.10.0,com.github.mrpowers:spark-stringmetric_2.12:0.3.0\n\n#spark.jars /home/ometaxas/Programs/spark-3.1.2-bin-hadoop3.2/plugins/cudf-21.10.0-cuda11.jar, /home/ometaxas/Programs/spark-3.0\n#.1-bin-hadoop3.2/plugins/rapids-4-spark_2.12-21.10.0.jar\n\n#spark.sql.warehouse.dir /home/ometaxas/Programs/zeppelin-0.9.0-preview2-bin-all/spark-warehouse\n\n#spark.kryo.registrator com.nvidia.spark.rapids.GpuKryoRegistrator\nspark.serializer org.apache.spark.serializer.KryoSerializer\nspark.kryoserializer.buffer.max 1000M\nspark.driver.memory 80g\nspark.driver.maxResultSize 5g \n\n#spark.rapids.sql.concurrentGpuTasks=2\n#spark.rapids.sql.enabled true\n#spark.rapids.memory.pinnedPool.size 2G \n\n#spark.plugins com.nvidia.spark.SQLPlugin \n\n#spark.sql.autoBroadcastJoinThreshold 1\n#spark.sql.join.preferSortMergeJoin true\n#spark.locality.wait 0s \n#spark.sql.files.maxPartitionBytes 512m \n#spark.sql.shuffle.partitions 100 \n \n#spark.executor.resource.gpu.amount=1\n\n#, /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp\n                                             \n# /home/ometaxas/Programs/spark-3.0.1-bin-hadoop3.2/tmp,/media/datadisk/Datasets/Spark\n#,/media/datadisk/Datasets/Spark \n#/media/datadisk/Datasets/Spark\n\n# set executor memrory 110g\n# spark.executor.memory  60g\n\n\n# set executor number to be 6\n# spark.executor.instances  6\n\n\n# Uncomment the following line if you want to use yarn-cluster mode (It is recommended to use yarn-cluster mode after Zeppelin 0.8, as the driver will run on the remote host of yarn cluster which can mitigate memory pressure of zeppelin server)\n# master yarn-cluster\n\n# Uncomment the following line if you want to use yarn-client mode (It is not recommended to use it after 0.8. Because it would launch the driver in the same host of zeppelin server which will increase memory pressure of zeppelin server)\n# master yarn-client\n\n# Uncomment the following line to enable HiveContext, and also put hive-site.xml under SPARK_CONF_DIR\n# zeppelin.spark.useHiveContext true\n",
    "user": "anonymous",
-   "dateUpdated": "2022-12-09 17:49:13.212",
+   "dateUpdated": "2023-02-13 10:22:10.174",
    "progress": 0.0,
    "config": {
     "editorSetting": {
@@ -16,7 +16,8 @@
     "editorMode": "ace/mode/scala",
     "fontSize": 9.0,
     "results": {},
-    "enabled": true
+    "enabled": true,
+    "editorHide": false
    },
    "settings": {
     "params": {},
@@ -28,8 +29,8 @@
    "jobName": "paragraph_1670444422396_1109408681",
    "id": "paragraph_1670444422396_1109408681",
    "dateCreated": "2022-12-07T22:20:22+0200",
-   "dateStarted": "2022-12-09 17:49:13.134",
-   "dateFinished": "2022-12-09 17:49:13.212",
+   "dateStarted": "2023-02-13 10:22:10.037",
+   "dateFinished": "2023-02-13 10:22:10.173",
    "status": "FINISHED",
    "results": {
     "code": "SUCCESS",
@@ -140,7 +141,7 @@
   {
    "text": "%spark\nimport org.apache.commons.lang3.StringUtils\nimport java.util.Locale;\n\n  def shortNormNameString( fullName: String) : String = {\n\n      if (fullName != null) {\n          val normname = org.apache.commons.lang3.StringUtils.stripAccents(fullName.toLowerCase(Locale.ENGLISH))\n                  //.replaceAll(\"[^\\\\p{ASCII}]\", \"\")\n                  .replaceAll(\"[<>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n                  .replaceAll(\"Æ\", \"AE\")\n                  .replaceAll(\"Ð\", \"D\")\n                  .replaceAll(\"Ø\", \"O\")\n                  .replaceAll(\"Þ\", \"TH\")\n                  .replaceAll(\"ß\", \"ss\")\n                  .replaceAll(\"ð\", \"d\")\n                  .replaceAll(\"æ\", \"ae\")\n                  .replaceAll(\"ø\", \"o\")\n                  .replaceAll(\"þ\", \"th\")\n                  .replaceAll(\"Œ\", \"OE\")\n                  .replaceAll(\"œ\", \"oe\")\n                  .replaceAll(\"ƒ\", \"f\")\n                  .trim().split(\" \")\n\n\n          val shortName = if (normname.length == 1) normname(0) else normname(0).take(1) + normname(normname.length - 1)\n          return shortName\n      }\n      else null\n  }\n   \nval shortNormName = udf[String, String]((e:String) => {\n    \n    shortNormNameString(e)\n    \n})\n\nspark.udf.register(\"shortNormName\", shortNormName)\n\nval shortNormNameList = udf[Seq[String], Seq[String]]((e:Seq[String]) => {\n    if (e!=null && e.size>0) {\n        e.map{x=> shortNormNameString(x)}        \n    }\n    else e\n})\nspark.udf.register(\"shortNormNameList\", shortNormNameList)\n\nval normName = udf[String, String]((e:String) => {\n \n if (e!=null) {\n     org.apache.commons.lang3.StringUtils.stripAccents(e.toLowerCase(Locale.ENGLISH))\n             .replaceAll(\"[ <>:´,’./\\\\'\\\\\\\";(){}!@#$%^&+‐–*\\\\\\\\-]+\", \"\")\n             .replaceAll(\"Æ\", \"AE\")\n             .replaceAll(\"Ð\", \"D\")\n             .replaceAll(\"Ø\", \"O\")\n             .replaceAll(\"Þ\", \"TH\")\n             .replaceAll(\"ß\", \"ss\")\n             .replaceAll(\"ð\", \"d\")\n             .replaceAll(\"æ\", \"ae\")\n             .replaceAll(\"ø\", \"o\")\n             .replaceAll(\"þ\", \"th\")\n             .replaceAll(\"Œ\", \"OE\")\n             .replaceAll(\"œ\", \"oe\")\n             .replaceAll(\"ƒ\", \"f\")\n             .trim()\n }\n else e\n     \n})\n\nspark.udf.register(\"normName\", normName)\n\nval workAbstractFromInverted = udf[String, Option[Map[String, Seq[Long]]]]((e:Option[Map[String, Seq[Long]]]) => {\n    \n   \n   val list = e.getOrElse(Map()).toList.flatMap { x => x._2.toList.map { e => (x._1, e) } }\n    list.sortBy(_._2).map(_._1).mkString(\" \")\n})\n\nspark.udf.register(\"workAbstractFromInverted\", workAbstractFromInverted)\n\nval removeDoiPrefix = udf[String, String]((e:String) => {\n   if (e!=null) {\n       e.replace(\"https://doi.org/\", \"\")\n   }\n    else e\n})\nspark.udf.register(\"removeDoiPrefix\", removeDoiPrefix)\n\n\n\nval removeOpenAlexPrefix = udf[String, String]((e:String) => {\n    if (e!=null) {\n        e.replace(\"https://openalex.org/\", \"\")\n    }\n    else e\n})\nspark.udf.register(\"removeOpenAlexPrefix\", removeOpenAlexPrefix)\n\n\nval removeOpenAlexPrefixList = udf[Seq[String], Seq[String]]((e:Seq[String]) => {\n    if (e!=null && e.size>0) {\n        e.map{x=> if (x==null) null else x.replace(\"https://openalex.org/\", \"\")}        \n    }\n    else e\n})\nspark.udf.register(\"removeOpenAlexPrefixList\", removeOpenAlexPrefixList)\n\n\nval removeWikiDataPrefix = udf[String, String]((e:String) => {\n    if (e!=null) {\n        e.replace(\"https://www.wikidata.org/wiki/\", \"\").replace(\"http://www.wikidata.org/wiki/\", \"\")\n    }\n    else e\n})\nspark.udf.register(\"removeWikiDataPrefix\", removeWikiDataPrefix)\n\nval removeOrcidPrefix = udf[String, String]((e:String) => {\n    if (e!=null) {\n        e.replace(\"https://orcid.org/\", \"\")\n    }\n    else e\n})\nspark.udf.register(\"removeOrcidPrefix\", removeOrcidPrefix)\n\nval removePmcPrefix = udf[String, String]((e:String) => {\n    if (e!=null) {\n        e.replace(\"https://pubmed.ncbi.nlm.nih.gov/\", \"\")\n    }\n    else e\n   \n})\nspark.udf.register(\"removePmcPrefix\", removePmcPrefix)\n\nval removePubmedPrefix = udf[String, String]((e:String) => {\n    if (e!=null) {\n        e.replace(\"https://pubmed.ncbi.nlm.nih.gov/\", \"\")\n    }\n    else e\n})\nspark.udf.register(\"removePubmedPrefix\", removePubmedPrefix)\n\n\n\n",
    "user": "anonymous",
-   "dateUpdated": "2022-12-09 17:49:54.141",
+   "dateUpdated": "2022-12-20 12:17:08.499",
    "progress": 0.0,
    "config": {},
    "settings": {
@@ -153,15 +154,15 @@
    "jobName": "paragraph_1670430955490_1185020559",
    "id": "paragraph_1670430955490_1185020559",
    "dateCreated": "2022-12-07T18:35:55+0200",
-   "dateStarted": "2022-12-09 17:49:37.653",
-   "dateFinished": "2022-12-09 17:49:54.141",
+   "dateStarted": "2022-12-20 12:16:49.648",
+   "dateFinished": "2022-12-20 12:17:08.498",
    "status": "FINISHED",
    "results": {
     "code": "SUCCESS",
     "msg": [
      {
       "type": "TEXT",
-      "data": "import org.apache.commons.lang3.StringUtils\nimport java.util.Locale\n\u001b[1m\u001b[34mshortNormNameString\u001b[0m: \u001b[1m\u001b[32m(fullName: String)String\u001b[0m\n\u001b[1m\u001b[34mshortNormName\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2583/0x00007f04a3791040@b9603a,StringType,List(Some(class[value[0]: string])),Some(class[value[0]: string]),None,true,true)\n\u001b[1m\u001b[34mshortNormNameList\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2690/0x00007f04a30f5040@3fbab6e1,ArrayType(StringType,true),List(Some(class[value[0]: array<string>])),Some(class[value[0]: array<string>]),None,true,true)\n\u001b[1m\u001b[34mnormName\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction...\n"
+      "data": "import org.apache.commons.lang3.StringUtils\nimport java.util.Locale\n\u001b[1m\u001b[34mshortNormNameString\u001b[0m: \u001b[1m\u001b[32m(fullName: String)String\u001b[0m\n\u001b[1m\u001b[34mshortNormName\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2583/0x00007f60f94fe040@469ba5c7,StringType,List(Some(class[value[0]: string])),Some(class[value[0]: string]),None,true,true)\n\u001b[1m\u001b[34mshortNormNameList\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFunction($Lambda$2690/0x00007f60f8cf5040@45f158a7,ArrayType(StringType,true),List(Some(class[value[0]: array<string>])),Some(class[value[0]: array<string>]),None,true,true)\n\u001b[1m\u001b[34mnormName\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m = SparkUserDefinedFuncti...\n"
      }
     ]
    }
@@ -443,7 +444,9 @@
    "user": "anonymous",
    "dateUpdated": "2022-12-04T13:42:40+0200",
    "progress": 0.0,
-   "config": {},
+   "config": {
+    "editorHide": false
+   },
    "settings": {
     "params": {},
     "forms": {}
@@ -673,22 +676,22 @@
    },
    "apps": [],
    "status": "FINISHED",
-   "text": "%spark\nval OA_S2_Pub_Authors_doi_mag_dedup =   spark.read.parquet(\"/media/datadisk/Datasets/OA_S2/OA_S2_Pub_Authors_doi_mag_dedup.parquet\")\nprintln(\"OA_S2_Pub_Authors_doi_mag_dedup:\" + OA_S2_Pub_Authors_doi_mag_dedup.count())\n\n//OA_S2_Pub_Authors_doi_mag:617733542\n//OA_S2_Pub_Authors_doi_mag_dedup:613818006",
+   "text": "%spark\nval OA_S2_Pub_Authors_doi_mag_dedup =   spark.read.parquet(\"/media/datadisk/Datasets/OA_S2/OA_S2_Pub_Authors_doi_mag_dedup.parquet\")\nprintln(\"OA_S2_Pub_Authors_doi_mag_dedup:\" + OA_S2_Pub_Authors_doi_mag_dedup.count())\n\n\nprintln(\"OA_S2_Pub_Authors_doi_mag_S2_dedup:\" + OA_S2_Pub_Authors_doi_mag_dedup.filter(($\"S2authorId\" =!= \"\") && ($\"S2authorId\".isNotNull)).count())\n\n//OA_S2_Pub_Authors_doi_mag:617733542\n//OA_S2_Pub_Authors_doi_mag_dedup:613818006",
    "id": "",
    "dateCreated": "2022-12-10 09:25:40.260",
    "config": {},
-   "dateStarted": "2022-12-10 09:26:26.557",
-   "dateUpdated": "2022-12-10 09:26:38.029",
+   "dateStarted": "2023-02-07 14:28:14.873",
+   "dateUpdated": "2023-02-07 14:31:41.985",
+   "dateFinished": "2023-02-07 14:31:41.985",
    "results": {
     "code": "SUCCESS",
     "msg": [
      {
       "type": "TEXT",
-      "data": "OA_S2_Pub_Authors_doi_mag_dedup:613818006\n\u001b[1m\u001b[34mOA_S2_Pub_Authors_doi_mag_dedup\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [OApaperId: string, OAdoi: string ... 20 more fields]\n"
+      "data": "OA_S2_Pub_Authors_doi_mag_dedup:613818006\nOA_S2_Pub_Authors_doi_mag_S2_dedup:491680921\n\u001b[1m\u001b[34mOA_S2_Pub_Authors_doi_mag_dedup\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [OApaperId: string, OAdoi: string ... 20 more fields]\n"
      }
     ]
-   },
-   "dateFinished": "2022-12-10 09:26:38.029"
+   }
   },
   {
    "title": "Link S2AND Datasets",
@@ -760,27 +763,56 @@
   },
   {
    "settings": {
-    "params": {},
+    "params": {
+     "bdtMeta": {
+      "inlay": {}
+     }
+    },
     "forms": {}
    },
    "apps": [],
    "status": "FINISHED",
-   "text": "%spark\nval VECTORS_HOME = \"/media/datadisk/Datasets/OA_S2/WorkVectors\"\nval OA_S2_Pub_Vectors =   spark.read.parquet(\"/media/datadisk/Datasets/OA_S2/WorkVectors\")\nOA_S2_Pub_Vectors.printSchema()\nOA_S2_S2AND_signatures_dedup.printSchema()\nOA_S2_Pub_Vectors.show(5)\n//val OA_S2_S2AND_signatures_dedup = spark.read.json(s\"file://$S2AND_HOME/OA_S2_S2AND_signatures_dedup.json\")\n//val OA_S2_S2AND_signatures_dedup_vectors =  OA_S2_Pub_Vectors.join(broacast(OA_S2_S2AND_signatures_dedup), $\n\n \n\n",
+   "text": "%spark\nval S2AND_HOME = \"/media/ometaxas/nvme/datasets/S2AND\"\n//val VECTORS_HOME = \"/media/datadisk/Datasets/OA_S2/WorkVectors\"\nval OA_S2_Pub_Vectors =   spark.read.parquet(\"/media/datadisk/Datasets/OA_S2/publications-denorm-parquet\")\n.select($\"publication.ids.openAlex\".as(\"OA_pubId\"), $\"publication.paperVector\".as(\"vector\"))\n\n//OA_S2_Pub_Vectors.printSchema()\n\nval OAworks =   spark.read.parquet(\"/media/ometaxas/nvme/datasets/OpenAlex/works.parquet\").select(removeOpenAlexPrefix($\"id\").as(\"OAworkId\"),$\"title\", $\"abstract\" )\n//OAworks.printSchema()\n\n//OAworks.show(20)\n\nval OA_S2_S2AND_signatures_dedup = spark.read.json(s\"file://$S2AND_HOME/OA_S2_S2AND_signatures_dedup.json\")\nprintln(\"OA_S2_S2AND_signatures_dedup:\" + OA_S2_S2AND_signatures_dedup.count())\nOA_S2_S2AND_signatures_dedup.groupBy($\"dataset\").count().show()\n\n\nval OA_S2_S2AND_signatures_dedup_abstr = OAworks\n                   .join(broadcast(OA_S2_S2AND_signatures_dedup), OAworks(\"OAworkId\") === OA_S2_S2AND_signatures_dedup(\"OApaperId\"), \"inner\")\n                   .drop($\"OAworkId\")\n                   .persist()  \n//OA_S2_Pub_Vectors.printSchema()\n//OA_S2_S2AND_signatures_dedup.printSchema()\nprintln(\"OA_S2_S2AND_signatures_dedup_abstr:\" + OA_S2_S2AND_signatures_dedup_abstr.count())\nOA_S2_S2AND_signatures_dedup_abstr.groupBy($\"dataset\").count().show()\n\n\nval OA_S2_S2AND_signatures_dedup_vec = OA_S2_S2AND_signatures_dedup_abstr\n                   .join(OA_S2_Pub_Vectors, OA_S2_Pub_Vectors(\"OA_pubId\") === OA_S2_S2AND_signatures_dedup_abstr(\"OApaperId\"), \"left_outer\")\n                   .drop($\"OA_pubId\")\n                   .persist()  \n\nprintln(\"OA_S2_S2AND_signatures_dedup_vec:\" + OA_S2_S2AND_signatures_dedup_vec.count())\nOA_S2_S2AND_signatures_dedup_vec.groupBy($\"dataset\").count().show()\n \n\nOA_S2_S2AND_signatures_dedup_vec\n.write\n.partitionBy(\"dataset\")\n.mode(\"overwrite\").json(s\"file://$S2AND_HOME/OA_S2_S2AND_signatures_dedup_vec.json\")\n\n",
    "id": "",
    "dateCreated": "2022-12-12 19:46:44.167",
    "config": {
-    "title": true
+    "title": true,
+    "tableHide": false
    },
    "title": "Link with vectors",
-   "dateStarted": "2022-12-12 19:56:44.207",
-   "dateUpdated": "2022-12-12 19:56:48.846",
-   "dateFinished": "2022-12-12 19:56:48.846",
+   "dateStarted": "2022-12-15 16:03:20.755",
+   "dateUpdated": "2022-12-15 16:35:45.495",
+   "dateFinished": "2022-12-15 16:35:45.495",
    "results": {
     "code": "SUCCESS",
     "msg": [
      {
       "type": "TEXT",
-      "data": "root\n |-- pkgId: string (nullable = true)\n |-- vector: array (nullable = true)\n |    |-- element: double (containsNull = true)\n\nroot\n |-- OApaperId: string (nullable = true)\n |-- OAdoi: string (nullable = true)\n |-- OAfos_0: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- OAfos_1: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- OAmagId: long (nullable = true)\n |-- OAname: string (nullable = true)\n |-- OAauthorId: string (nullable = true)\n |-- orcid: string (nullable = true)\n |-- OAshortNormName: string (nullable = true)\n |-- OAnormName: string (nullable = true)\n |-- affiliationsIds: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- coAuthorId: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- coAuthorShortNormNames: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- S2title: string (nullable = true)\n |-- S2paperId: long (nullable = true)\n |-- S2doi: string (nullable = true)\n |-- S2fos: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- S2magId: string (nullable = true)\n |-- S2name: string (nullable = true)\n |-- S2authorId: string (nullable = true)\n |-- S2shortNormName: string (nullable = true)\n |-- S2normName: string (nullable = true)\n |-- author_id: long (nullable = true)\n |-- author_info_affiliations: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- author_info_email: string (nullable = true)\n |-- author_info_first: string (nullable = true)\n |-- author_info_last: string (nullable = true)\n |-- author_info_middle: string (nullable = true)\n |-- author_info_position: long (nullable = true)\n |-- author_info_suffix: string (nullable = true)\n |-- paper_id: long (nullable = true)\n |-- signature_id: string (nullable = true)\n |-- dataset: string (nullable = false)\n |-- author_info_fullname: string (nullable = true)\n |-- author_info_normname: string (nullable = true)\n |-- author_info_shortnormname: string (nullable = true)\n\n+--------------------+--------------------+\n|               pkgId|              vector|\n+--------------------+--------------------+\n|3dK6nwlthtcTEUS8G...|[-0.0164, 0.0826,...|\n|3dK6nwtOzzQ8cCNjg...|[0.0328, 0.0811, ...|\n|3dK6nxN8PjdHsYTYQ...|[-0.0845, -0.0989...|\n|3dK6nxUpnAD1b1QGC...|[0.0107, 0.0521, ...|\n|3dK6nxylIFBgyKTmU...|[0.0349, 0.0346, ...|\n+--------------------+--------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mVECTORS_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/datadisk/Datasets/OA_S2/WorkVectors\n\u001b[1m\u001b[34mOA_S2_Pub_Vectors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [pkgId: string, vector: array<double>]\n"
+      "data": "OA_S2_S2AND_signatures_dedup:681010\n+----------+------+\n|   dataset| count|\n+----------+------+\n|     kisti| 37446|\n|      qian|  6081|\n|    zbmath| 14341|\n|  inspires|462700|\n|arnetminer|  6699|\n|    aminer|150930|\n|    pubmed|  2813|\n+----------+------+\n\nOA_S2_S2AND_signatures_dedup_abstr:681010\n+----------+------+\n|   dataset| count|\n+----------+------+\n|     kisti| 37446|\n|    zbmath| 14341|\n|  inspires|462700|\n|    aminer|150930|\n|    pubmed|  2813|\n|arnetminer|  6699|\n|      qian|  6081|\n+----------+------+\n\nOA_S2_S2AND_signatures_dedup_vec:681010\n+----------+------+\n|   dataset| count|\n+----------+------+\n|     kisti| 37446|\n|    zbmath| 14341|\n|      qian|  6081|\n|  inspires|462700|\n|arnetminer|  6699|\n|    aminer|150930|\n|    pubmed|  2813|\n+----------+------+\n\n\u001b[1m\u001b[34mS2AND_HOME\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = /media/ometaxas/nvme/datasets/S2AND\n\u001b[1m\u001b[34mOA_S2_Pub_Vectors\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [OA_pubId: string, vector: array<double>]\n\u001b[1m\u001b[34mOAworks\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [OAworkId: string, title: string ... 1 more field]\n\u001b[1m\u001b[34mOA_S2_S2AND_signatures_dedup\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [OAauthorId: string, OAdoi: string ... 34 more fields]\n\u001b[1m\u001b[34mOA_S2_S2AND_signatures_dedup_abstr\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [title: string, abstract: string ... 36 more fields]\n\u001b[1m\u001b[34mOA_S2_S2AND_signatures_dedup_vec\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [title: string, abstract: string ... 37 mo...\n"
+     }
+    ]
+   }
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "FINISHED",
+   "text": "%spark\n\nOA_S2_S2AND_signatures_dedup_vec.show(10)\n",
+   "id": "",
+   "dateCreated": "2022-12-15 12:53:57.297",
+   "config": {},
+   "dateStarted": "2022-12-15 17:54:40.977",
+   "dateUpdated": "2022-12-15 17:54:41.240",
+   "dateFinished": "2022-12-15 17:54:41.240",
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "+--------------------+--------------------+-----------+--------------------+--------------------+--------------------+----------+---------------+-------------+-----------+---------------+----------+--------------------+--------------------+----------+---------------+-------------+---------+---------------+--------------------+---------------+----------+------------------------+-----------------+-----------------+--------------------+----------------+------------------+--------------------+--------------------+-------------------------+------------------+--------------------+----------------------+--------+-------------------+---------+--------------------+--------------------+\n|               title|            abstract| OAauthorId|               OAdoi|             OAfos_0|             OAfos_1|   OAmagId|         OAname|   OAnormName|  OApaperId|OAshortNormName|S2authorId|               S2doi|               S2fos|   S2magId|         S2name|   S2normName|S2paperId|S2shortNormName|             S2title|affiliationsIds| author_id|author_info_affiliations|author_info_email|author_info_first|author_info_fullname|author_info_last|author_info_middle|author_info_normname|author_info_position|author_info_shortnormname|author_info_suffix|          coAuthorId|coAuthorShortNormNames| dataset|              orcid| paper_id|        signature_id|              vector|\n+--------------------+--------------------+-----------+--------------------+--------------------+--------------------+----------+---------------+-------------+-----------+---------------+----------+--------------------+--------------------+----------+---------------+-------------+---------+---------------+--------------------+---------------+----------+------------------------+-----------------+-----------------+--------------------+----------------+------------------+--------------------+--------------------+-------------------------+------------------+--------------------+----------------------+--------+-------------------+---------+--------------------+--------------------+\n|Optimal design of...|The success in sy...|A2559800537|10.11890/1006-719...|[Materials scienc...|[Chemical enginee...|1004826931|       Liu Nian|      liunian|W1004826931|          lnian|  48963933|10.11890/1006-719...|[Materials Scienc...|1004826931|        L. Nian|        lnian|106504640|          lnian|Optimal design of...|             []|  11418718|                      []|             null|              Liu|            Liu Nian|            Nian|              null|             liunian|                   0|                    lnian|              null|[A2559800537, A25...|     [lnian, zguodong]|  aminer|               null|106504640|5b5433f5e1cd8e4e1...|[0.0382, -0.0562,...|\n|Validating the Tr...|The paper present...|A2171343426|10.1007/978-3-540...|[Computer science...|[Programming lang...| 106526842|    Amir Pnueli|   amirpnueli| W106526842|        apnueli|   1698938|10.1007/978-3-540...|  [Computer Science]| 106526842|      A. Pnueli|      apnueli| 16371631|        apnueli|Validating the Tr...|    [I57206974]|   2513273|    [new york univers...|             null|             Amir|         Amir Pnueli|          Pnueli|              null|          amirpnueli|                   2|                  apnueli|              null|[A2402392341, A24...|  [igordin, rleviat...|   kisti|               null| 16371631|                4521|[-0.0746, 0.0222,...|\n|D-Zero Central Ca...|DO (D Zero) is a ...|A2629604106|     10.2172/1031828|[Physics, Chemist...|[Nuclear physics,...|   1085262|  R.A. Rucinski|   rarucinski|   W1085262|      rrucinski|  89391955|     10.2172/1031828|[Physics, Chemistry]|   1085262|    R. Rucinski|    rrucinski| 91278060|      rrucinski|D-Zero Central Ca...|             []|  11038746|                      []|             null|               R.|         R. Rucinski|        Rucinski|                A.|           rrucinski|                   1|                rrucinski|              null|[A2697392460, A26...|  [gmulholland, rru...|inspires|               null| 91278060|             1151076|[-0.0333, 0.0511,...|\n|PSAEC: An Improve...|Sequencing errors...|A2168239069|10.1007/978-3-642...|[Computer science...|[Algorithm, Telec...| 114037093|   Jianping Yin|  jianpingyin| W114037093|           jyin| 145311707|10.1007/978-3-642...|  [Computer Science]| 114037093|   Jianping Yin|  jianpingyin|  9299388|           jyin|PSAEC: An Improve...|   [I170215575]|1225296888|    [national univers...|             null|         Jianping|        Jianping Yin|             Yin|              null|         jianpingyin|                   1|                     jyin|              null|[A2250495038, A21...|  [zzhao, jyin, yzh...|  aminer|               null|  9299388|5b5433e5e1cd8e4e1...|                null|\n|Increased interle...|Schizophrenia is ...|A2159709312|                null|          [Medicine]|[Internal medicin...| 115169690|Chia-Ming Chang|chiamingchang| W115169690|         cchang|  93836965|                null|[Medicine, Psycho...| 115169690|Chia-Ming Chang|chiamingchang| 11947013|         cchang|Increased interle...|  [I4210116208]|   4529894|    [chang gung unive...|             null|        Chia-Ming|     Chia-Ming Chang|           Chang|              null|       chiamingchang|                   1|                   cchang|              null|[A2302969483, A21...|  [clin, cchang, pc...|  aminer|0000-0002-3245-6024| 11947013|5b5433f0e1cd8e4e1...|[0.0505, -0.0591,...|\n|Planning of new a...|                    |A2305477553|10.3367/ufnr.0109...|[Physics, Mathema...|[Nuclear physics,...|  11534802|   A.V. Efremov|    avefremov|  W11534802|       aefremov|  93225233|10.3367/ufnr.0109...|           [Physics]|  11534802|     A. Efremov|     aefremov|117354914|       aefremov|Planning new acce...|             []| 985169626|                      []|             null|               A.|          A. Efremov|         Efremov|                V.|            aefremov|                   1|                 aefremov|              null|[A2629924424, A23...|  [dblokhintsev, ae...|inspires|               null|117354914|              829205|[-0.0633, -0.0104...|\n|Switched Topology...|In this paper, we...|A2107164518|10.1007/978-3-662...|[Computer science...|[Distributed comp...|1160231493|   Weidong Chen|  weidongchen|W1160231493|          wchen|  47482767|10.1007/978-3-662...|[Engineering, Com...|1160231493|   Weidong Chen|  weidongchen| 56527679|          wchen|Switched Topology...|   [I183067930]|1228757567|    [shanghai jiao to...|             null|          Weidong|        Weidong Chen|            Chen|              null|         weidongchen|                   2|                    wchen|              null|[A2128038919, A21...|  [jju, zliu, wchen...|  aminer|0000-0001-8757-0679| 56527679|5b5433ebe1cd8e4e1...|[-0.0053, -0.132,...|\n|On the relations ...|                    |A2704847703|10.4064/fm-44-3-2...|[Mathematics, Med...|[Pure mathematics...|1176043501|    Wu Wen-tsün|    wuwentsun|W1176043501|       wwentsun| 151256348|10.4064/fm-44-3-2...|                null|1176043501|    Wu Wen-tsün|    wuwentsun|118635715|       wwentsun|On the relations ...|             []|1451446373|                      []|             null|               Wu|         Wu Wen-tsün|        Wen-tsün|              null|           wuwentsun|                   0|                 wwentsun|              null|       [A2704847703]|            [wwentsun]|  zbmath|               null|118635715|               10711|[-0.1716, 0.1479,...|\n|The use of the FO...|                    |A2631140236|                null|[Computer science...|[Nuclear physics,...| 119646172|      P Palazzi|     ppalazzi| W119646172|       ppalazzi|  37484876|                null|                null| 119646172|     P. Palazzi|     ppalazzi| 59824716|       ppalazzi|The use of the FO...|             []|   2375612|                      []|             null|                P|           P Palazzi|         Palazzi|              null|            ppalazzi|                   3|                 ppalazzi|              null|[A2667868009, A27...|  [jgerard, pzanell...|inspires|               null| 59824716|               22330|[-0.0528, 0.0394,...|\n|The use of the FO...|                    |A2667868009|                null|[Computer science...|[Nuclear physics,...| 119646172|     J M Gérard|     jmgerard| W119646172|        jgerard| 144256637|                null|                null| 119646172|      J. Gerard|      jgerard| 59824716|        jgerard|The use of the FO...|             []|1225206109|                      []|             null|                J|            J Gérard|          Gérard|                 M|             jgerard|                   0|                  jgerard|              null|[A2667868009, A27...|  [jgerard, pzanell...|inspires|               null| 59824716|             1076117|[-0.0528, 0.0394,...|\n+--------------------+--------------------+-----------+--------------------+--------------------+--------------------+----------+---------------+-------------+-----------+---------------+----------+--------------------+--------------------+----------+---------------+-------------+---------+---------------+--------------------+---------------+----------+------------------------+-----------------+-----------------+--------------------+----------------+------------------+--------------------+--------------------+-------------------------+------------------+--------------------+----------------------+--------+-------------------+---------+--------------------+--------------------+\nonly showing top 10 rows\n\n"
      }
     ]
    }
@@ -900,21 +932,315 @@
    },
    "apps": [],
    "status": "FINISHED",
-   "text": "%spark\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\nimport org.apache.spark.sql.functions._\n\nval simpleData = Seq((\"James\",\"Jamie\", 111), \n    (\"James\",\"james\", 111), \n    (\"James\",\"Jamis\", 111), \n    (\"James\",\"Jameson\", 111), \n    (\"James\", \"James11\", 111), \n    (\"maria\",\"Maria\", 222), \n    (\"maria\",\"moria\",222), \n    (\"maria\",\"maria1\",222),\n    (\"maria\",\"Marianna\",222)   \n    )\n  \n\nval df = simpleData.toDF(\"name1\",\"name2\", \"id\")\ndf.printSchema()\ndf.show(false)\n\nval w = Window.partitionBy($\"id\").orderBy(levenshtein($\"name1\", $\"name2\") , lit(1) - (soundex($\"name1\") === soundex($\"name2\")).cast(\"integer\"), lit(1)-jaro_winkler($\"name1\", $\"name2\"))\n        //.orderBy(levenshtein($\"s2AuthorNormName\", $\"authorNormName\"))\n\nval df1 = df\n.withColumn(\"levenshtein\",levenshtein($\"name1\", $\"name2\"))\n.withColumn(\"jaro_winkler\",lit(1)-jaro_winkler($\"name1\", $\"name2\"))\n.withColumn(\"soundex\", (soundex($\"name1\") === soundex($\"name2\")).cast(\"integer\"))\n.withColumn(\"rn\", row_number.over(w)) //.where($\"rn\" === 1).drop(\"rn\")\ndf1.show()\n\nval df_dedup = df.withColumn(\"rn\", row_number.over(w)).where($\"rn\" === 1).drop(\"rn\")\ndf_dedup.show()\n\n\n",
+   "text": "%spark\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.expressions.Window\n\nval simpleData = Seq((\"James\",\"Jamie\", 111), \n    (\"James\",\"james\", 111), \n    (\"James\",\"Jamis\", 111), \n    (\"James\",\"Jameson\", 111), \n    (\"James\", \"James11\", 111), \n    (\"maria\",\"Maria\", 222), \n    (\"maria\",\"moria\",222), \n    (\"maria\",\"maria1\",222),\n    (\"maria\",\"Marianna\",222)   \n    )\n  \n\nval df = simpleData.toDF(\"name1\",\"name2\", \"id\")\ndf.printSchema()\ndf.show(false)\n\nval w = Window.partitionBy($\"id\").orderBy(levenshtein($\"name1\", $\"name2\") , lit(1) - (soundex($\"name1\") === soundex($\"name2\")).cast(\"integer\"), lit(1)-jaro_winkler($\"name1\", $\"name2\"))\n        //.orderBy(levenshtein($\"s2AuthorNormName\", $\"authorNormName\"))\n\nval df1 = df\n.withColumn(\"levenshtein\",levenshtein($\"name1\", $\"name2\"))\n.withColumn(\"jaro_winkler\",lit(1)-jaro_winkler($\"name1\", $\"name2\"))\n.withColumn(\"soundex\", (soundex($\"name1\") === soundex($\"name2\")).cast(\"integer\"))\n.withColumn(\"rn\", row_number.over(w)) //.where($\"rn\" === 1).drop(\"rn\")\ndf1.show()\n\nval df_dedup = df.withColumn(\"rn\", row_number.over(w)).where($\"rn\" === 1).drop(\"rn\")\ndf_dedup.show()\n\n\n",
    "id": "",
    "dateCreated": "2022-12-11 17:26:26.588",
    "config": {
     "tableHide": true
    },
-   "dateStarted": "2022-12-11 18:05:09.479",
-   "dateUpdated": "2022-12-11 18:05:10.671",
-   "dateFinished": "2022-12-11 18:05:10.671",
+   "dateStarted": "2022-12-20 12:22:00.379",
+   "dateUpdated": "2022-12-20 12:22:04.574",
+   "dateFinished": "2022-12-20 12:22:04.574",
    "results": {
     "code": "SUCCESS",
     "msg": [
      {
       "type": "TEXT",
-      "data": "root\n |-- name1: string (nullable = true)\n |-- name2: string (nullable = true)\n |-- id: integer (nullable = false)\n\n+-----+--------+---+\n|name1|name2   |id |\n+-----+--------+---+\n|James|Jamie   |111|\n|James|james   |111|\n|James|Jamis   |111|\n|James|Jameson |111|\n|James|James11 |111|\n|maria|Maria   |222|\n|maria|moria   |222|\n|maria|maria1  |222|\n|maria|Marianna|222|\n+-----+--------+---+\n\n+-----+--------+---+-----------+--------------------+-------+---+\n|name1|   name2| id|levenshtein|        jaro_winkler|soundex| rn|\n+-----+--------+---+-----------+--------------------+-------+---+\n|James|   Jamis|111|          1| 0.09333333333333327|      1|  1|\n|James|   james|111|          1|  0.1333333333333333|      1|  2|\n|James| James11|111|          2| 0.05714285714285716|      1|  3|\n|James| Jameson|111|          2| 0.05714285714285716|      0|  4|\n|James|   Jamie|111|          2| 0.09333333333333327|      0|  5|\n|maria|  maria1|222|          1|0.033333333333333326|      1|  1|\n|maria|   moria|222|          1|                0.12|      1|  2|\n|maria|   Maria|222|          1|  0.1333333333333333|      1|  3|\n|maria|Marianna|222|          4|  0.2333333333333334|      0|  4|\n+-----+--------+---+-----------+--------------------+-------+---+\n\n+-----+------+---+\n|name1| name2| id|\n+-----+------+---+\n|James| Jamis|111|\n|maria|maria1|222|\n+-----+------+---+\n\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\nimport org.apache.spark.sql.functions._\n\u001b[1m\u001b[34msimpleData\u001b[0m: \u001b[1m\u001b[32mSeq[(String, String, Int)]\u001b[0m = List((James,Jamie,111), (James,james,111), (James,Jamis,111), (James,Jameson,111), (James,James11,111), (maria,Maria,222), (maria,moria,222), (maria,maria1,222), (maria,Marianna,222))\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name1: string, name2: string ... 1 more field]\n\u001b[1m\u001b[34mw\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@351500f3\n\u001b[1m\u001b[34mdf1\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name1: string, name2: string ... 5 more fields]\n\u001b[1m\u001b[34mdf_dedup\u001b[...\n"
+      "data": "root\n |-- name1: string (nullable = true)\n |-- name2: string (nullable = true)\n |-- id: integer (nullable = false)\n\n+-----+--------+---+\n|name1|name2   |id |\n+-----+--------+---+\n|James|Jamie   |111|\n|James|james   |111|\n|James|Jamis   |111|\n|James|Jameson |111|\n|James|James11 |111|\n|maria|Maria   |222|\n|maria|moria   |222|\n|maria|maria1  |222|\n|maria|Marianna|222|\n+-----+--------+---+\n\n+-----+--------+---+-----------+--------------------+-------+---+\n|name1|   name2| id|levenshtein|        jaro_winkler|soundex| rn|\n+-----+--------+---+-----------+--------------------+-------+---+\n|James|   Jamis|111|          1| 0.09333333333333327|      1|  1|\n|James|   james|111|          1|  0.1333333333333333|      1|  2|\n|James| James11|111|          2| 0.05714285714285716|      1|  3|\n|James| Jameson|111|          2| 0.05714285714285716|      0|  4|\n|James|   Jamie|111|          2| 0.09333333333333327|      0|  5|\n|maria|  maria1|222|          1|0.033333333333333326|      1|  1|\n|maria|   moria|222|          1|                0.12|      1|  2|\n|maria|   Maria|222|          1|  0.1333333333333333|      1|  3|\n|maria|Marianna|222|          4|  0.2333333333333334|      0|  4|\n+-----+--------+---+-----------+--------------------+-------+---+\n\n+-----+------+---+\n|name1| name2| id|\n+-----+------+---+\n|James| Jamis|111|\n|maria|maria1|222|\n+-----+------+---+\n\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.expressions.Window\n\u001b[1m\u001b[34msimpleData\u001b[0m: \u001b[1m\u001b[32mSeq[(String, String, Int)]\u001b[0m = List((James,Jamie,111), (James,james,111), (James,Jamis,111), (James,Jameson,111), (James,James11,111), (maria,Maria,222), (maria,moria,222), (maria,maria1,222), (maria,Marianna,222))\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name1: string, name2: string ... 1 more field]\n\u001b[1m\u001b[34mw\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m = org.apache.spark.sql.expressions.WindowSpec@10640600\n\u001b[1m\u001b[34mdf1\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [name1: string, name2...\n"
+     }
+    ]
+   }
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "FINISHED",
+   "text": "%spark\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.expressions.Window\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\n//val hindawi =   spark.read.options(Map(\"sep\"->\",\", \"header\"-> \"true\")).csv(\"/media/ometaxas/nvme/datasets/OA_S2/phenom_30nov_author-2022.csv\")\nval hindawi =   spark.read.options(Map(\"sep\"->\",\", \"header\"-> \"true\")).csv(\"/media/ometaxas/nvme/datasets/hindawi\")\n\nval hindawi_signatures =   hindawi.filter(($\"doi\" =!= \"\") && ($\"doi\".isNotNull))\n//.select( $\"doi\",$\"givenname\", $\"surname\", $\"orcid\".as(\"hindawi_orcid\"), $\"hindawi_userid\")\n//.withColumn(\"author_info_fullname\", concat($\"givenname\", lit(\" \"), $\"surname\"))\n  //      .withColumn(\"author_info_normname\", normName($\"author_info_fullname\"))\n    //    .withColumn(\"author_info_shortnormname\", shortNormName($\"author_info_fullname\"))\n\n\nhindawi.printSchema()\nhindawi.show(10)\nprintln(\"hindawi count: \" + hindawi.count())\nprintln(\"hindawi signatures: \" + hindawi_signatures.count())\n//.filter(($\"doi\" =!= \"\") && ($\"doi\".isNotNull))\nprintln(\"hindawi_ids:\" + hindawi.select( $\"hindawi_userid\").distinct().count())\nprintln(\"hindawi_signature_ids:\" + hindawi_signatures.select( $\"hindawi_userid\").distinct().count())\n\n\nval OA_S2_Pub_Authors =   spark.read\n        //.parquet(\"/media/datadisk/Datasets/OA_S2/OA_S2_Pub_Authors_doi_mag_dedup.parquet\")\n.parquet(\"/media/ometaxas/nvme/datasets/OA_S2/OA_S2_Pub_Authors_doi_mag_dedup.parquet\")\nOA_S2_Pub_Authors.printSchema()\n\n\n val OA_S2_hindawi_signatures = OA_S2_Pub_Authors\n                   .join(broadcast(hindawi), $\"OAdoi\" === $\"doi\"  \n                           && ($\"orcid\"===$\"hindawi_orcid\" || $\"OAshortNormName\"=== $\"author_info_shortnormname\"   || (  jaro_winkler($\"author_info_normname\", $\"OAnormName\") > 0.75 && levenshtein($\"author_info_normname\", $\"OAnormName\")<4  )   || (soundex($\"author_info_normname\") === soundex($\"OAnormName\"))) \n                       , \"inner\").cache()                    \n \nprintln(\"OA_S2_hindawi_signatures:\" + OA_S2_hindawi_signatures.count())\n\n\nval w = Window.partitionBy($\"doi\", $\"hindawi_userid\").orderBy( lit(1) - ($\"orcid\" === $\"hindawi_orcid\").cast(\"integer\"), levenshtein($\"OAnormName\", $\"author_info_normname\") , lit(1) - (soundex($\"author_info_normname\") === soundex($\"OAnormName\")).cast(\"integer\"), lit(1)-jaro_winkler($\"author_info_normname\", $\"OAnormName\"))\n        //orderBy(levenshtein($\"author_info_normname\", $\"S2normName\"), lit(1)-jaro_winkler($\"S2normName\", $\"author_info_normname\") )\n\n\nval OA_S2_hindawi_signatures_dedup = OA_S2_hindawi_signatures.withColumn(\"rn\", row_number.over(w)).where($\"rn\" === 1).drop(\"rn\").cache()\n\nOA_S2_hindawi_signatures_dedup.write.mode(\"overwrite\").json(\"/media/ometaxas/nvme/datasets/OA_S2/OA_S2_hindawi_signatures_dedup.json\")\n\nprintln(\"OA_S2_hindawi_signatures_dedup:\" + OA_S2_hindawi_signatures_dedup.count())\n\n// hindawi count: 125234\n// hindawi_ids:110820\n// OA_S2_hindawi_signatures:123796\n// OA_S2_hindawi_signatures_dedup:116664\n// OA_S2_hindawi_signatures_dedup_hind_ids:103454\n\n",
+   "id": "",
+   "dateCreated": "2022-12-16 16:37:39.266",
+   "config": {
+    "title": true
+   },
+   "title": "Link with Hindawi ",
+   "dateStarted": "2023-02-13 11:15:08.285",
+   "dateUpdated": "2023-02-13 11:15:14.664",
+   "dateFinished": "2023-02-13 11:15:14.664",
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "root\n |-- doi: string (nullable = true)\n |-- submission_date: string (nullable = true)\n |-- manuscript_title: string (nullable = true)\n |-- givenname: string (nullable = true)\n |-- surname: string (nullable = true)\n |-- domain: string (nullable = true)\n |-- orcid: string (nullable = true)\n |-- affiliation: string (nullable = true)\n |-- journal_name: string (nullable = true)\n |-- hindawi_userid: string (nullable = true)\n\n+--------------------+--------------------+--------------------+-----------+-------------+-------------+-------------------+--------------------+--------------------+--------------------+\n|                 doi|     submission_date|    manuscript_title|  givenname|      surname|       domain|              orcid|         affiliation|        journal_name|      hindawi_userid|\n+--------------------+--------------------+--------------------+-----------+-------------+-------------+-------------------+--------------------+--------------------+--------------------+\n|                null|2022-08-18 15:02:...|Correlation analy...|     Jinhua|         Zhou|  suda.edu.cn|               null|Department of Obs...| Journal of Oncology|0756acea-24bf-475...|\n|                null|2022-08-18 15:02:...|Correlation analy...|    Yanling|          Sun|      126.com|               null|Department of Obs...| Journal of Oncology|e509082c-8510-408...|\n|10.1155/2022/1000859|2022-08-03 12:00:...|Influence of Heat...|      Girma|       Eshete|    su.edu.et|0000-0002-6749-6149|Samara University...|Journal of Nanoma...|6393c02a-c0fe-472...|\n|10.1155/2022/1000859|2022-08-03 12:00:...|Influence of Heat...|   Muvvala |Chinnam Naidu|    gmail.com|0000-0003-4802-0863|   Andhra University|Journal of Nanoma...|2ac97c7a-96bd-418...|\n|10.1155/2022/1001354|2022-07-08 03:37:...|Therapeutic effec...|Zhongxiang |           Yu|       qq.com|               null|Department of Ort...|Evidence-Based Co...|1a86d461-7366-476...|\n|10.1155/2022/1001354|2022-07-08 03:37:...|Therapeutic effec...|  Shengming|           Xu|      126.com|               null|Department of Ort...|Evidence-Based Co...|e38aae71-0f80-48e...|\n|                null|2022-06-15 02:33:...|Design of Structu...|         Qi|        Zhang|       qq.com|               null|Shousong Intellig...|Computational Int...|64b57184-374c-4c7...|\n|                null|2022-06-15 02:33:...|Design of Structu...|    Jianlin|         Zhao|hnuahe.edu.cn|               null|Henan University ...|Computational Int...|8910021d-a1a1-486...|\n|                null|2022-05-16 02:38:...|Analysis of stude...|    Senrong|          Wei|     sina.com|               null| Chang'an University|Mathematical Prob...|dfc8696f-ff32-4ad...|\n|10.1155/2022/1002105|2022-06-07 08:03:...|study on the appl...|        Nan|          Liu|  sdca.edu.cn|0000-0001-5847-280X|ShanDong college ...|Mathematical Prob...|d34244a9-2d5e-4fd...|\n+--------------------+--------------------+--------------------+-----------+-------------+-------------+-------------------+--------------------+--------------------+--------------------+\nonly showing top 10 rows\n\nhindawi count: 2124761\nhindawi signatures: 543431\nhindawi_ids:1173159\nhindawi_signature_ids:426572\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.expressions.Window\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\u001b[1m\u001b[34mhindawi\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [doi: string, submission_date: string ... 8 more fields]\n\u001b[1m\u001b[34mhindawi_signatures\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [doi: string, submission_date: string ... 8 more fields]\n"
+     }
+    ]
+   }
+  },
+  {
+   "settings": {
+    "params": {
+     "bdtMeta": {
+      "ZTOOLS_DATA_FRAMES": [
+       {
+        "columns": [
+         {
+          "name": "OAauthorId",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAdoi",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAfos_0",
+          "tpe": {
+           "presentableName": "array"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAfos_1",
+          "tpe": {
+           "presentableName": "array"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAmagId",
+          "tpe": {
+           "presentableName": "long"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAname",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAnormName",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OApaperId",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "OAshortNormName",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2authorId",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2doi",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2fos",
+          "tpe": {
+           "presentableName": "array"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2magId",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2name",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2normName",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2paperId",
+          "tpe": {
+           "presentableName": "long"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2shortNormName",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "S2title",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "affiliationsIds",
+          "tpe": {
+           "presentableName": "array"
+          },
+          "nullable": true
+         },
+         {
+          "name": "author_info_fullname",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "author_info_normname",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "author_info_shortnormname",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "coAuthorId",
+          "tpe": {
+           "presentableName": "array"
+          },
+          "nullable": true
+         },
+         {
+          "name": "coAuthorShortNormNames",
+          "tpe": {
+           "presentableName": "array"
+          },
+          "nullable": true
+         },
+         {
+          "name": "doi",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "givenname",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "hindawi_orcid",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "hindawi_userid",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "orcid",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         },
+         {
+          "name": "surname",
+          "tpe": {
+           "presentableName": "string"
+          },
+          "nullable": true
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "forms": {}
+   },
+   "apps": [],
+   "status": "FINISHED",
+   "text": "%spark\n\nval hindawi_ids =   spark.read.options(Map(\"sep\"->\",\", \"header\"-> \"true\")).csv(\"/media/ometaxas/nvme/datasets/OA_S2/phenom_30nov_author-2022.csv\")\n.filter(($\"doi\" =!= \"\") && ($\"doi\".isNotNull))\n.select( $\"hindawi_userid\").distinct()\nprintln(\"hindawi_ids:\" + hindawi_ids.count())\n\nval OA_S2_hindawi_signatures_dedup = spark.read.json(\"/media/ometaxas/nvme/datasets/OA_S2/OA_S2_hindawi_signatures_dedup.json\")\nOA_S2_hindawi_signatures_dedup.printSchema()\nOA_S2_hindawi_signatures_dedup.show(5)\n\nval OA_S2_hindawi_signatures_dedup_hind_ids = OA_S2_hindawi_signatures_dedup.select( $\"hindawi_userid\").distinct()\nprintln(\"OA_S2_hindawi_signatures_dedup_hind_ids:\" + OA_S2_hindawi_signatures_dedup_hind_ids.count())\n",
+   "id": "",
+   "dateCreated": "2022-12-19 22:48:27.237",
+   "config": {},
+   "dateStarted": "2022-12-20 13:31:55.737",
+   "dateUpdated": "2022-12-20 13:31:59.609",
+   "dateFinished": "2022-12-20 13:31:59.609",
+   "results": {
+    "code": "SUCCESS",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "hindawi_ids:110820\nroot\n |-- OAauthorId: string (nullable = true)\n |-- OAdoi: string (nullable = true)\n |-- OAfos_0: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- OAfos_1: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- OAmagId: long (nullable = true)\n |-- OAname: string (nullable = true)\n |-- OAnormName: string (nullable = true)\n |-- OApaperId: string (nullable = true)\n |-- OAshortNormName: string (nullable = true)\n |-- S2authorId: string (nullable = true)\n |-- S2doi: string (nullable = true)\n |-- S2fos: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- S2magId: string (nullable = true)\n |-- S2name: string (nullable = true)\n |-- S2normName: string (nullable = true)\n |-- S2paperId: long (nullable = true)\n |-- S2shortNormName: string (nullable = true)\n |-- S2title: string (nullable = true)\n |-- affiliationsIds: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- author_info_fullname: string (nullable = true)\n |-- author_info_normname: string (nullable = true)\n |-- author_info_shortnormname: string (nullable = true)\n |-- coAuthorId: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- coAuthorShortNormNames: array (nullable = true)\n |    |-- element: string (containsNull = true)\n |-- doi: string (nullable = true)\n |-- givenname: string (nullable = true)\n |-- hindawi_orcid: string (nullable = true)\n |-- hindawi_userid: string (nullable = true)\n |-- orcid: string (nullable = true)\n |-- surname: string (nullable = true)\n\n+-----------+--------------------+--------------------+--------------------+-------+----------------+-------------+-----------+---------------+----------+--------------------+--------------------+-------+------------+-----------+---------+---------------+--------------------+---------------+--------------------+--------------------+-------------------------+--------------------+----------------------+--------------------+----------+-------------------+--------------------+-------------------+-------+\n| OAauthorId|               OAdoi|             OAfos_0|             OAfos_1|OAmagId|          OAname|   OAnormName|  OApaperId|OAshortNormName|S2authorId|               S2doi|               S2fos|S2magId|      S2name| S2normName|S2paperId|S2shortNormName|             S2title|affiliationsIds|author_info_fullname|author_info_normname|author_info_shortnormname|          coAuthorId|coAuthorShortNormNames|                 doi| givenname|      hindawi_orcid|      hindawi_userid|              orcid|surname|\n+-----------+--------------------+--------------------+--------------------+-------+----------------+-------------+-----------+---------------+----------+--------------------+--------------------+-------+------------+-----------+---------+---------------+--------------------+---------------+--------------------+--------------------+-------------------------+--------------------+----------------------+--------------------+----------+-------------------+--------------------+-------------------+-------+\n|A4282387361|10.1155/2022/1012684|[Computer science...|[Artificial intel...|   null|    Babita Yadav|  babitayadav|W4283808101|         byadav|2054175413|10.1155/2022/1012684|          [Medicine]|   null|Babita Yadav|babitayadav|250298837|         byadav|ML-Based Texture ...|  [I3132695963]|       Babita  Yadav|         babitayadav|                   byadav|[A4282387360, A42...|  [ngarg, dsinha, b...|10.1155/2022/1012684|   Babita |0000-0003-4524-2452|566a802f-ee38-48b...|0000-0003-4524-2452|  Yadav|\n|A2946922922|10.1155/2022/1015310|[Chemistry, Biology]|[Pharmacology, Bi...|   null|Md. Abdul Hannan|mdabdulhannan|W4300816761|        mhannan|  32394613|10.1155/2022/1015310| [Biology, Medicine]|   null|   M. Hannan|    mhannan|252709428|        mhannan|Protective Mechan...|    [I24057909]|   Md. Abdul  Hannan|       mdabdulhannan|                  mhannan|[A2946922922, A43...|  [mhannan, asultan...|10.1155/2022/1015310|Md. Abdul |0000-0001-6640-4495|7aea7e4e-ef45-491...|0000-0001-6640-4495| Hannan|\n|A4229206078|10.1155/2022/1026129|[Materials scienc...|[Chemical enginee...|   null|    Tianming Liu|  tianmingliu|W4229012877|           tliu|2115347489|10.1155/2022/1026129|                null|   null|Tianming Liu|tianmingliu|248647610|           tliu|Copper Adsorption...|  [I3125743391]|        Tianming Liu|         tianmingliu|                     tliu|[A4229206076, A28...|  [lkong, xliu, glv...|10.1155/2022/1026129|  Tianming|               null|290b103e-71f5-432...|               null|    Liu|\n|A4299928259|10.1155/2022/1039393|[Medicine, Econom...|[Internal medicin...|   null|          Dan Pu|        danpu|W4298624669|            dpu|1959652464|10.1155/2022/1039393|[Medicine, Psycho...|   null| Dan-Ling Pu|  danlingpu|252647161|            dpu|Psychological Pro...|         [null]|              Dan Pu|               danpu|                      dpu|[A4299928258, A30...|  [cye, xxiong, yzh...|10.1155/2022/1039393|       Dan|               null|4c52c7fe-5d4f-4ed...|               null|     Pu|\n|A4283911730|10.1155/2022/1056869|[Computer science...|[Risk analysis (e...|   null|     Shenge Chen|   shengechen|W4283691177|          schen|2118529922|10.1155/2022/1056869|                null|   null|   Shen Chen|   shenchen|250137849|          schen|Dynamic Evaluatio...|    [I36234482]|        Shenge  Chen|          shengechen|                    schen|[A4283911729, A42...|         [lliu, schen]|10.1155/2022/1056869|   Shenge |               null|7e465e9f-092f-47d...|               null|   Chen|\n+-----------+--------------------+--------------------+--------------------+-------+----------------+-------------+-----------+---------------+----------+--------------------+--------------------+-------+------------+-----------+---------+---------------+--------------------+---------------+--------------------+--------------------+-------------------------+--------------------+----------------------+--------------------+----------+-------------------+--------------------+-------------------+-------+\nonly showing top 5 rows\n\nOA_S2_hindawi_signatures_dedup_hind_ids:103454\n\u001b[1m\u001b[34mhindawi_ids\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [hindawi_userid: string]\n\u001b[1m\u001b[34mOA_S2_hindawi_signatures_dedup\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [OAauthorId: string, OAdoi: string ... 28 more fields]\n\u001b[1m\u001b[34mOA_S2_hindawi_signatures_dedup_hind_ids\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [hindawi_userid: string]\n"
+     }
+    ]
+   }
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "ERROR",
+   "text": "%spark\nimport org.apache.spark.sql.functions._\nimport com.github.mrpowers.spark.stringmetric.SimilarityFunctions._\nimport com.github.mrpowers.spark.stringmetric.PhoneticAlgorithms._\n\n\n\nval w = Window.partitionBy($\"doi\", $\"hindawi_userid\").orderBy(  levenshtein($\"OAnormName\", $\"author_info_normname\"))\n //, lit(1) - (soundex($\"author_info_normname\") === soundex($\"OAnormName\")).cast(\"integer\"), lit(1)-jaro_winkler($\"author_info_normname\", $\"OAnormName\"))\n        //orderBy(levenshtein($\"author_info_normname\", $\"S2normName\"), lit(1)-jaro_winkler($\"S2normName\", $\"author_info_normname\") )\n\n\nval OA_S2_hindawi_signatures_dedup = OA_S2_hindawi_signatures.withColumn(\"rn\", row_number.over(w)).where($\"rn\" === 1).drop(\"rn\").cache()\n\n//OA_S2_hindawi_signatures_dedup.write.mode(\"overwrite\").json(\"/media/ometaxas/nvme/datasets/OA_S2/OA_S2_hindawi_signatures_dedup.json\")\n\nprintln(\"OA_S2_hindawi_signatures_dedup:\" + OA_S2_hindawi_signatures_dedup.count())\n",
+   "id": "",
+   "dateCreated": "2022-12-16 17:31:09.541",
+   "config": {},
+   "dateStarted": "2022-12-16 17:33:01.134",
+   "dateUpdated": "2022-12-16 17:33:01.203",
+   "dateFinished": "2022-12-16 17:33:01.203",
+   "results": {
+    "code": "ERROR",
+    "msg": [
+     {
+      "type": "TEXT",
+      "data": "<console>:44: \u001b[31merror: \u001b[0mnot found: value Window\n       val w = Window.partitionBy($\"doi\", $\"hindawi_userid\").orderBy(  levenshtein($\"OAnormName\", $\"author_info_normname\"))\n               ^\n"
      }
     ]
    }

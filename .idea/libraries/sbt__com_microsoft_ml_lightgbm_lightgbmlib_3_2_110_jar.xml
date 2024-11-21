@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="sbt: com.microsoft.ml.lightgbm:lightgbmlib:3.2.110:jar">
+  <library name="sbt: com.microsoft.ml.lightgbm:lightgbmlib:3.2.110:jar" external-system-id="SBT">
     <CLASSES>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/repo1.maven.org/maven2/com/microsoft/ml/lightgbm/lightgbmlib/3.2.110/lightgbmlib-3.2.110.jar!/" />
     </CLASSES>
